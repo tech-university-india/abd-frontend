@@ -17,11 +17,11 @@ function App() {
     <Routes>
       <Route exact path='/' element={<HomeContainer />} />
       <Route exact path='/announcements' element={<AnnouncementContainer />} />
-      <Route exact path='/information-radiator' element={<InformationRadiatorContainer />} />
+      <Route exact path='/information-radiators' element={<InformationRadiatorContainer />} />
       <Route exact path='/our-teams' element={<OurTeamsContainer />} />
       <Route exact path='/po-notes' element={<PoNotesContainer />} />
       <Route exact path='/reference-material' element={<RefMaterialsContainer />} />
-      <Route exact path='/timeline' element={<TimelineContainer />} />
+      <Route exact path='/timelines-roadmaps' element={<TimelineContainer />} />
     </Routes>
   );
 }
