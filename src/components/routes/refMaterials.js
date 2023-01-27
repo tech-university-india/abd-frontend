@@ -1,5 +1,10 @@
-const RefMaterialsTest = ()=>{
-    return (<h1>RefMaterialsTest</h1>);
+import React from 'react';
+
+import Navbar from '../dumbComponents/navBar';
+
+
+function RefMaterialsContainer(){
+    return <Navbar/>;
 };
 
-export default RefMaterialsTest;
+export default RefMaterialsContainer;

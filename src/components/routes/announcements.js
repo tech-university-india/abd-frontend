@@ -1,5 +1,9 @@
-const AnnouncementsTest = ()=>{
-    return (<h1>AnnouncementsTest</h1>);
+import React from 'react';
+
+import Navbar from '../dumbComponents/navBar';
+
+function AnnouncementContainer(){
+    return <Navbar/>;
 };
 
-export default AnnouncementsTest;
+export default AnnouncementContainer;

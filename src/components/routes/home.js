@@ -1,5 +1,10 @@
-const HomeTest = ()=>{
-    return (<h1>HomeTest</h1>);
-};
+import React from 'react';
 
-export default HomeTest;
+import Navbar from '../dumbComponents/navBar';
+
+
+function HomeContainer() {
+    return <Navbar/>;
+}
+
+export default HomeContainer;

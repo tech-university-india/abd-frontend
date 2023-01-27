@@ -1,5 +1,9 @@
-const InformationRadiatorTest = ()=>{
-    return (<h1>InformationRadiatorTest</h1>);
+import React from 'react';
+
+import Navbar from '../dumbComponents/navBar';
+
+function InformationRadiatorContainer(){
+    return <Navbar/>;
 };
 
-export default InformationRadiatorTest;
+export default InformationRadiatorContainer;

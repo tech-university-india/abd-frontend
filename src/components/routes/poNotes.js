@@ -1,8 +1,9 @@
+import React from 'react';
 import Navbar from '../dumbComponents/navBar'
 import PoNotesBody from '../poNotesComponents/poNotesBody';
 import PoNotesHeader from '../poNotesComponents/poNotesHeader';
 
-const poNotesContainer = ()=>{
+function poNotesContainer (){
     return (
         <div>
             <Navbar/>

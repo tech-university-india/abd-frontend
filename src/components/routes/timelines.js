@@ -1,5 +1,9 @@
-const TimelinesTest = ()=>{
-    return (<h1>TimelinesTest</h1>);
+import React from 'react';
+
+import Navbar from '../dumbComponents/navBar';
+
+function TimelineContainer(){
+    return <Navbar/>
 };
 
-export default TimelinesTest;
+export default TimelineContainer;
