@@ -16,7 +16,7 @@ import Logo from '../../images/agileLogo.png';
 const pages = ['Home', 'PO Notes', 'Our Teams', 'Timelines & Roadmaps', 'Announcements', 'Information Radiators', 'Reference Material'];
 const settings = ['Profile', 'Account Settings'];
 
-const Navbar = () => {
+function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 

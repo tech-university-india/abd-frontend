@@ -21,30 +21,42 @@ import CloseIcon from '@mui/icons-material/Close';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 
-const SearchBar = ({ setSearchQuery }) => (
-  <form>
-    <TextField
-      id="search-bar"
-      className="text"
-      onInput={(e) => {
-        setSearchQuery(e.target.value);
-      }}
-      label="Search"
-      variant="outlined"
-      placeholder="Search..."
-      size="small"
-    />
-    <IconButton type="submit" aria-label="search" sx={{ color: "#2258F5" }}>
-      <SearchIcon />
-    </IconButton>
-  </form>
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+import PropTypes from 'prop-types';
+
+
+function SearchBar ({setSearchQuery}){
+  return (
+    <form>
+      <TextField
+        id="search-bar"
+        className="text"
+        onInput={(e) => {
+          setSearchQuery(e.target.value);
+        }}
+        label="Search"
+        variant="outlined"
+        placeholder="Search..."
+        size="small"
+      />
+      <IconButton type="submit" aria-label="search" sx={{ color: "#2258F5" }}>
+        <SearchIcon />
+      </IconButton>
+    </form>
+  );
+}
+
+SearchBar.propTypes = {
+  setSearchQuery: PropTypes.func.isRequired
+};
+
+
+const Transition = React.forwardRef(
+  (props, ref) =><Slide direction="up" ref={ref} {...props}/>
 );
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
-const PoNotesHeader = () => {
+function PoNotesHeader(){
 
   const [searchQuery, setSearchQuery] = useState("");
   const [value1, setValue1] = React.useState('');
