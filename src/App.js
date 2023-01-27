@@ -17,10 +17,10 @@ function App() {
     <Routes>
       <Route exact path='/' element={<HomeTest />} />
       <Route exact path='/announcements' element={<AnnouncementsTest />} />
-      <Route exact path='/informationRadiator' element={<InformationRadiatorTest />} />
-      <Route exact path='/ourTeams' element={<OurTeamsTest />} />
-      <Route exact path='/poNotes' element={<PoNotesContainer />} />
-      <Route exact path='/referenceMaterial' element={<RefMaterialsTest />} />
+      <Route exact path='/information-radiator' element={<InformationRadiatorTest />} />
+      <Route exact path='/our-teams' element={<OurTeamsTest />} />
+      <Route exact path='/po-notes' element={<PoNotesContainer />} />
+      <Route exact path='/reference-material' element={<RefMaterialsTest />} />
       <Route exact path='/timeline' element={<TimelinesTest />} />
     </Routes>
   );
