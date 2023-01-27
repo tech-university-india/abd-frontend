@@ -1,9 +1,14 @@
 import * as React from 'react';
+import {Link} from 'react-router-dom';
 import {AppBar,Box,Toolbar,IconButton,Typography,Menu,Container,Avatar,Button,Tooltip,MenuItem} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logo from '../../images/agileLogo.png';
 
+
+
 const pages = ['Home', 'PO Notes', 'Our Teams', 'Timelines & Roadmaps', 'Announcements', 'Information Radiators', 'Reference Material'];
+const routes = ['/','/po-notes','/our-teams','/timelines-roadmaps','/announcements','/information-radiators','/reference-material'];
+
 const settings = ['Profile', 'Account Settings'];
 
 function Navbar() {
@@ -99,7 +104,7 @@ function Navbar() {
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {pages.map((page,index) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -111,7 +116,9 @@ function Navbar() {
                   my: 2, color: '#3D3D3D', display: 'flex'
                 }}
               >
-                {page}
+                <Link to={routes[index]}>
+                  {page}
+                </Link>
               </Button>
             ))}
           </Box>
