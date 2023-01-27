@@ -1,25 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+
+import HomeTest from './components/routes/home';
+import AnnouncementsTest from './components/routes/announcements';
+import InformationRadiatorTest from './components/routes/informationRadiator';
+import OurTeamsTest from './components/routes/ourTeams';
+import PoNotesContainer from './components/routes/poNotes';
+import RefMaterialsTest from './components/routes/refMaterials';
+import TimelinesTest from './components/routes/timelines';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <Routes>
+      <Route exact path='/' element={<HomeTest />} />
+      <Route exact path='/announcements' element={<AnnouncementsTest />} />
+      <Route exact path='/informationRadiator' element={<InformationRadiatorTest />} />
+      <Route exact path='/ourTeams' element={<OurTeamsTest />} />
+      <Route exact path='/poNotes' element={<PoNotesContainer />} />
+      <Route exact path='/referenceMaterial' element={<RefMaterialsTest />} />
+      <Route exact path='/timeline' element={<TimelinesTest />} />
+    </Routes>
   );
 }
 
