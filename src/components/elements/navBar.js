@@ -13,6 +13,7 @@ function Navbar() {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const location = useLocation();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -20,15 +21,13 @@ function Navbar() {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const location = useLocation();
-  console.log(location.pathname);
 
   return (
     <AppBar position="static" style={{ background: 'transparent', boxShadow: 'none' }}>
@@ -84,7 +83,16 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ flexGrow: 1 }}
               >
-                <Link style={{ textDecoration: 'none' }} to={routes[index]}> <Typography sx={{ fontSize: 16.5, ':hover': { textDecoration: 'underline', textUnderlineOffset: '8px', color: '#2258F5' }, my: 2, color: '#3D3D3D', display: 'flex' }}> {page} </Typography> </Link>
+                <Link style={{ textDecoration: 'none' }} to={routes[index]}>
+                  <Typography
+                    sx={{
+                      fontSize: 16.5, my: 2, color: '#3D3D3D',
+                      ...(location.pathname === routes[index] &&
+                        { textDecoration: 'underline', textUnderlineOffset: '10px', color: '#2258F5' }),
+                      ':hover': { color: '#2258F5' }, display: 'flex'
+                    }}> {page}
+                  </Typography>
+                </Link>
               </Box>
             ))}
 
