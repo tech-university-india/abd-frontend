@@ -8,8 +8,8 @@ import PoNotesHeader from '../poNotesComponents/poNotesHeader';
 function PoNotesContainer() {
   return (
     <Box>
-      <Box> <PoNotesHeader /> </Box> <br /> <br /> <br />
-      <Box> <PoNotesBody /> </Box>
+      <Box sx={{ m: -2, p: 4 }}> <PoNotesHeader /> </Box>
+      <Box > <PoNotesBody /> </Box>
     </Box>
   );
 };
