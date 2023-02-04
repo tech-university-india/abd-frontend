@@ -1,12 +1,10 @@
 import React from 'react';
 import { Box } from '@mui/material';
 
-function RefMaterialsContainer() {
+export default function RefMaterialsContainer() {
   return (
     <Box>
       Welcome to reference material page.
     </Box>
   );;
 };
-
-export default RefMaterialsContainer;

@@ -1,12 +1,10 @@
 import React from 'react';
 import { Box } from '@mui/material';
 
-function OurTeamsContainer() {
+export default function OurTeamsContainer() {
   return (
     <Box>
       Welcome to Our Teams page.
     </Box>
   );;
 };
-
-export default OurTeamsContainer;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Checkbox, Box } from '@mui/material';
 
-function chckBoxEmitter(chck) {
+function CheckBoxEmitter(chck) {
   return (
     <Box>
       {chck === true ? (
@@ -12,4 +12,4 @@ function chckBoxEmitter(chck) {
   );
 };
 
-export default chckBoxEmitter;
+export default CheckBoxEmitter;

@@ -3,7 +3,7 @@ import { Box, Card, CardContent, Typography, Avatar, Stack, Button } from '@mui/
 import Brightness1Icon from '@mui/icons-material/Brightness1';
 import { makeStyles } from "@mui/styles";
 
-import chckBoxEmitter from './ChckBoxEmitter'
+import checkBoxEmitter from './checkBoxEmitter'
 
 const useStyles = makeStyles({
   multiLineEllipsis: {
@@ -53,7 +53,7 @@ function CustomCard({ actionItemDescription, collabrators, colour, chckBox }) {
       <Card sx={{ width: 400, height: 300, borderRadius: 7 }}>
         <CardContent>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            {chckBoxEmitter(chckBox)}
+            {checkBoxEmitter(chckBox)}
             <Brightness1Icon sx={{ color: colour, marginTop: 1.5, paddingLeft: 12 }} />
             <Typography sx={{ marginTop: 1.5, color: '#707070' }}> 23 Jan 2023 5.13 PM </Typography>
           </Box>

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box, Paper } from '@mui/material';
 
-import CardLayout from '../../Cards/CardLayout';
-import KeyDecisionsTableHeader from './PONotesTablesHeader/KeyDecisionsTableHeader';
+import CardLayout from '../../cards/cardLayout';
+import KeyDecisionsTableHeader from './poNotesTablesHeader/keyDecisionsTableHeader';
 
 function KeyDecisionTable() {
   return (

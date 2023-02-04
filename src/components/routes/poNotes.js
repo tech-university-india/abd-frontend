@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import PoNotesBody from '../poNotesComponents/poNotesBody';
 import PoNotesHeader from '../poNotesComponents/poNotesHeader';
 
-function PoNotesContainer() {
+export default function PoNotesContainer() {
   return (
     <Box>
       <Box sx={{ m: -2, p: 4 }}> <PoNotesHeader /> </Box>
@@ -13,5 +13,3 @@ function PoNotesContainer() {
     </Box>
   );
 };
-
-export default PoNotesContainer;
