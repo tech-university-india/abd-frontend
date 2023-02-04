@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 import { Box, IconButton, TextField, Button, Dialog, ListItem, List, Typography, MenuItem, FormControl, AppBar, Toolbar, InputLabel, Select } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
@@ -7,52 +7,80 @@ import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 import Transition from '../utilityFunctions/overlayTransition';
 import Timeline from "../utilityFunctions/timeline";
 
+const getNextDate = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = (date.getDate()+1);
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const second = date.getSeconds();
+  let dateString = year.toString().padStart(4, '0');
+  dateString += '-';
+  dateString += month.toString().padStart(2, '0');
+  dateString += '-';
+  dateString += day.toString().padStart(2, '0');
+  dateString += 'T';
+  dateString += hour.toString().padStart(2, '0');
+  dateString += ':';
+  dateString += minute.toString().padStart(2, '0');
+  dateString += ':';
+  dateString += second.toString().padStart(2, '0');
+  return dateString;
+};
+
+
 function AddPoNotes() {
 
-  let noteVal = 10;
-  const [addNote, setAddNote] = React.useState(false);
-  const [noteType, setNoteType] = React.useState(10);
-  const [addtimeline,setTimeline] = React.useState(true);
+  const [ addNote, setAddNote ] = useState(false);
+  const [ submit, setSubmit ] = useState(false);
+  const [ noteType, setNoteType ] = useState('action-item');
+  const [ statement, setStatement ] = useState(''); 
+  const [ timeline, setTimeline ] = useState(getNextDate());
 
-  const addNoteOpener = () => {
-    setAddNote(true);
-  };
-  const addNoteCloser = () => {
-    setAddNote(false);
+  const handleNoteOpener = () => {
+    setAddNote(!addNote);
   };
 
-  const timelineHandler = ()=>{
-    if(noteVal===10){
-      setTimeline(true);
-    }
-    else{
-      setTimeline(false);
-    }
+  const handleSubmit = () => {
+    setSubmit(val => !val);
+    
+    // This data will be used in post request
+    console.log({
+      noteType,
+      statement,
+      timeline
+    });
+
+    setSubmit(val => !val);
+    setAddNote(val => !val);
   };
 
-  const noteTypeHandler = (event) => {
-    noteVal=event.target.value;
-    setNoteType(noteVal);
-    timelineHandler(noteType);
+  const handleNoteType = (event) => {
+    setNoteType(event.target.value);
+  };
+
+  const handleStatement = (event) => {
+    setStatement(event.target.value);
   };
 
   return (
     <Box sx={{ flexGrow: 0.2, display: { xs: 'none', md: 'flex' } }}>
-      <IconButton aria-label="Add Notes" component="label" sx={{ color: "#2258F5" }} onClick={addNoteOpener}>
+      <IconButton data-testid="AddPoNotesFormIdentifier" aria-label="Add Notes" component="label" sx={{ color: "#2258F5" }} onClick={handleNoteOpener}>
         <QueueSharpIcon fontSize='large' />
       </IconButton>
       <Dialog
         maxWidth
         open={addNote}
-        onClose={addNoteCloser}
+        onClose={handleNoteOpener}
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: 'relative', backgroundColor: '#2258F5' }}>
-          <Toolbar>
+        <Toolbar>
             <IconButton
               edge="start"
               color="inherit"
-              onClick={addNoteCloser}
+              onClick={handleNoteOpener}
               aria-label="close"
             >
               <CloseIcon />
@@ -60,11 +88,13 @@ function AddPoNotes() {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Add a Note
             </Typography>
-            <Button autoFocus color="inherit" onClick={addNoteCloser}>
-              save
-            </Button>
+
+            {(statement !== '') && <Button autoFocus variant="text" color="inherit" onClick={handleSubmit}> Save </Button>}
+            {/* issue: when button appears the cursor is not in the text field but if I change it to typography it works */}
+
           </Toolbar>
         </AppBar>
+
         <Box>
           <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '25px' }}>PO Note Type</Typography>
           <List>
@@ -73,21 +103,24 @@ function AddPoNotes() {
                 <FormControl sx={{ minWidth: 350 }} size="small">
                   <InputLabel id="demo-select-small-2"> Select Note Type </InputLabel>
                   <Select
+                    data-testid="noteTypeSelect"
                     labelId="demo-select-small-2"
                     id="demo-select-small-2"
                     value={noteType}
                     label="note type"
-                    onChange={noteTypeHandler}
+                    onChange={handleNoteType}
+                    disabled={submit}
                   >
-                    <MenuItem value={10}>Action Item</MenuItem>
-                    <MenuItem value={20}>Key Decision</MenuItem>
-                    <MenuItem value={30}>Agenda Item</MenuItem>
+                    <MenuItem value='action-item'>Action Item</MenuItem>
+                    <MenuItem value='key-decision'>Key Decision</MenuItem>
+                    <MenuItem value='agenda-item'>Agenda Item</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
             </ListItem>
           </List>
         </Box>
+
         <Box>
           <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '20px' }}>Statement</Typography>
           <List>
@@ -99,11 +132,17 @@ function AddPoNotes() {
                 multiline
                 rows={5}
                 variant="outlined"
+                value={statement}
+                onChange={handleStatement}
+                disabled={submit}
               />
             </ListItem>
           </List>
         </Box>
-        {addtimeline&&<Timeline/>}
+
+        <Box>
+          { noteType==='action-item' && <Timeline isSubmit ={submit} timeline={timeline} setTimeline = {setTimeline}/> }
+        </Box>
       </Dialog>
     </Box>
   );
