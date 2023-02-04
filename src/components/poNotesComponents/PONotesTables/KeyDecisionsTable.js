@@ -5,6 +5,7 @@ import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box, 
 import CardLayout from '../../Cards/CardLayout';
 import KeyDecisionsTableHeader from './PONotesTablesHeader/KeyDecisionsTableHeader';
 
+
 function KeyDecisionTable() {
   return (
     <Box sx={{ width: '600px' }}>
@@ -28,7 +29,7 @@ function KeyDecisionTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout /> </TableRow>
+            <TableRow> <CardLayout colour='#40A737' urlLink='https://my-json-server.typicode.com/kartik162000/mockData/db'/> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

@@ -1,4 +1,5 @@
 import React from 'react';
+import {QueryClient, QueryClientProvider} from 'react-query';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import {Box} from "@mui/material";
@@ -12,8 +13,10 @@ import RefMaterialsContainer from './components/routes/refMaterials';
 import TimelineContainer from './components/routes/timelines';
 import Navbar from './components/elements/navBar';
 
+const queryClient = new QueryClient();
 function App() {
   return (
+    <QueryClientProvider client={queryClient}>
     <Box>
       <Box>
         <Navbar/>
@@ -28,6 +31,7 @@ function App() {
         <Route exact path='/timelines-roadmaps' element={<TimelineContainer />} />
       </Routes>
     </Box>
+    </QueryClientProvider>
   );
 }
 

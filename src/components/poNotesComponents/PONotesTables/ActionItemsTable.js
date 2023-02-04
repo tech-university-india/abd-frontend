@@ -5,6 +5,7 @@ import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box, 
 import CardLayout from '../../Cards/CardLayout';
 import ActionItemsTableHeader from './PONotesTablesHeader/ActionItemsTableHeader'
 
+
 function ActionItemsTable() {
   return (
     <Box sx={{ width: '600px' }}>
@@ -27,7 +28,7 @@ function ActionItemsTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout /> </TableRow>
+            <TableRow> <CardLayout colour='#FF2473' chckBox urlLink='https://my-json-server.typicode.com/kartik162000/mockData/db'/> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

@@ -8,7 +8,6 @@ import Transition from '../utilityFunctions/overlayTransition';
 import Timeline from "../utilityFunctions/timeline";
 
 function AddPoNotes() {
-
   let noteVal = 10;
   const [addNote, setAddNote] = React.useState(false);
   const [noteType, setNoteType] = React.useState(10);
@@ -17,7 +16,8 @@ function AddPoNotes() {
   const addNoteOpener = () => {
     setAddNote(true);
   };
-  const addNoteCloser = () => {
+  const addNoteCloser = (event) => {
+    console.log(event);
     setAddNote(false);
   };
 
