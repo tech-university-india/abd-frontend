@@ -36,7 +36,8 @@
     "jsx-a11y/no-static-element-interactions": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "no-underscore-dangle": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-bitwise": "off"
     
   },
   "settings": {
