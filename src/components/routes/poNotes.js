@@ -1,15 +1,14 @@
-import Navbar from '../dumbComponents/navBar'
+import React from 'react';
+import Box from '@mui/material/Box';
 import PoNotesBody from '../poNotesComponents/poNotesBody';
 import PoNotesHeader from '../poNotesComponents/poNotesHeader';
 
-const poNotesContainer = ()=>{
-    return (
-        <div>
-            <Navbar/>
-            <PoNotesHeader/>
-            <PoNotesBody/>
-        </div>
-    );
-};
 
-export default poNotesContainer;
+export default function PoNotesContainer() {
+  return (
+    <Box>
+      <Box sx={{ m: -2, p: 4 }}> <PoNotesHeader /> </Box>
+      <Box > <PoNotesBody /> </Box>
+    </Box>
+  );
+};
