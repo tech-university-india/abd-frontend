@@ -1,8 +1,9 @@
 import React from 'react';
+import { ThemeProvider } from '@mui/material';
 import { useQuery } from 'react-query';
 import { PropTypes } from 'prop-types';
 import CustomCard from './CustomCard';
-
+import theme from './theme';
 
 // const fetchData = 
 
@@ -22,13 +23,13 @@ if (isError) {
     return <div>Error! {error.message}</div>
 }
   return (
-    <>
+    <ThemeProvider theme={theme}>
       {
         data.data.map((item) => (
           <CustomCard colour={colour} chckBox={chckBox} data={item} />
         ))
       }
-    </>
+  </ThemeProvider>
   );
 }
 
