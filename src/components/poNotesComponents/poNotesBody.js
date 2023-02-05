@@ -1,17 +1,14 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import PONotesGridLayout from './PONotesTables/PONotesGridLayout';
 
-const PoNotesBody = () => {
+export default function poNotesBody() {
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <Container maxWidth="xl">
-        <Box sx={{ bgcolor: '#E6EEF2', height: '83.5vh' }} />
-      </Container>
-    </React.Fragment>
-  );
+    <Grid>
+      <Grid sx={{
+        minWidth: "100%",
+        height: "100vh", backgroundColor: '#F5F5F5'
+      }}><PONotesGridLayout /></Grid>
+    </Grid>
+  )
 }
-
-export default PoNotesBody;
