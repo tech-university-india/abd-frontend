@@ -28,15 +28,15 @@ function AddPoNotes({setError,setSuccess}) {
   const [ noteType, setNoteType ] = useState('ACTION_ITEM');
   const [ statement, setStatement ] = useState(''); 
   const [ timeline, setTimeline ] = useState(getNextDate());
-  
+
   const handleNoteOpener = () => {
     setAddNote(!addNote);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (status) => {
     setSubmit(val => !val);
     try{
-      const body = (noteType === 'ACTION_ITEM') ? {'type':noteType, 'note':statement, 'dueDate':timeline} : {'type':noteType, 'note': statement};
+      const body = (noteType === 'ACTION_ITEM') ? {'type':noteType, 'note':statement, 'dueDate':timeline,'status':status} : {'type':noteType, 'note': statement,'status':status};
       await axios.post(`${DOMAIN}/api/po-notes`, body);
       const response = 'Note added successfully';
       setSuccess(() => response);
@@ -48,6 +48,14 @@ function AddPoNotes({setError,setSuccess}) {
       setSubmit(val => !val);
       setAddNote(val => !val);
     }
+  };
+
+  const handleDraft = () => {
+    handleSubmit('DRAFT');
+  };
+
+  const handlePendingStatus = () => {
+    handleSubmit('PENDING');
   };
 
   const handleNoteType = (event) => {
@@ -83,10 +91,13 @@ function AddPoNotes({setError,setSuccess}) {
               <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                 Add a Note
               </Typography>
-
-              {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'> <Typography autoFocus variant="text" color="inherit" onClick={handleSubmit} sx={{ fontSize: 16.5, ':hover': { color: 'secondary.main' }, my: 2, color: 'secondary.light', display: 'flex' }}> Save </Typography></Link>}
-              {/* issue: when button appears the cursor is not in the text field but if I change it to typography it works */}
-
+              <Box sx={{m: 2}}>
+                {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'> <Typography autoFocus variant="h6" color="inherit" onClick={handlePendingStatus} sx={{ fontSize: 16.5, ':hover': { color: 'secondary.main' }, my: 2, color: 'secondary.light', display: 'flex' }}> Publish </Typography></Link>}
+                {/* issue: when button appears the cursor is not in the text field but if I change it to typography it works */}
+              </Box>
+              <Box>
+                {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'> <Typography autoFocus variant="h6" color="inherit" onClick={handleDraft} sx={{ fontSize: 16.5, ':hover': { color: 'secondary.main' }, my: 2, color: 'secondary.light', display: 'flex' }}> Draft </Typography></Link>}
+              </Box>
             </Toolbar>
           </AppBar>
 
