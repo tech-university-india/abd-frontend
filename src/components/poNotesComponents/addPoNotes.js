@@ -14,23 +14,8 @@ import { DOMAIN } from "../../config";
 
 const getNextDate = () => {
   const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = (date.getDate()+1);
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  const second = date.getSeconds();
-  let dateString = year.toString().padStart(4, '0');
-  dateString += '-';
-  dateString += month.toString().padStart(2, '0');
-  dateString += '-';
-  dateString += day.toString().padStart(2, '0');
-  dateString += 'T';
-  dateString += hour.toString().padStart(2, '0');
-  dateString += ':';
-  dateString += minute.toString().padStart(2, '0');
-  dateString += ':';
-  dateString += second.toString().padStart(2, '0');
+  date.setDate(date.getDate() + 1);
+  const dateString = date.toISOString().substring(0, date.toISOString().indexOf('.'));
   return dateString;
 };
 
@@ -42,7 +27,7 @@ function AddPoNotes() {
   const [ noteType, setNoteType ] = useState('ACTION_ITEM');
   const [ statement, setStatement ] = useState(''); 
   const [ timeline, setTimeline ] = useState(getNextDate());
-
+  
   const handleNoteOpener = () => {
     setAddNote(!addNote);
   };
