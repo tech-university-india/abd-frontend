@@ -5,16 +5,19 @@ import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
 import SearchBar from '../utilityFunctions/searchBar';
 import AddPoNotes from './addPoNotes';
+import ErrorSnackbar from '../utilityFunctions/errorSnackbar';
+import SuccessSnackbar from '../utilityFunctions/successSnackbar';
 
 // TODO get request filter from onSubmit search
 // TODO get request filter from quick filter
-// TODO post request from add Note
 
 function PoNotesHeader() {
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [quickFilterType, setQuickFilter] = React.useState('');
-  
+  const [searchQuery, setSearchQuery] = useState('');
+  const [quickFilterType, setQuickFilter] = useState('');
+  const [error,setError] =  useState('');
+  const [success,setSuccess] = useState('');
+
   const quickFilterHandler = (event) => {
     setQuickFilter(event.target.value);
   };
@@ -53,7 +56,9 @@ function PoNotesHeader() {
               </Select>
             </FormControl>
           </Box>
-          <AddPoNotes />
+          <AddPoNotes setError = {setError} setSuccess = {setSuccess}/>
+          {error!=='' && (<Box><ErrorSnackbar message = {error} setError = {setError}/></Box>)}
+          {success!=='' && (<Box><SuccessSnackbar message = {success} setSuccess = {setSuccess}/></Box>)}
         </Toolbar>
       </Container>
     </AppBar >
