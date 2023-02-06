@@ -1,13 +1,16 @@
 import React, {useState} from "react";
 import axios from 'axios';
 
-import { Box, IconButton, TextField, Button, Dialog, ListItem, List, Typography, MenuItem, FormControl, AppBar, Toolbar, InputLabel, Select, ThemeProvider } from "@mui/material";
+import { Link } from 'react-router-dom';
+
+import { Box, IconButton, TextField, Dialog, ListItem, List, Typography, MenuItem, FormControl, AppBar, Toolbar, InputLabel, Select, ThemeProvider } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 
 import Transition from '../utilityFunctions/overlayTransition';
 import Timeline from "../utilityFunctions/timeline";
 import theme from "../themes/globalTheme";
+import { DOMAIN } from "../../config";
 
 const getNextDate = () => {
   const date = new Date();
@@ -48,8 +51,7 @@ function AddPoNotes() {
     setSubmit(val => !val);
     try{
       const body = (noteType === 'ACTION_ITEM') ? {'type':noteType, 'note':statement, 'dueDate':timeline} : {'type':noteType, 'note': statement};
-      await axios.post('http://127.0.0.1:3000/api/po-notes', body);
-      // ISSUE: In API dueDate needs to take time as well and CORS is not working
+      await axios.post(`${DOMAIN}/api/po-notes`, body);
     }
     catch(err){
       console.log(err);
@@ -94,7 +96,7 @@ function AddPoNotes() {
                 Add a Note
               </Typography>
 
-              {(statement !== '') && <Button autoFocus variant="text" color="inherit" onClick={handleSubmit}> Save </Button>}
+              {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'> <Typography autoFocus variant="text" color="inherit" onClick={handleSubmit} sx={{ fontSize: 16.5, ':hover': { color: 'secondary.main' }, my: 2, color: 'secondary.light', display: 'flex' }}> Save </Typography></Link>}
               {/* issue: when button appears the cursor is not in the text field but if I change it to typography it works */}
 
             </Toolbar>
