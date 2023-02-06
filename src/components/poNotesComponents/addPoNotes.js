@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import axios from 'axios';
-
+import Proptypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { Box, IconButton, TextField, Dialog, ListItem, List, Typography, MenuItem, FormControl, AppBar, Toolbar, InputLabel, Select, ThemeProvider } from "@mui/material";
@@ -10,6 +10,7 @@ import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 import Transition from '../utilityFunctions/overlayTransition';
 import Timeline from "../utilityFunctions/timeline";
 import theme from "../themes/globalTheme";
+
 import { DOMAIN } from "../../config";
 
 const getNextDate = () => {
@@ -20,7 +21,7 @@ const getNextDate = () => {
 };
 
 
-function AddPoNotes() {
+function AddPoNotes({setError,setSuccess}) {
 
   const [ addNote, setAddNote ] = useState(false);
   const [ submit, setSubmit ] = useState(false);
@@ -37,9 +38,11 @@ function AddPoNotes() {
     try{
       const body = (noteType === 'ACTION_ITEM') ? {'type':noteType, 'note':statement, 'dueDate':timeline} : {'type':noteType, 'note': statement};
       await axios.post(`${DOMAIN}/api/po-notes`, body);
+      const response = 'Note added successfully';
+      setSuccess(() => response);
     }
     catch(err){
-      console.log(err);
+      setError(val=>val+err);
     }
     finally{
       setSubmit(val => !val);
@@ -139,6 +142,11 @@ function AddPoNotes() {
       </Box>
     </ThemeProvider>
   );
+};
+
+AddPoNotes.propTypes = {
+  setError: Proptypes.func.isRequired,
+  setSuccess: Proptypes.func.isRequired
 };
 
 export default AddPoNotes;
