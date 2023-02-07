@@ -30,13 +30,13 @@ if (isError) {
 const datas=filterToDifferentTypes(data);
 let dataType=[];
 if(type==='action_item'){
-  dataType=datas.ACTION_ITEM;
+  dataType = datas.ACTION_ITEM ?? [];
 }
 else if(type==='key_decisions'){
-  dataType=datas.KEY_DECISION;
+  dataType = datas.KEY_DECISION ?? [];
 }
 else if(type==='agenda_item'){
-  dataType=datas.AGENDA_ITEM;
+  dataType = datas.AGENDA_ITEM ?? [];
 }
   return (
     <ThemeProvider theme={theme}>
