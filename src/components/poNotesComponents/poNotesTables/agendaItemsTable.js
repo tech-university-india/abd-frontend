@@ -1,11 +1,14 @@
 import React from 'react';
-import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, Box } from '@mui/material';
+import {
+  TableContainer, Table, TableHead,
+  TableBody, TableRow, TableCell,
+  Paper, Box
+} from '@mui/material';
 
 import AgendaItemsTableHeader from './poNotesTablesHeader/agendaItemsTableHeader'
-
 import CardLayout from '../../cards/cardLayout';
 
-function AgendaItemsTable() {
+export default function AgendaItemsTable() {
   return (
     <Box sx={{ width: '600px' }}>
       <TableContainer sx={{
@@ -28,12 +31,10 @@ function AgendaItemsTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#FEA946' chckBox  type='agenda_item' /> </TableRow>
+            <TableRow> <CardLayout colour='#FEA946' chckBox type='agenda_item' /> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
     </Box>
   );
 };
-
-export default AgendaItemsTable;

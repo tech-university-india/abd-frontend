@@ -2,24 +2,21 @@ import React from 'react';
 import { ThemeProvider } from '@mui/material';
 import { useQuery } from 'react-query';
 import { PropTypes } from 'prop-types';
+
 import CustomCard from './customCard';
 import theme from './theme';
 import filterToDifferentTypes from '../utilityFunctions/filterData';
 import { DOMAIN } from '../../config';
-// const fetchData = 
 
-function CardLayout(props) {
+export default function CardLayout(props) {
   const { colour, chckBox, type } = props;
   const { data, error, isError, isLoading } = useQuery('data', async () => {
     const res = await fetch(`${DOMAIN}/api/po-notes`);
-    // console.log(res.json());
     return res.json();
-
   },
     {
       refetchInterval: 1000,
     });
-
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -52,17 +49,9 @@ CardLayout.propTypes = {
   colour: PropTypes.string,
   chckBox: PropTypes.bool,
   type: PropTypes.string.isRequired
-  // ,
-  // datas: PropTypes.arrayOf(PropTypes.shape({
-  //   Description: PropTypes.string,
-  //   collabrators: PropTypes.arrayOf(PropTypes.string)
-  // }))
 };
 
 CardLayout.defaultProps = {
   colour: 'white',
   chckBox: false,
-  // datas: []
 };
-
-export default CardLayout;

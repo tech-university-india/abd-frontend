@@ -2,13 +2,11 @@ import React from 'react';
 import { render, cleanup, getByTestId, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
+
 import PoNotesContainer from '../components/routes/poNotes';
 
-
 describe('po-notes', () => {
-
   afterEach(cleanup);
-
   it('renders the po-notes page', () => {
     const { container } = render(
       <MemoryRouter initialEntries={['/po-notes']}>
@@ -18,8 +16,6 @@ describe('po-notes', () => {
     const poNotesIdentifier = getByTestId(container, 'poNotesIdentifier');
     expect(poNotesIdentifier).toBeInTheDocument();
   });
-
-
   it('should open form to add po notes', () => {
     const { container, getByText } = render(
       <MemoryRouter initialEntries={['/po-notes']}>
@@ -44,7 +40,7 @@ describe('po-notes', () => {
   });
 
   xit('should render save button when all the required fields are filled', () => {
-      
+
   });
 
 });

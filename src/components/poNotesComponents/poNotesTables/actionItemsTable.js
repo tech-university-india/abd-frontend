@@ -1,11 +1,13 @@
 import React from 'react';
-import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box, Paper } from '@mui/material';
-import CardLayout from '../../cards/cardLayout';
+import {
+  TableContainer, Table, TableHead, TableBody,
+  TableRow, TableCell, Box, Paper
+} from '@mui/material';
 
+import CardLayout from '../../cards/cardLayout';
 import ActionItemsTableHeader from './poNotesTablesHeader/actionItemsTableHeader'
 
-
-function ActionItemsTable() {
+export default function ActionItemsTable() {
   return (
     <Box sx={{ width: '600px' }}>
       <TableContainer sx={{
@@ -27,12 +29,10 @@ function ActionItemsTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#FF2473' chckBox type='action_item'/> </TableRow>
+            <TableRow> <CardLayout colour='#FF2473' chckBox type='action_item' /> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
     </Box>
   );
 };
-
-export default ActionItemsTable;

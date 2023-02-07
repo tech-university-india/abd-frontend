@@ -1,19 +1,18 @@
-import {React,useState} from 'react';
+import { React, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
 
-function SuccessSnackbar({message,setSuccess}) {
+export default function SuccessSnackbar({ message, setSuccess }) {
   const [open, setOpen] = useState(true);
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpen(val=>!val);
-    setSuccess(()=>"");
+    setOpen(val => !val);
+    setSuccess(() => "");
   };
-
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
@@ -24,9 +23,8 @@ function SuccessSnackbar({message,setSuccess}) {
     </Stack>
   );
 }
+
 SuccessSnackbar.propTypes = {
   message: PropTypes.string.isRequired,
   setSuccess: PropTypes.func.isRequired,
 };
-
-export default SuccessSnackbar;

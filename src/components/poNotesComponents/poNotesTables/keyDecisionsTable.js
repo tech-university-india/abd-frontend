@@ -1,11 +1,14 @@
 import React from 'react';
-import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box, Paper } from '@mui/material';
+import {
+  TableContainer, Table, TableHead,
+  TableBody, TableRow, TableCell,
+  Box, Paper
+} from '@mui/material';
 
 import CardLayout from '../../cards/cardLayout';
 import KeyDecisionsTableHeader from './poNotesTablesHeader/keyDecisionsTableHeader';
 
-
-function KeyDecisionTable() {
+export default function KeyDecisionTable() {
   return (
     <Box sx={{ width: '600px' }}>
       <TableContainer sx={{
@@ -28,13 +31,11 @@ function KeyDecisionTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#40A737'  type='key_decisions'/> </TableRow>
+            <TableRow> <CardLayout colour='#40A737' type='key_decisions' /> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
     </Box>
   );
 };
-
-export default KeyDecisionTable;
 

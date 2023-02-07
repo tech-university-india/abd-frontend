@@ -13,12 +13,11 @@ export default function ActionItemsHeader(props) {
     <Box sx={{
       display: 'flex',
       justifyContent: 'center'
-    }} ><Typography style={{
-      fontFamily: 'Roboto',
-      fontSize: '18px',
-      lineHeight: '20px'
-    }}
-      sx={{
+    }} >
+      <Typography sx={{
+        fontFamily: 'Roboto',
+        fontSize: '18px',
+        lineHeight: '20px',
         color: "#FFFFFF",
         paddingRight: '5px'
       }}>

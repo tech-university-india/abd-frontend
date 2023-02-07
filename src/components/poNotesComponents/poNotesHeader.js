@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-
-import { Box, AppBar, Container, InputLabel, MenuItem, FormControl, Select, Toolbar, Typography, ThemeProvider } from '@mui/material';
+import {
+  Box, AppBar, Container, InputLabel,
+  MenuItem, FormControl, Select, Toolbar,
+  Typography, ThemeProvider
+} from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
 import SearchBar from '../utilityFunctions/searchBar';
@@ -9,20 +12,14 @@ import ErrorSnackbar from '../utilityFunctions/errorSnackbar';
 import SuccessSnackbar from '../utilityFunctions/successSnackbar';
 import theme from '../themes/globalTheme';
 
-// TODO get request filter from onSubmit search
-// TODO get request filter from quick filter
-
 export default function PoNotesHeader() {
-
   const [searchQuery, setSearchQuery] = useState('');
   const [quickFilterType, setQuickFilter] = useState('');
-  const [error,setError] =  useState('');
-  const [success,setSuccess] = useState('');
-
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const quickFilterHandler = (event) => {
     setQuickFilter(event.target.value);
   };
-
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static" style={{ background: 'transparent', boxShadow: 'none' }}>
@@ -32,7 +29,10 @@ export default function PoNotesHeader() {
               data-testid="poNotesIdentifier"
               variant="h5"
               noWrap
-              sx={{ flexGrow: 2, mr: 2, display: { xs: 'none', md: 'flex' }, fontWeight: 500, letterSpacing: '.025rem', color: 'secondary.main', textDecoration: 'none' }}
+              sx={{
+                flexGrow: 2, mr: 2, display: { xs: 'none', md: 'flex' },
+                fontWeight: 500, letterSpacing: '.025rem', color: 'secondary.main', textDecoration: 'none'
+              }}
             >
               PO Notes
             </Typography>
@@ -58,9 +58,9 @@ export default function PoNotesHeader() {
                 </Select>
               </FormControl>
             </Box>
-            <AddPoNotes setError = {setError} setSuccess = {setSuccess}/>
-            {error!=='' && (<Box><ErrorSnackbar message = {error} setError = {setError}/></Box>)}
-            {success!=='' && (<Box><SuccessSnackbar message = {success} setSuccess = {setSuccess}/></Box>)}
+            <AddPoNotes setError={setError} setSuccess={setSuccess} />
+            {error !== '' && (<Box><ErrorSnackbar message={error} setError={setError} /></Box>)}
+            {success !== '' && (<Box><SuccessSnackbar message={success} setSuccess={setSuccess} /></Box>)}
           </Toolbar>
         </Container>
       </AppBar >

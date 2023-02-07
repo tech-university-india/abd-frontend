@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 
 import ActionItemsTable from './actionItemsTable';
@@ -7,7 +7,6 @@ import AgendaItemsTable from './agendaItemsTable';
 
 export default function GridArea() {
   return (
-
     <Grid container spacing={4} columns={20}>
       <Grid item xs='auto' > </Grid>
       <Grid sx={{
@@ -36,6 +35,5 @@ export default function GridArea() {
       </Grid>
       <Grid item xs='auto'> </Grid>
     </Grid>
-
   );
 }

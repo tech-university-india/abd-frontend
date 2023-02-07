@@ -1,9 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import axios from 'axios';
 import Proptypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
-import { Box, IconButton, TextField, Dialog, ListItem, List, Typography, MenuItem, FormControl, AppBar, Toolbar, InputLabel, Select, ThemeProvider } from "@mui/material";
+import {
+  Box, IconButton, TextField, Dialog,
+  ListItem, List, Typography, MenuItem,
+  FormControl, AppBar, Toolbar, InputLabel,
+  Select, ThemeProvider
+} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 
@@ -20,56 +24,50 @@ const getNextDate = () => {
   return dateString;
 };
 
-
-export default function AddPoNotes({setError,setSuccess}) {
-
-  const [ addNote, setAddNote ] = useState(false);
-  const [ submit, setSubmit ] = useState(false);
-  const [ noteType, setNoteType ] = useState('ACTION_ITEM');
-  const [ statement, setStatement ] = useState(''); 
-  const [ timeline, setTimeline ] = useState(getNextDate());
-
+export default function AddPoNotes({ setError, setSuccess }) {
+  const [addNote, setAddNote] = useState(false);
+  const [submit, setSubmit] = useState(false);
+  const [noteType, setNoteType] = useState('ACTION_ITEM');
+  const [statement, setStatement] = useState('');
+  const [timeline, setTimeline] = useState(getNextDate());
   const handleNoteOpener = () => {
     setAddNote(!addNote);
   };
-
   const handleSubmit = async (status) => {
     setSubmit(val => !val);
-    try{
-      const body = (noteType === 'ACTION_ITEM') ? {'type':noteType, 'note':statement, 'dueDate':timeline,'status':status} : {'type':noteType, 'note': statement,'status':status};
+    try {
+      const body = (noteType === 'ACTION_ITEM') ?
+        { 'type': noteType, 'note': statement, 'dueDate': timeline, 'status': status }
+        : { 'type': noteType, 'note': statement, 'status': status };
       await axios.post(`${DOMAIN}/api/po-notes`, body);
       const response = 'Note added successfully';
       setSuccess(() => response);
     }
-    catch(err){
-      setError(val=>val+err);
+    catch (err) {
+      setError(val => val + err);
     }
-    finally{
+    finally {
       setSubmit(val => !val);
       setAddNote(val => !val);
     }
   };
-
   const handleDraft = () => {
     handleSubmit('DRAFT');
   };
-
   const handlePendingStatus = () => {
     handleSubmit('PENDING');
   };
-
   const handleNoteType = (event) => {
     setNoteType(event.target.value);
   };
-
   const handleStatement = (event) => {
     setStatement(event.target.value);
   };
-
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 0.2, display: { xs: 'none', md: 'flex' } }}>
-        <IconButton data-testid="AddPoNotesFormIdentifier" aria-label="Add Notes" component="label" sx={{ color: 'primary.main' }} onClick={handleNoteOpener}>
+        <IconButton data-testid="AddPoNotesFormIdentifier" aria-label="Add Notes"
+          component="label" sx={{ color: 'primary.main' }} onClick={handleNoteOpener}>
           <QueueSharpIcon fontSize='large' />
         </IconButton>
         <Dialog
@@ -79,7 +77,7 @@ export default function AddPoNotes({setError,setSuccess}) {
           TransitionComponent={Transition}
         >
           <AppBar sx={{ position: 'relative', backgroundColor: 'primary.main' }}>
-          <Toolbar>
+            <Toolbar>
               <IconButton
                 edge="start"
                 color="inherit"
@@ -91,16 +89,24 @@ export default function AddPoNotes({setError,setSuccess}) {
               <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                 Add a Note
               </Typography>
-              <Box sx={{m: 2}}>
-                {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'> <Typography autoFocus variant="h6" color="inherit" onClick={handlePendingStatus} sx={{ fontSize: 16.5, ':hover': { color: 'secondary.main' }, my: 2, color: 'secondary.light', display: 'flex' }}> Publish </Typography></Link>}
-                {/* issue: when button appears the cursor is not in the text field but if I change it to typography it works */}
+              <Box sx={{ m: 2 }}>
+                {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
+                  <Typography autoFocus variant="h6" color="inherit" onClick={handlePendingStatus}
+                    sx={{
+                      fontSize: 16.5, ':hover': { color: 'secondary.main' },
+                      my: 2, color: 'secondary.light', display: 'flex'
+                    }}> Publish </Typography> </Link>}
               </Box>
               <Box>
-                {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'> <Typography autoFocus variant="h6" color="inherit" onClick={handleDraft} sx={{ fontSize: 16.5, ':hover': { color: 'secondary.main' }, my: 2, color: 'secondary.light', display: 'flex' }}> Draft </Typography></Link>}
+                {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
+                  <Typography autoFocus variant="h6" color="inherit" onClick={handleDraft}
+                    sx={{
+                      fontSize: 16.5, ':hover': { color: 'secondary.main' },
+                      my: 2, color: 'secondary.light', display: 'flex'
+                    }}> Draft </Typography></Link>}
               </Box>
             </Toolbar>
           </AppBar>
-
           <Box>
             <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '25px' }}>PO Note Type</Typography>
             <List>
@@ -126,28 +132,20 @@ export default function AddPoNotes({setError,setSuccess}) {
               </ListItem>
             </List>
           </Box>
-
           <Box>
             <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '20px' }}>Statement</Typography>
             <List>
               <ListItem>
                 <TextField
-                  sx={{ width: 350 }}
-                  label="Type here..."
-                  id="outlined-multiline-static"
-                  multiline
-                  rows={5}
-                  variant="outlined"
-                  value={statement}
-                  onChange={handleStatement}
+                  id="outlined-multiline-static" sx={{ width: 350 }} label="Type here..."
+                  multiline rows={5} variant="outlined" value={statement} onChange={handleStatement}
                   disabled={submit}
                 />
               </ListItem>
             </List>
           </Box>
-
           <Box>
-            { noteType==='ACTION_ITEM' && <Timeline isSubmit ={submit} timeline={timeline} setTimeline = {setTimeline}/> }
+            {noteType === 'ACTION_ITEM' && <Timeline isSubmit={submit} timeline={timeline} setTimeline={setTimeline} />}
           </Box>
         </Dialog>
       </Box>
