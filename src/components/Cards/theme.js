@@ -8,10 +8,11 @@ const theme = createTheme({
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#3D3D3D',
+      main: '#707070',
       light: '#E0E0E0',
       contrastText: '#FFFFFF',
     },
+
   }
 });
 

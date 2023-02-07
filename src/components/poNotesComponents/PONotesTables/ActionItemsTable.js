@@ -28,7 +28,7 @@ function ActionItemsTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#FF2473' chckBox type='action_item'/> </TableRow>
+            <TableRow> <CardLayout chckBox type='action_item'/> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

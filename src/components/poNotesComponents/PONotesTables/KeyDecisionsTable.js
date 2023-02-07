@@ -29,7 +29,7 @@ function KeyDecisionTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#40A737'  type='key_decisions'/> </TableRow>
+            <TableRow> <CardLayout type='key_decisions'/> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

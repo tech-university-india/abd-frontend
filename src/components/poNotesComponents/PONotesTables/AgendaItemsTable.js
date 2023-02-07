@@ -27,7 +27,7 @@ function AgendaItemsTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#FEA946' chckBox  type='agenda_item' /> </TableRow>
+            <TableRow> <CardLayout chckBox  type='agenda_item' /> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
