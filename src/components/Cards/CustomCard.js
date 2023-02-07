@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import { PropTypes } from 'prop-types';
 import { Box, Card, CardContent, Typography, Button, Checkbox,useTheme, styled ,Stack,Avatar} from '@mui/material';
+
 // import theme from './theme';
 import Status from './Status';
 import dateGetter from '../utilityFunctions/dateGetter';
@@ -71,7 +72,7 @@ function CustomCard({chckBox, data,type}) {
             {
               data.status === 'COMPLETED' ? ( <Status colour='#40A737' status='PUBLISHED' />): <Status colour='#FF6E00' status='DRAFT' />
             }
-            <Typography color="secondary" mt={1.5}>{dateGetter(data.createdAt)} </Typography>
+            <Typography color="secondary" variant="h8" mt={1.5}>{dateGetter(data.createdAt)} </Typography>
           </CardHeader>
           <Box>
             <Typography mt={3} sx={{overflow: "hidden",textOverflow: "ellipsis",
@@ -97,6 +98,7 @@ CustomCard.propTypes = {
   type: PropTypes.string.isRequired,
   data: PropTypes.shape({
     note: PropTypes.string.isRequired,
+    issueLink: PropTypes.string,
     dueDate: PropTypes.string,
     createdAt: PropTypes.string.isRequired,
     status: PropTypes.string,
