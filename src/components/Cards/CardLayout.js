@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { PropTypes } from 'prop-types';
 import CustomCard from './CustomCard';
 import theme from './theme';
-
+import filterToDifferentTypes  from '../utilityFunctions/filterData';
 // const fetchData = 
 
 
@@ -13,7 +13,9 @@ function CardLayout(props) {
   const { colour, chckBox,type} = props;
   const {data, error, isError, isLoading }=useQuery('data',async () => {
     const res = await fetch('http://127.0.0.1:3001/api/po-notes');
+    // console.log(res.json());
     return res.json();
+
   },
     {
       refetchInterval: 120000
@@ -25,15 +27,16 @@ function CardLayout(props) {
 if (isError) {
     return <div>Error! {error.message}</div>
 }
+const datas=filterToDifferentTypes(data);
 let dataType=[];
 if(type==='action_item'){
-  dataType=data.ACTION_ITEM;
+  dataType=datas.ACTION_ITEM;
 }
 else if(type==='key_decisions'){
-  dataType=data.KEY_DECISION;
+  dataType=datas.KEY_DECISION;
 }
 else if(type==='agenda_item'){
-  dataType=data.AGENDA_ITEM;
+  dataType=datas.AGENDA_ITEM;
 }
   return (
     <ThemeProvider theme={theme}>
