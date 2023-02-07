@@ -76,7 +76,7 @@ export default function AddPoNotes({ setError, setSuccess }) {
           onClose={handleNoteOpener}
           TransitionComponent={Transition}
         >
-          <AppBar sx={{ position: 'relative', backgroundColor: 'primary.main' }}>
+          <AppBar sx={{ position: 'static', backgroundColor: 'primary.main' }}>
             <Toolbar>
               <IconButton
                 edge="start"
@@ -91,18 +91,16 @@ export default function AddPoNotes({ setError, setSuccess }) {
               </Typography>
               <Box sx={{ m: 2 }}>
                 {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
-                  <Typography autoFocus variant="h6" color="inherit" onClick={handlePendingStatus}
+                  <Typography autoFocus variant="h7" color="inherit" onClick={handlePendingStatus}
                     sx={{
-                      fontSize: 16.5, ':hover': { color: 'secondary.main' },
-                      my: 2, color: 'secondary.light', display: 'flex'
+                      ':hover': { color: 'secondary.main' }, color: 'secondary.light'
                     }}> Publish </Typography> </Link>}
               </Box>
               <Box>
                 {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
-                  <Typography autoFocus variant="h6" color="inherit" onClick={handleDraft}
+                  <Typography autoFocus variant="h7" color="inherit" onClick={handleDraft}
                     sx={{
-                      fontSize: 16.5, ':hover': { color: 'secondary.main' },
-                      my: 2, color: 'secondary.light', display: 'flex'
+                      ':hover': { color: 'secondary.main' }, color: 'secondary.light'
                     }}> Draft </Typography></Link>}
               </Box>
             </Toolbar>
