@@ -1,14 +1,23 @@
 import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import PONotesGridLayout from "./poNotesTables/poNotesGridLayout";
+import PropTypes from 'prop-types';
 
-export default function poNotesBody() {
+import Grid from '@mui/material/Grid';
+import GridArea from "./poNotesTables/poNotesGridLayout";
+
+export default function PoNotesBody({ searchQuery }) {
   return (
     <Grid>
       <Grid sx={{
         minWidth: "100%",
         height: "100vh", backgroundColor: '#E6EEF2'
-      }}><PONotesGridLayout /></Grid>
+      }}>
+        <GridArea searchQuery = {searchQuery} />
+      </Grid>
     </Grid>
   )
+}
+
+
+PoNotesBody.propTypes = {
+  searchQuery: PropTypes.string.isRequired
 }

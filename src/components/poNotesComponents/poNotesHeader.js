@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Proptypes from 'prop-types';
 
 import { Box, AppBar, Container, InputLabel, MenuItem, FormControl, Select, Toolbar, Typography, ThemeProvider } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
@@ -12,9 +13,8 @@ import theme from '../themes/globalTheme';
 // TODO get request filter from onSubmit search
 // TODO get request filter from quick filter
 
-export default function PoNotesHeader() {
+export default function PoNotesHeader({ searchQuery,setSearchQuery }) {
 
-  const [searchQuery, setSearchQuery] = useState('');
   const [quickFilterType, setQuickFilter] = useState('');
   const [error,setError] =  useState('');
   const [success,setSuccess] = useState('');
@@ -67,3 +67,8 @@ export default function PoNotesHeader() {
     </ThemeProvider>
   );
 }
+
+PoNotesHeader.propTypes = {
+  searchQuery: Proptypes.string.isRequired,
+  setSearchQuery: Proptypes.func.isRequired
+};

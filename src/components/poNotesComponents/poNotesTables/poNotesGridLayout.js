@@ -1,11 +1,16 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
+
 import Grid from '@mui/material/Grid';
 
 import ActionItemsTable from './actionItemsTable';
 import KeyDecisionTable from './keyDecisionsTable';
 import AgendaItemsTable from './agendaItemsTable';
 
-export default function GridArea() {
+
+// TODO MAKE ONLY ONE REUSABLE COMPONENT FOR CONTAINING VARIOUS NOTES 
+
+export default function GridArea({ searchQuery }) {
   return (
 
     <Grid container spacing={4} columns={20}>
@@ -16,7 +21,7 @@ export default function GridArea() {
         display: 'flex',
         flexDirection: 'row'
       }} item xs={6}>
-        <ActionItemsTable />
+        <ActionItemsTable searchQuery = {searchQuery}/>
       </Grid>
       <Grid sx={{
         p: 6,
@@ -24,7 +29,7 @@ export default function GridArea() {
         display: 'flex',
         flexDirection: 'row'
       }} item xs={6}>
-        <KeyDecisionTable />
+        <KeyDecisionTable searchQuery = {searchQuery}/>
       </Grid>
       <Grid sx={{
         p: 6,
@@ -32,10 +37,14 @@ export default function GridArea() {
         display: 'flex',
         flexDirection: 'row'
       }} item xs={6}>
-        <AgendaItemsTable />
+        <AgendaItemsTable searchQuery = {searchQuery} />
       </Grid>
       <Grid item xs='auto'> </Grid>
     </Grid>
 
   );
+}
+
+GridArea.propTypes = {
+  searchQuery: PropTypes.string.isRequired
 }

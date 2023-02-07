@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box, Paper } from '@mui/material';
 
 import CardLayout from '../../cards/cardLayout';
 import KeyDecisionsTableHeader from './poNotesTablesHeader/keyDecisionsTableHeader';
 
 
-function KeyDecisionTable() {
+function KeyDecisionTable({searchQuery}) {
   return (
     <Box sx={{ width: '600px' }}>
       <TableContainer sx={{
@@ -28,13 +29,17 @@ function KeyDecisionTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#40A737'  type='key_decisions'/> </TableRow>
+            <TableRow> <CardLayout searchQuery={searchQuery} colour='#40A737'  type='key_decisions'/> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
     </Box>
   );
 };
+
+KeyDecisionTable.propTypes = {
+  searchQuery: PropTypes.string.isRequired
+}
 
 export default KeyDecisionTable;
 

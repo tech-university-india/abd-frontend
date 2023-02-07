@@ -9,9 +9,21 @@ import { DOMAIN } from '../../config';
 // const fetchData = 
 
 function CardLayout(props) {
-  const { colour, chckBox, type } = props;
+  const { searchQuery, colour, chckBox, type } = props;
   const { data, error, isError, isLoading } = useQuery('data', async () => {
-    const res = await fetch(`${DOMAIN}/api/po-notes`);
+
+    let target = `${DOMAIN}/api/po-notes`;
+    
+    if(searchQuery!=='')
+    {
+      const query = `?date=${searchQuery}`;
+      target+=query;
+    }
+    const res = await fetch(target);
+    if(res.status!==200)
+    {
+      return [{}];
+    }
     // console.log(res.json());
     return res.json();
 
@@ -26,7 +38,7 @@ function CardLayout(props) {
   if (isError) {
     return <div>Error! {error.message}</div>
   }
-  const datas = filterToDifferentTypes(data);
+  const datas= (isError)?{}:filterToDifferentTypes(data);
   let dataType = [];
   if (type === 'action_item') {
     dataType = datas.ACTION_ITEM ?? [];
@@ -49,6 +61,7 @@ function CardLayout(props) {
 }
 
 CardLayout.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
   colour: PropTypes.string,
   chckBox: PropTypes.bool,
   type: PropTypes.string.isRequired

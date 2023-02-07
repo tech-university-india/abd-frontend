@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, Box } from '@mui/material';
 
 import AgendaItemsTableHeader from './poNotesTablesHeader/agendaItemsTableHeader'
 
 import CardLayout from '../../cards/cardLayout';
 
-function AgendaItemsTable() {
+function AgendaItemsTable({ searchQuery }) {
   return (
     <Box sx={{ width: '600px' }}>
       <TableContainer sx={{
@@ -28,12 +29,16 @@ function AgendaItemsTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#FEA946' chckBox  type='agenda_item' /> </TableRow>
+            <TableRow> <CardLayout searchQuery={ searchQuery } colour='#FEA946' chckBox  type='agenda_item' /> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
     </Box>
   );
 };
+
+AgendaItemsTable.propTypes = {
+  searchQuery: PropTypes.string.isRequired
+}
 
 export default AgendaItemsTable;

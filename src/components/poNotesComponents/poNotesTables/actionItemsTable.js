@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box, Paper } from '@mui/material';
 import CardLayout from '../../cards/cardLayout';
 
 import ActionItemsTableHeader from './poNotesTablesHeader/actionItemsTableHeader'
 
 
-function ActionItemsTable() {
+function ActionItemsTable({ searchQuery }) {
   return (
     <Box sx={{ width: '600px' }}>
       <TableContainer sx={{
@@ -27,12 +28,16 @@ function ActionItemsTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#FF2473' chckBox type='action_item'/> </TableRow>
+            <TableRow> <CardLayout searchQuery = {searchQuery} colour='#FF2473' chckBox type='action_item'/> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
     </Box>
   );
 };
+
+ActionItemsTable.propTypes = {
+  searchQuery: PropTypes.string.isRequired
+}
 
 export default ActionItemsTable;
