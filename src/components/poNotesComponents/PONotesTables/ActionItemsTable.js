@@ -28,7 +28,7 @@ function ActionItemsTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#FF2473' chckBox urlLink='https://my-json-server.typicode.com/kartik162000/mockData/db'/> </TableRow>
+            <TableRow> <CardLayout colour='#FF2473' chckBox type='action_item'/> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

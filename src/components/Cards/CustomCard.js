@@ -1,20 +1,8 @@
 import React,{useState} from 'react'
 import { PropTypes } from 'prop-types';
-import { Box, Card, CardContent, Typography, Avatar, Stack, Button, Checkbox,useTheme, styled } from '@mui/material';
+import { Box, Card, CardContent, Typography, Button, Checkbox,useTheme, styled ,Stack,Avatar} from '@mui/material';
 import Brightness1Icon from '@mui/icons-material/Brightness1';
-import { makeStyles } from "@mui/styles";
 // import theme from './theme';
-
-const useStyles = makeStyles({
-  multiLineEllipsis: {
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    display: "-webkit-box",
-    "-webkit-line-clamp": 4,
-    "-webkit-box-orient": "vertical",
-  }
-
-});
 
 const stringToColor = (string) => {
   let hash = 0;
@@ -57,10 +45,11 @@ function toggle(value){
 
 
 function CustomCard({ colour, chckBox, data }) {
+  console.log(data.createdAt)
   const theme=useTheme();
   console.log(theme);
   const [checked, setChecked] = useState(false);
-  const classes = useStyles();
+  // const classes = useStyles();
   return (
     <Box m={3}>
       <Cards>
@@ -70,15 +59,19 @@ function CustomCard({ colour, chckBox, data }) {
               chckBox === true ? (<Checkbox color='primary' size="large" checked={checked} onChange={() => setChecked(toggle)} />) : (<Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />)
             }
             <Brightness1Icon sx={{ color: colour, marginTop: 1.5, paddingLeft: 12 }} />
-            <Typography color="primary" mt={1.5}> 23 Jan 2023 5.13 PM </Typography>
+            <Typography color="primary" mt={1.5}>{data.createdAt} </Typography>
           </CardHeader>
           <Box>
-            <Typography mt={3} className={classes.multiLineEllipsis}> {data.Description}</Typography>
+            <Typography mt={3} sx={{overflow: "hidden",textOverflow: "ellipsis",
+               display: "-webkit-box",
+               WebkitLineClamp: 4,
+               WebkitBoxOrient: "vertical",
+            }}> {data.note}</Typography>
           </Box>
-          <Typography color="primary" fontWeight={500} mt={2}>Needed by 25 Feb 2023</Typography>
+          <Typography color="primary" fontWeight={500} mt={2}>{data.dueDate}</Typography>
           <Stack direction="row" spacing={-1} mt={1} sx={{ display: 'inline-flex' }}>
             {
-              data.collabrators.map((names) => <Avatar {...stringAvatar(names)} />)
+              ['Kartik Goel','Samim Gupta','Abhishek Bharadwaj'].map((names) => <Avatar {...stringAvatar(names)} />)
             }
           </Stack>
           <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 20 }}>JIRA LINK</Button>
@@ -91,8 +84,10 @@ CustomCard.propTypes = {
   colour: PropTypes.string.isRequired,
   chckBox: PropTypes.bool.isRequired,
   data: PropTypes.shape({
-    Description: PropTypes.string.isRequired,
-    collabrators: PropTypes.arrayOf(PropTypes.string).isRequired,
+    note: PropTypes.string.isRequired,
+    dueDate: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired
+    // collabrators: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 };
 

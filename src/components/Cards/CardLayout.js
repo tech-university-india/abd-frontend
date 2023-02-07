@@ -7,26 +7,39 @@ import theme from './theme';
 
 // const fetchData = 
 
+
+
 function CardLayout(props) {
-  const { colour, chckBox,urlLink} = props;
+  const { colour, chckBox,type} = props;
   const {data, error, isError, isLoading }=useQuery('data',async () => {
-    const res = await fetch(urlLink);
+    const res = await fetch('http://127.0.0.1:3001/api/po-notes');
     return res.json();
   },
     {
       refetchInterval: 120000
     });
+
   if (isLoading) {
     return <div>Loading...</div>
 }
 if (isError) {
     return <div>Error! {error.message}</div>
 }
+let dataType=[];
+if(type==='action_item'){
+  dataType=data.ACTION_ITEM;
+}
+else if(type==='key_decisions'){
+  dataType=data.KEY_DECISION;
+}
+else if(type==='agenda_item'){
+  dataType=data.AGENDA_ITEM;
+}
   return (
     <ThemeProvider theme={theme}>
-      {
-        data.data.map((item) => (
-          <CustomCard colour={colour} chckBox={chckBox} data={item} />
+      { 
+         dataType.map((item) => (
+          <CustomCard colour={colour} chckBox={chckBox} type={type} data={item} />
         ))
       }
   </ThemeProvider>
@@ -36,7 +49,7 @@ if (isError) {
 CardLayout.propTypes = {
   colour: PropTypes.string,
   chckBox: PropTypes.bool,
-  urlLink: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired
   // ,
   // datas: PropTypes.arrayOf(PropTypes.shape({
   //   Description: PropTypes.string,

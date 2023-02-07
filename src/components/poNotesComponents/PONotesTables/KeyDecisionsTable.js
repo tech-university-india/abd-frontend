@@ -29,7 +29,7 @@ function KeyDecisionTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#40A737' urlLink='https://my-json-server.typicode.com/kartik162000/mockData/db'/> </TableRow>
+            <TableRow> <CardLayout colour='#40A737'  type='key_decisions'/> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

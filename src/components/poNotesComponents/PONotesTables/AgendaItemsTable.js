@@ -27,7 +27,7 @@ function AgendaItemsTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout colour='#FEA946' chckBox  urlLink='https://my-json-server.typicode.com/kartik162000/mockData/db'/> </TableRow>
+            <TableRow> <CardLayout colour='#FEA946' chckBox  type='agenda_item' /> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
