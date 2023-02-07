@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box, Paper } from '@mui/material';
 
 import CardLayout from '../../cards/cardLayout';
