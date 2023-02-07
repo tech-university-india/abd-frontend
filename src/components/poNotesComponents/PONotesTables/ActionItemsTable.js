@@ -4,6 +4,7 @@ import CardLayout from '../../cards/cardLayout';
 
 import ActionItemsTableHeader from './poNotesTablesHeader/actionItemsTableHeader'
 
+
 function ActionItemsTable() {
   return (
     <Box sx={{ width: '600px' }}>
@@ -26,7 +27,7 @@ function ActionItemsTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout /> </TableRow>
+            <TableRow> <CardLayout colour='#FF2473' chckBox type='action_item'/> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

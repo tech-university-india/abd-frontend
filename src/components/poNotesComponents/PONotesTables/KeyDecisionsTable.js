@@ -4,6 +4,7 @@ import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Box, 
 import CardLayout from '../../cards/cardLayout';
 import KeyDecisionsTableHeader from './poNotesTablesHeader/keyDecisionsTableHeader';
 
+
 function KeyDecisionTable() {
   return (
     <Box sx={{ width: '600px' }}>
@@ -27,7 +28,7 @@ function KeyDecisionTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout /> </TableRow>
+            <TableRow> <CardLayout colour='#40A737'  type='key_decisions'/> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
