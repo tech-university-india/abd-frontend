@@ -5,6 +5,7 @@ import { PropTypes } from 'prop-types';
 import CustomCard from './CustomCard';
 import theme from './theme';
 import filterToDifferentTypes  from '../utilityFunctions/filterData';
+import { DOMAIN } from '../../config';
 // const fetchData = 
 
 
@@ -12,7 +13,7 @@ import filterToDifferentTypes  from '../utilityFunctions/filterData';
 function CardLayout(props) {
   const { colour, chckBox,type} = props;
   const {data, error, isError, isLoading }=useQuery('data',async () => {
-    const res = await fetch('http://127.0.0.1:3001/api/po-notes');
+    const res = await fetch(`${DOMAIN}/api/po-notes`);
     // console.log(res.json());
     return res.json();
 
