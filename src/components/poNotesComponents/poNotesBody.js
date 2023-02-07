@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Grid, ThemeProvider } from '@mui/material';
 
 import PONotesGridLayout from "./poNotesTables/poNotesGridLayout";
-import theme from '../cards/theme';
+import theme from '../themes/globalTheme';
 
 export default function poNotesBody() {
   return (

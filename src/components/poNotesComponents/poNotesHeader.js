@@ -23,7 +23,7 @@ export default function PoNotesHeader() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static" style={{ background: 'transparent', boxShadow: 'none' }}>
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
               data-testid="poNotesIdentifier"
