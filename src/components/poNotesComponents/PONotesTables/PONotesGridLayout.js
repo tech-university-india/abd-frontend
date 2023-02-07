@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
-import ActionItemsTable from './ActionItemsTable';
-import KeyDecisionTable from './KeyDecisionsTable';
-import AgendaItemsTable from './AgendaItemsTable';
+import ActionItemsTable from './actionItemsTable';
+import KeyDecisionTable from './keyDecisionsTable';
+import AgendaItemsTable from './agendaItemsTable';
 
 export default function GridArea() {
   return (

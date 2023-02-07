@@ -21,7 +21,7 @@ const getNextDate = () => {
 };
 
 
-function AddPoNotes({setError,setSuccess}) {
+export default function AddPoNotes({setError,setSuccess}) {
 
   const [ addNote, setAddNote ] = useState(false);
   const [ submit, setSubmit ] = useState(false);
@@ -159,5 +159,3 @@ AddPoNotes.propTypes = {
   setError: Proptypes.func.isRequired,
   setSuccess: Proptypes.func.isRequired
 };
-
-export default AddPoNotes;

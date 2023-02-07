@@ -2,7 +2,7 @@ import React from 'react'
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-import PONotesInformationModel from './PONotesInformationModel'
+import PONotesInformationModel from './poNotesInformationModel'
 
 export default function ActionItemsHeader(props) {
   const { countOfItems } = props;

@@ -12,7 +12,7 @@ import theme from '../themes/globalTheme';
 // TODO get request filter from onSubmit search
 // TODO get request filter from quick filter
 
-function PoNotesHeader() {
+export default function PoNotesHeader() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [quickFilterType, setQuickFilter] = useState('');
@@ -67,4 +67,3 @@ function PoNotesHeader() {
     </ThemeProvider>
   );
 }
-export default PoNotesHeader;
