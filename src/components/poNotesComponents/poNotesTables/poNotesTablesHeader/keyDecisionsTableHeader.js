@@ -1,8 +1,9 @@
 import React from 'react'
-import { Typography } from '@mui/material';
+import { ThemeProvider, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 
+import theme from '../../../themes/globalTheme';
 import PONotesInformationModel from './poNotesInformationModel'
 
 export default function KeyDecisionsHeader(props) {
@@ -12,24 +13,22 @@ export default function KeyDecisionsHeader(props) {
   const accessibiltyInformation = 'PO is the owner of this section only PO can add or edit these entries.';
 
   return (
-    <Box sx={{
-      display: 'flex',
-      justifyContent: 'center'
-    }} >
-      <Typography sx={{
-        fontFamily: 'Roboto',
-        fontSize: '18px',
-        lineHeight: '20px',
-        color: "#FFFFFF",
-        paddingRight: '5px'
-      }}>
-        KEY DECISIONS
-        ({countOfItems})
-      </Typography>
-      <PONotesInformationModel heading={heading}
-        definition={definition}
-        accessibiltyInformation={accessibiltyInformation} />
-    </Box>
+    <ThemeProvider theme={theme}>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center'
+      }} >
+        <Typography sx={{
+          fontFamily: 'Roboto', fontSize: '18px', lineHeight: '20px', color: "primary.contrastText", paddingRight: '5px'
+        }}>
+          KEY DECISIONS
+          ({countOfItems})
+        </Typography>
+        <PONotesInformationModel heading={heading}
+          definition={definition}
+          accessibiltyInformation={accessibiltyInformation} />
+      </Box>
+    </ThemeProvider>
   )
 }
 
