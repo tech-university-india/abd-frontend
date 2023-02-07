@@ -1,96 +1,161 @@
-import React, { useState } from "react";
-import {
-  Box, IconButton, TextField, ThemeProvider,
-  Button, Dialog, ListItem, List,
-  Typography, MenuItem, FormControl,
-  AppBar, Toolbar, InputLabel, Select
-} from "@mui/material";
+import React, {useState} from "react";
+import axios from 'axios';
+import Proptypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
+import { Box, IconButton, TextField, Dialog, ListItem, List, Typography, MenuItem, FormControl, AppBar, Toolbar, InputLabel, Select, ThemeProvider } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
-import theme from "../themes/globalTheme";
+
 import Transition from '../utilityFunctions/overlayTransition';
 import Timeline from "../utilityFunctions/timeline";
+import theme from "../themes/globalTheme";
 
-export default function AddPoNotes() {
-  let noteVal = 10;
-  const [addNote, setAddNote] = useState(false);
-  const [noteType, setNoteType] = useState(10);
-  const [addtimeline, setTimeline] = useState(true);
-  const addNoteOpener = () => {
-    setAddNote(true);
+import { DOMAIN } from "../../config";
+
+const getNextDate = () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  const dateString = date.toISOString().substring(0, date.toISOString().indexOf('.'));
+  return dateString;
+};
+
+
+export default function AddPoNotes({setError,setSuccess}) {
+
+  const [ addNote, setAddNote ] = useState(false);
+  const [ submit, setSubmit ] = useState(false);
+  const [ noteType, setNoteType ] = useState('ACTION_ITEM');
+  const [ statement, setStatement ] = useState(''); 
+  const [ timeline, setTimeline ] = useState(getNextDate());
+
+  const handleNoteOpener = () => {
+    setAddNote(!addNote);
   };
-  const addNoteCloser = () => {
-    setAddNote(false);
-  };
-  const timelineHandler = () => {
-    if (noteVal === 10) {
-      setTimeline(true);
+
+  const handleSubmit = async (status) => {
+    setSubmit(val => !val);
+    try{
+      const body = (noteType === 'ACTION_ITEM') ? {'type':noteType, 'note':statement, 'dueDate':timeline,'status':status} : {'type':noteType, 'note': statement,'status':status};
+      await axios.post(`${DOMAIN}/api/po-notes`, body);
+      const response = 'Note added successfully';
+      setSuccess(() => response);
     }
-    else {
-      setTimeline(false);
+    catch(err){
+      setError(val=>val+err);
+    }
+    finally{
+      setSubmit(val => !val);
+      setAddNote(val => !val);
     }
   };
-  const noteTypeHandler = (event) => {
-    noteVal = event.target.value;
-    setNoteType(noteVal);
-    timelineHandler(noteType);
+
+  const handleDraft = () => {
+    handleSubmit('DRAFT');
   };
+
+  const handlePendingStatus = () => {
+    handleSubmit('PENDING');
+  };
+
+  const handleNoteType = (event) => {
+    setNoteType(event.target.value);
+  };
+
+  const handleStatement = (event) => {
+    setStatement(event.target.value);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 0.2, display: { xs: 'none', md: 'flex' } }}>
-        <IconButton aria-label="Add Notes" component="label" onClick={addNoteOpener}>
-          <QueueSharpIcon sx={{ color: 'primary.main' }} fontSize="large" />
+        <IconButton data-testid="AddPoNotesFormIdentifier" aria-label="Add Notes" component="label" sx={{ color: 'primary.main' }} onClick={handleNoteOpener}>
+          <QueueSharpIcon fontSize='large' />
         </IconButton>
         <Dialog
-          maxWidth open={addNote} onClose={addNoteCloser} TransitionComponent={Transition}
+          maxWidth
+          open={addNote}
+          onClose={handleNoteOpener}
+          TransitionComponent={Transition}
         >
-          <AppBar sx={{ position: 'relative' }}>
-            <Toolbar>
+          <AppBar sx={{ position: 'relative', backgroundColor: 'primary.main' }}>
+          <Toolbar>
               <IconButton
-                edge="start" color="inherit"
-                onClick={addNoteCloser} aria-label="close"
+                edge="start"
+                color="inherit"
+                onClick={handleNoteOpener}
+                aria-label="close"
               >
                 <CloseIcon />
               </IconButton>
-              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div"> Add a Note </Typography>
-              <Button autoFocus color="inherit" onClick={addNoteCloser}>save</Button>
+              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                Add a Note
+              </Typography>
+              <Box sx={{m: 2}}>
+                {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'> <Typography autoFocus variant="h6" color="inherit" onClick={handlePendingStatus} sx={{ fontSize: 16.5, ':hover': { color: 'secondary.main' }, my: 2, color: 'secondary.light', display: 'flex' }}> Publish </Typography></Link>}
+                {/* issue: when button appears the cursor is not in the text field but if I change it to typography it works */}
+              </Box>
+              <Box>
+                {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'> <Typography autoFocus variant="h6" color="inherit" onClick={handleDraft} sx={{ fontSize: 16.5, ':hover': { color: 'secondary.main' }, my: 2, color: 'secondary.light', display: 'flex' }}> Draft </Typography></Link>}
+              </Box>
             </Toolbar>
           </AppBar>
+
           <Box>
-            <Typography sx={{ fontWeight: '700', marginLeft: '20px', marginTop: '25px' }}> PO Note Type </Typography>
+            <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '25px' }}>PO Note Type</Typography>
             <List>
               <ListItem>
                 <Box sx={{ flexGrow: 0.2, display: { xs: 'none', md: 'flex' } }}>
                   <FormControl sx={{ minWidth: 350 }} size="small">
                     <InputLabel id="demo-select-small-2"> Select Note Type </InputLabel>
                     <Select
-                      labelId="demo-select-small-2" id="demo-select-small-2"
-                      value={noteType} label="note type" onChange={noteTypeHandler}
+                      data-testid="noteTypeSelect"
+                      labelId="demo-select-small-2"
+                      id="demo-select-small-2"
+                      value={noteType}
+                      label="note type"
+                      onChange={handleNoteType}
+                      disabled={submit}
                     >
-                      <MenuItem value={10}> Action Item </MenuItem>
-                      <MenuItem value={20}> Key Decision </MenuItem>
-                      <MenuItem value={30}> Agenda Item </MenuItem>
+                      <MenuItem value='ACTION_ITEM'>Action Item</MenuItem>
+                      <MenuItem value='KEY_DECISION'>Key Decision</MenuItem>
+                      <MenuItem value='AGENDA_ITEM'>Agenda Item</MenuItem>
                     </Select>
                   </FormControl>
                 </Box>
               </ListItem>
             </List>
           </Box>
+
           <Box>
-            <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '20px' }}> Statement </Typography>
+            <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '20px' }}>Statement</Typography>
             <List>
               <ListItem>
                 <TextField
-                  sx={{ width: 350 }} label="Type here..."
-                  id="outlined-multiline-static" multiline
-                  rows={5} variant="outlined"
+                  sx={{ width: 350 }}
+                  label="Type here..."
+                  id="outlined-multiline-static"
+                  multiline
+                  rows={5}
+                  variant="outlined"
+                  value={statement}
+                  onChange={handleStatement}
+                  disabled={submit}
                 />
               </ListItem>
             </List>
           </Box>
-          {addtimeline && <Timeline />}
+
+          <Box>
+            { noteType==='ACTION_ITEM' && <Timeline isSubmit ={submit} timeline={timeline} setTimeline = {setTimeline}/> }
+          </Box>
         </Dialog>
       </Box>
     </ThemeProvider>
   );
+};
+
+AddPoNotes.propTypes = {
+  setError: Proptypes.func.isRequired,
+  setSuccess: Proptypes.func.isRequired
 };
