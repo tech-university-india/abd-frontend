@@ -7,7 +7,7 @@ function Status(props) {
     const {colour, status} = props;
   return (
     <Box sx={{display: 'inline-flex',margin:'auto'}}>
-    <Brightness1Icon sx={{ color: colour,height:14}}/>
+    <Brightness1Icon sx={{ color: colour,height:16}}/>
     <Typography ml={1} sx={{fontSize:12}}>{status}</Typography>
     </Box>
   )
