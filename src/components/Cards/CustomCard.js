@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import { PropTypes } from 'prop-types';
-import { Box, Card, CardContent, Typography, Button, Checkbox,useTheme, styled ,Stack,Avatar} from '@mui/material';
+import { Box, Card, CardContent, Typography, Button, Checkbox,useTheme, styled ,Stack,Avatar,Tooltip} from '@mui/material';
 import stc from 'string-to-color';
 
 // import theme from './theme';
@@ -64,11 +64,13 @@ function CustomCard({chckBox, data,type}) {
             <Typography color="secondary" variant="h8" mt={1.5}>{dateGetter(data.createdAt)} </Typography>
           </CardHeader>
           <Box>
+            <Tooltip title={data.note}>
             <Typography mt={3} sx={{overflow: "hidden",textOverflow: "ellipsis",
                display: "-webkit-box",
                WebkitLineClamp: 4,
                WebkitBoxOrient: "vertical",
             }}> {data.note}</Typography>
+            </Tooltip>
           </Box>
           {renderdueDate()}
           <Stack direction="row" spacing={-1} mt={1} sx={{ display: 'inline-flex' }}>
