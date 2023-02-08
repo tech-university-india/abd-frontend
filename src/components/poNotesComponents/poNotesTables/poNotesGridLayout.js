@@ -1,14 +1,15 @@
-import React from 'react';
+import * as React from 'react';
 import Grid from '@mui/material/Grid';
+import ActionItemsTable from './ActionItemsTable';
+import KeyDecisionTable from './KeyDecisionsTable';
+import AgendaItemsTable from './AgendaItemsTable';
 
-import ActionItemsTable from './actionItemsTable';
-import KeyDecisionTable from './keyDecisionsTable';
-import AgendaItemsTable from './agendaItemsTable';
-
-export default function GridArea() {
+export default function PONotesGridLayout() {
   return (
-    <Grid container spacing={4} columns={20}>
+    // using grid to layout the tables and making it responsive
+    <Grid container spacing={5} columns={20}>
       <Grid item xs='auto' > </Grid>
+      {/* grid for action items table */}
       <Grid sx={{
         p: 6,
         m: 1,
@@ -17,6 +18,7 @@ export default function GridArea() {
       }} item xs={6}>
         <ActionItemsTable />
       </Grid>
+      {/* grid for key decisions table */}
       <Grid sx={{
         p: 6,
         m: 1,
@@ -25,6 +27,7 @@ export default function GridArea() {
       }} item xs={6}>
         <KeyDecisionTable />
       </Grid>
+      {/* grid for agenda items table */}
       <Grid sx={{
         p: 6,
         m: 1,
@@ -37,3 +40,12 @@ export default function GridArea() {
     </Grid>
   );
 }
+
+
+
+
+
+
+
+
+

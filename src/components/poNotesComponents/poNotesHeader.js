@@ -7,10 +7,10 @@ import {
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
 import SearchBar from '../utilityFunctions/searchBar';
-import AddPoNotes from './addPoNotes';
+import AddPoNotes from './AddPoNotes';
 import ErrorSnackbar from '../utilityFunctions/errorSnackbar';
 import SuccessSnackbar from '../utilityFunctions/successSnackbar';
-import theme from '../themes/globalTheme';
+import theme from '../Theme/GlobalTheme';
 
 export default function PoNotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');

@@ -1,29 +1,29 @@
 import React from 'react'
-import { ThemeProvider, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-
-import theme from '../../../themes/globalTheme';
-import PONotesInformationModel from './poNotesInformationModel'
+import PONotesInformationModel from './PONotesInformationModel';
+import PONotesTableTheme from '../../../Theme/GlobalTheme';
 
 export default function KeyDecisionsHeader(props) {
+  // countOfItems is the number of items in the table
   const { countOfItems } = props;
+  // heading is the heading of the information model
   const heading = 'Key Decisions';
+  // definition is the definition of the information model
   const definition = ' are the vital outcomes/decisions from the various discussions that PO has been part of.';
-  const accessibiltyInformation = 'PO is the owner of this section only PO can add or edit these entries.';
-
+  // accessibiltyInformation is the accessibility information of the information model
+  const accessibiltyInformation = '  PO is the owner of this section only PO can add or edit these entries.';
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center'
-      }} >
-        <Typography sx={{
-          fontFamily: 'Roboto', fontSize: '18px', lineHeight: '20px', color: "primary.contrastText", paddingRight: '5px'
-        }}>
+    <ThemeProvider theme={PONotesTableTheme}>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Typography variant='h6' >
           KEY DECISIONS
           ({countOfItems})
         </Typography>
+        {/* The information model displaying the information about Action Item is called here and information 
+      about Action items (heading, definition and accessibility information) are passed as props */}
         <PONotesInformationModel heading={heading}
           definition={definition}
           accessibiltyInformation={accessibiltyInformation} />
@@ -31,7 +31,7 @@ export default function KeyDecisionsHeader(props) {
     </ThemeProvider>
   )
 }
-
+// props validation
 KeyDecisionsHeader.propTypes = {
   countOfItems: PropTypes.number.isRequired
 }

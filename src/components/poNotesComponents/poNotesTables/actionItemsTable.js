@@ -1,38 +1,39 @@
-import React from 'react';
 import {
-  TableContainer, Table, TableHead, TableBody,
-  TableRow, TableCell, Box, Paper
-} from '@mui/material';
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper
+} from '@mui/material'
+import React from 'react'
+import Box from '@mui/material/Box';
+import { ThemeProvider } from '@mui/material/styles';
 
-import CardLayout from '../../cards/cardLayout';
-import ActionItemsTableHeader from './poNotesTablesHeader/actionItemsTableHeader'
+import AgendaItemsTableHeader from './PONotesTablesHeader/ActionItemsTableHeader'
+import PONotesTableTheme from '../../Theme/GlobalTheme'
 
+// table for the action items
 export default function ActionItemsTable() {
   return (
     <Box sx={{ width: '600px' }}>
-      <TableContainer sx={{
-        background: '#EEF2F5',
-        height: '725px',
-        maxHeight: '1000px',
-        Width: '500px',
-        width: '100%',
-        flexGrow: -5
-      }}
-        component={Paper}  >
-        <Table stickyHeader aria-label='simple table'>
-          <TableHead>
-            <TableRow align='center'>
-              <TableCell align='center' sx={{
-                backgroundColor: '#051C2C',
-                borderradius: '0px', color: '#FFFFFF'
-              }}><ActionItemsTableHeader countOfItems={0} /></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody >
-            <TableRow> <CardLayout colour='#FF2473' chckBox type='action_item' /> </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <ThemeProvider theme={PONotesTableTheme}>
+        <TableContainer component={Paper}>
+          <Table stickyHeader aria-label='simple table'>
+            <TableHead>
+              <TableRow align='center'>
+                {/* calling the action item table header and passing count of action items in the table as props in countOfItems variable */}
+                <TableCell><AgendaItemsTableHeader countOfItems={0} /></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody >
+              <TableRow />
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </ThemeProvider>
     </Box>
-  );
-};
+
+  )
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
-import PONotesGridLayout from './poNotesTables/poNotesGridLayout';
+
+import PONotesGridLayout from './PONotesTables/PONotesGridLayout';
 
 export default function poNotesBody() {
   return (

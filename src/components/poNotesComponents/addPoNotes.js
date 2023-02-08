@@ -13,7 +13,7 @@ import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 
 import Transition from '../utilityFunctions/overlayTransition';
 import Timeline from "../utilityFunctions/timeline";
-import theme from "../themes/globalTheme";
+import theme from "../Theme/GlobalTheme";
 
 import { DOMAIN } from "../../config";
 
