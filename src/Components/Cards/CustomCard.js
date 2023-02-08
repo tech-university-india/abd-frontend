@@ -1,26 +1,14 @@
 import React, { useState } from 'react'
 import { PropTypes } from 'prop-types';
-import {
-  Box, Card, CardContent,
-  Typography, Button, Checkbox,
-  useTheme, styled, Stack, Avatar
-}
-  from '@mui/material';
-import Brightness1Icon from '@mui/icons-material/Brightness1';
+import { Box, Card, CardContent, Typography, Button, Checkbox,useTheme, styled ,Stack,Avatar,Tooltip} from '@mui/material';
+import stc from 'string-to-color';
 
-const stringToColor = (string) => {
-  let hash = 0;
-  let i;
-  for (i = 0; i < string.length; i += 1) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  let color = '#';
-  for (i = 0; i < 3; i += 1) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-  return color;
-}
+// import theme from './theme';
+import Status from './Status';
+import dateGetter from '../utilityFunctions/dateGetter';
+
+const stringToColor = (string) => (stc(string)) 
+
 
 function stringAvatar(name) {
   return {
@@ -46,11 +34,22 @@ const CardHeader = styled(Box)(() => ({
   justifyContent: 'space-between'
 }));
 
-export default function CustomCard({ colour, chckBox, data }) {
+
+export default function CustomCard({chckBox, data,type}) {
   console.log(data.createdAt)
   const theme = useTheme();
   console.log(theme);
   const [checked, setChecked] = useState(false);
+  // const classes = useStyles();
+
+  const renderdueDate = () => {
+    if (type==='action_item') {
+         return <Typography color="primary" fontWeight={500} mt={2}> Needed By {dateGetter(data.dueDate)}</Typography>
+    } 
+    return <Typography color="primary" fontWeight={500} mt={2} sx={{visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate)}</Typography>
+  }
+
+
   return (
     <Box m={3}>
       <Cards>
@@ -61,18 +60,21 @@ export default function CustomCard({ colour, chckBox, data }) {
                 (<Checkbox color='primary' size="large" checked={checked} onChange={() => setChecked(toggle)} />)
                 : (<Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />)
             }
-            <Brightness1Icon sx={{ color: colour, marginTop: 1.5, paddingLeft: 12 }} />
-            <Typography color="primary" mt={1.5}>{data.createdAt} </Typography>
+            {
+              data.status === 'COMPLETED' ? ( <Status colour='#40A737' status='PUBLISHED' />): <Status colour='#FF6E00' status='DRAFT' />
+            }
+            <Typography color="secondary" variant="h8" mt={1.5}>{dateGetter(data.createdAt)} </Typography>
           </CardHeader>
           <Box>
-            <Typography mt={3} sx={{
-              overflow: "hidden", textOverflow: "ellipsis",
-              display: "-webkit-box",
-              WebkitLineClamp: 4,
-              WebkitBoxOrient: "vertical",
+            <Tooltip title={data.note}>
+            <Typography mt={3} sx={{overflow: "hidden",textOverflow: "ellipsis",
+               display: "-webkit-box",
+               WebkitLineClamp: 4,
+               WebkitBoxOrient: "vertical",
             }}> {data.note}</Typography>
+            </Tooltip>
           </Box>
-          <Typography color="primary" fontWeight={500} mt={2}>{data.dueDate}</Typography>
+          {renderdueDate()}
           <Stack direction="row" spacing={-1} mt={1} sx={{ display: 'inline-flex' }}>
             {
               ['Kartik Goel', 'Samim Gupta', 'Abhishek Bharadwaj'].map((names) => <Avatar {...stringAvatar(names)} />)
@@ -86,11 +88,14 @@ export default function CustomCard({ colour, chckBox, data }) {
 };
 
 CustomCard.propTypes = {
-  colour: PropTypes.string.isRequired,
   chckBox: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired,
   data: PropTypes.shape({
     note: PropTypes.string.isRequired,
-    dueDate: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired
+    issueLink: PropTypes.string,
+    dueDate: PropTypes.string,
+    createdAt: PropTypes.string.isRequired,
+    status: PropTypes.string,
+    // collabrators: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 };
