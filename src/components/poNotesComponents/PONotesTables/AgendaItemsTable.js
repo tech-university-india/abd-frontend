@@ -15,7 +15,7 @@ import PONotesTableTheme from '../../Theme/globalTheme'
 
 
 // table for the action items
-export default function ActionItemsTable() {
+export default function AgendaItemsTable() {
   return (
     <Box sx={{ width: '600px' }}>
       <ThemeProvider theme={PONotesTableTheme}>
