@@ -10,7 +10,7 @@ import {
 import React from 'react'
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
-import KeyDecisionsTableHeader from './PONotesTablesHeader/KeyDecisionsTableHeader'
+import KeyDecisionsTableHeader from './poNotesTablesHeader/keyDecisionsTableHeader'
 import PONotesTableTheme from '../../Theme/globalTheme'
 
 // table for the action items
