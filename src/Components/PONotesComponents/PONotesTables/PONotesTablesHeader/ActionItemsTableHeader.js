@@ -3,8 +3,9 @@ import { Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-import PONotesInformationModel from './PONotesInformationModel'
-import PONotesTableTheme from '../../../Theme/GlobalTheme'
+
+import PONotesInformationModel from './PONotesInformationModel';
+import PONotesTableTheme from '../../../Theme/GlobalTheme';
 
 export default function ActionItemsHeader(props) {
   // countOfItems is the number of items in the table

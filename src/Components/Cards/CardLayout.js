@@ -3,8 +3,8 @@ import { ThemeProvider } from '@mui/material';
 import { useQuery } from 'react-query';
 import { PropTypes } from 'prop-types';
 
-import CustomCard from './customCard';
-import theme from '../themes/globalTheme';
+import CustomCard from './CustomCard';
+import theme from '../Theme/GlobalTheme';
 import filterToDifferentTypes from '../utilityFunctions/filterData';
 import { DOMAIN } from '../../config';
 

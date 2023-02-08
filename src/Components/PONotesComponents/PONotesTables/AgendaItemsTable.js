@@ -12,8 +12,7 @@ import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 
 import AgendaItemsTableHeader from './PONotesTablesHeader/AgendaItemsTableHeader';
-
-import theme from '../../Theme/GlobalTheme'
+import theme from '../../Theme/GlobalTheme';
 
 
 // table for the action items
