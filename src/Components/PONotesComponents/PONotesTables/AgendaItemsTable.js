@@ -13,6 +13,7 @@ import { ThemeProvider } from '@mui/material/styles';
 
 import AgendaItemsTableHeader from './PONotesTablesHeader/AgendaItemsTableHeader';
 import theme from '../../Theme/GlobalTheme';
+import CardLayout from '../../Cards/CardLayout'
 
 
 // table for the action items
@@ -29,7 +30,7 @@ export default function AgendaItemsTable() {
               </TableRow>
             </TableHead>
             <TableBody >
-              <TableRow />
+              <TableRow> <CardLayout chckBox type='agenda_item'/> </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
