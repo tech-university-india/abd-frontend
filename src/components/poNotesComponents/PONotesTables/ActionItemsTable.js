@@ -10,7 +10,7 @@ import {
 import React from 'react'
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
-import ActionItemsTableHeader from './PONotesTablesHeader/ActionItemsTableHeader'
+import AgendaItemsTableHeader from './poNotesTablesHeader/actionItemsTableHeader'
 import PONotesTableTheme from '../../Theme/globalTheme'
 
 
@@ -24,7 +24,7 @@ export default function ActionItemsTable() {
             <TableHead>
               <TableRow align='center'>
                 {/* calling the action item table header and passing count of action items in the table as props in countOfItems variable */}
-                <TableCell><ActionItemsTableHeader countOfItems={0} /></TableCell>
+                <TableCell><AgendaItemsTableHeader countOfItems={0} /></TableCell>
               </TableRow>
             </TableHead>
             <TableBody >
