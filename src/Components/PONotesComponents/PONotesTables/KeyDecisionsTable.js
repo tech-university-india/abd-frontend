@@ -13,6 +13,8 @@ import { ThemeProvider } from '@mui/material/styles';
 
 import KeyDecisionsTableHeader from './PONotesTablesHeader/KeyDecisionsTableHeader';
 import theme from '../../Theme/GlobalTheme';
+import CardLayout from '../../Cards/CardLayout'
+
 
 // table for the action items
 export default function KeyDecisionsTable() {
@@ -28,7 +30,7 @@ export default function KeyDecisionsTable() {
               </TableRow>
             </TableHead>
             <TableBody >
-              <TableRow />
+              <TableRow> <CardLayout chckBox type='key_decisions'/> </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
