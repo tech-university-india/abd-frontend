@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-import PONotesInformationModel from './PONotesInformationModel'
+import PONotesInformationModel from './poNotesInformationModel'
 import PONotesTableTheme from '../../../Theme/globalTheme'
 
 export default function ActionItemsHeader(props) {
