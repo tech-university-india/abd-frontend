@@ -10,7 +10,7 @@ import {
 import React from 'react'
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
-import AgendaItemsTableHeader from './PONotesTablesHeader/AgendaItemsTableHeader'
+import AgendaItemsTableHeader from './poNotesTablesHeader/agendaItemsTableHeader'
 import PONotesTableTheme from '../../Theme/globalTheme'
 
 
