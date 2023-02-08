@@ -1,5 +1,10 @@
-const OurTeamsTest = ()=>{
-    return (<h1>OurTeamsTest</h1>);
-};
+import React from 'react';
+import { Box } from '@mui/material';
 
-export default OurTeamsTest;
+export default function OurTeamsContainer() {
+  return (
+    <Box>
+      Welcome to Our Teams page.
+    </Box>
+  );;
+};

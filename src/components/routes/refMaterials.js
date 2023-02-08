@@ -1,5 +1,10 @@
-const RefMaterialsTest = ()=>{
-    return (<h1>RefMaterialsTest</h1>);
-};
+import React from 'react';
+import { Box } from '@mui/material';
 
-export default RefMaterialsTest;
+export default function RefMaterialsContainer() {
+  return (
+    <Box>
+      Welcome to reference material page.
+    </Box>
+  );;
+};

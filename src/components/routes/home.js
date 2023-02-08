@@ -1,5 +1,10 @@
-const HomeTest = ()=>{
-    return (<h1>HomeTest</h1>);
-};
+import React from 'react';
+import { Box } from '@mui/material';
 
-export default HomeTest;
+export default function HomeContainer() {
+  return (
+    <Box>
+      Welcome to Home page.
+    </Box>
+  );;
+}

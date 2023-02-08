@@ -1,5 +1,10 @@
-const InformationRadiatorTest = ()=>{
-    return (<h1>InformationRadiatorTest</h1>);
-};
+import React from 'react';
+import { Box } from '@mui/material';
 
-export default InformationRadiatorTest;
+export default function InformationRadiatorContainer() {
+  return (
+    <Box>
+      Welcome to InformationRadiator page.
+    </Box>
+  );;
+};

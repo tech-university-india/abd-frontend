@@ -1,5 +1,10 @@
-const AnnouncementsTest = ()=>{
-    return (<h1>AnnouncementsTest</h1>);
-};
+import React from 'react';
+import { Box } from '@mui/material';
 
-export default AnnouncementsTest;
+export default function AnnouncementContainer() {
+  return (
+    <Box>
+      Welcome to Announcements page.
+    </Box>
+  );
+};

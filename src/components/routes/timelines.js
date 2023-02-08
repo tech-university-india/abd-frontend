@@ -1,5 +1,10 @@
-const TimelinesTest = ()=>{
-    return (<h1>TimelinesTest</h1>);
-};
+import React from 'react';
+import { Box } from '@mui/material';
 
-export default TimelinesTest;
+export default function TimelineContainer() {
+  return (
+    <Box>
+      Welcome to timelines page.
+    </Box>
+  );
+};
