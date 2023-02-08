@@ -54,8 +54,8 @@ export default function AddPoNotes({ setError, setSuccess }) {
   const handleDraft = () => {
     handleSubmit('DRAFT');
   };
-  const handlePendingStatus = () => {
-    handleSubmit('PENDING');
+  const handleCompletedStatus = () => {
+    handleSubmit('COMPLETED');
   };
   const handleNoteType = (event) => {
     setNoteType(event.target.value);
@@ -91,7 +91,7 @@ export default function AddPoNotes({ setError, setSuccess }) {
               </Typography>
               <Box sx={{ m: 2 }}>
                 {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
-                  <Typography autoFocus variant="h7" color="inherit" onClick={handlePendingStatus}
+                  <Typography autoFocus variant="h7" color="inherit" onClick={handleCompletedStatus}
                     sx={{
                       ':hover': { color: 'secondary.main' }, color: 'secondary.light'
                     }}> Publish </Typography> </Link>}
