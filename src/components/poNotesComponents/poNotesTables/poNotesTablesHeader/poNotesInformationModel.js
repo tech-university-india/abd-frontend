@@ -18,6 +18,7 @@ const style = {
     px: 4,
     pb: 3,
 };
+
 export default function NestedModal(props) {
     // props destructuring
     /* props contains values for heading, definition and accessibility information of the selected
