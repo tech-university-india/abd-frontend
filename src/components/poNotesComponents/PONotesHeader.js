@@ -37,12 +37,18 @@ export default function PoNotesHeader() {
               <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </Box>
             <FormControl sx={{ minWidth: 200 }} size="small">
-              <InputLabel id="demo-select-small"> Quick Filters <FilterAltOutlinedIcon fontSize='small' /></InputLabel>
+              <InputLabel id="demo-select-small">
+                <Box display='flex' align-items='center'>
+                  Quick Filters
+                  &nbsp;
+                  <FilterAltOutlinedIcon fontSize='small' />
+                </Box>
+              </InputLabel>
               <Select
                 labelId="demo-select-small"
                 id="demo-select-small"
                 value={quickFilterType}
-                label="Quick Filter"
+                label="Quick Filters Icn"
                 onChange={quickFilterHandler}
               >
                 <MenuItem value="">
