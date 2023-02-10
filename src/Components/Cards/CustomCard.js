@@ -24,8 +24,8 @@ function toggle(value) {
 }
 
 const Cards = styled(Card)(() => ({
-  width: 400,
-  height: 300,
+  width: 'auto',
+  height: 'auto',
   borderRadius: 30,
 }));
 
