@@ -5,10 +5,10 @@ import {
 } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
-import SearchBar from '../utilityFunctions/searchBar';
+import SearchBar from '../utilityFunctions/SearchBar';
 import AddPoNotes from './AddPoNotes';
-import ErrorSnackbar from '../utilityFunctions/errorSnackbar';
-import SuccessSnackbar from '../utilityFunctions/successSnackbar';
+import ErrorSnackbar from '../utilityFunctions/ErrorSnackbar';
+import SuccessSnackbar from '../utilityFunctions/SuccessSnackbar';
 
 export default function PoNotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -22,21 +22,20 @@ export default function PoNotesHeader() {
     <AppBar position="static" sx={{ background: 'transparent', boxShadow: 'none' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            data-testid="poNotesIdentifier"
-            variant="h5"
-            noWrap
-            sx={{
-              flexGrow: 2, mr: 2, display: { xs: 'none', md: 'flex' },
-              fontWeight: 500, letterSpacing: '.025rem', color: 'secondary.main', textDecoration: 'none'
-            }}
-          >
-            PO Notes
-          </Typography>
+          <Box sx={{ flexGrow: 2, display: { xs: 'none', md: 'flex' } }}>
+            <Typography
+              data-testid="poNotesIdentifier"
+              variant="h5"
+              noWrap
+              sx={{ ml: 5, fontWeight: 500, letterSpacing: '.025rem', color: 'secondary.main', textDecoration: 'none' }}
+            >
+              PO Notes
+            </Typography>
+          </Box>
           <Box sx={{ flexGrow: 0.2, display: { xs: 'none', md: 'flex' } }}>
             <Box sx={{ flexGrow: 0.5 }}>
               <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-            </  Box>
+            </Box>
             <FormControl sx={{ minWidth: 200 }} size="small">
               <InputLabel id="demo-select-small"> Quick Filters <FilterAltOutlinedIcon fontSize='small' /></InputLabel>
               <Select
@@ -55,7 +54,7 @@ export default function PoNotesHeader() {
               </Select>
             </FormControl>
           </Box>
-          <Box >
+          <Box sx={{ mr: 5, display: { xs: 'none', md: 'flex' } }}>
             <AddPoNotes setError={setError} setSuccess={setSuccess} />
           </Box>
           {error !== '' && (<Box><ErrorSnackbar message={error} setError={setError} /></Box>)}

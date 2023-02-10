@@ -13,6 +13,10 @@ const theme = createTheme({
       light: '#F5F5F5',
       contrastText: '#FFFFFF',
     },
+    custom: {
+      draft: '#FF6E00',
+      published: '#40A737'
+    }
   },
   components: {
     MuiTypography: {
@@ -50,6 +54,11 @@ const theme = createTheme({
         },
       },
     },
+    jiraButton: {
+      palette: {
+        backgroundColor: '#E6EEF2'
+      }
+    }
   }
 });
 
