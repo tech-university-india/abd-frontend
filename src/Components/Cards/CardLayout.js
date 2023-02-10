@@ -28,7 +28,7 @@ export default function CardLayout(props) {
   if (type === 'action_item') {
     dataType = datas.ACTION_ITEM ?? [];
   }
-  else if (type === 'key_decisions') {
+  else if (type === 'key_decision') {
     dataType = datas.KEY_DECISION ?? [];
   }
   else if (type === 'agenda_item') {

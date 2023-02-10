@@ -27,6 +27,7 @@ const Cards = styled(Card)(() => ({
   width: 'auto',
   height: 'auto',
   borderRadius: 30,
+  padding: 20,
 }));
 
 const CardHeader = styled(Box)(() => ({
@@ -44,30 +45,38 @@ export default function CustomCard({chckBox, data,type}) {
 
   const renderdueDate = () => {
     if (type==='action_item') {
-         return <Typography color="primary" fontWeight={500} mt={2}> Needed By {dateGetter(data.dueDate)}</Typography>
+         return <Typography color="primary" fontWeight={500} mt={2} pl={1}> Needed By {dateGetter(data.dueDate)}</Typography>
     } 
     return <Typography color="primary" fontWeight={500} mt={2} sx={{visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate)}</Typography>
+  }
+
+  const renderLink=()=>{
+  if(type==='key_decision' || type==='agenda_item'){
+    return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 20,visibility:'hidden'}} >JIRA LINK</Button>
+  }
+ 
+    return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 30}} >JIRA LINK</Button>
   }
 
 
   return (
     <Box m={3}>
       <Cards>
-        <CardContent>
+        <CardContent >
           <CardHeader>
             {
               chckBox === true ?
-                (<Checkbox color='primary' size="large" checked={checked} onChange={() => setChecked(toggle)} />)
+                (<Checkbox color='primary'  size="large" checked={checked} onChange={() => setChecked(toggle)} />)
                 : (<Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />)
             }
             {
               data.status === 'COMPLETED' ? ( <Status colour='#40A737' status='PUBLISHED' />): <Status colour='#FF6E00' status='DRAFT' />
             }
-            <Typography color="secondary" variant="h8" mt={1.5}>{dateGetter(data.createdAt)} </Typography>
+            <Typography color="secondary" variant="h8" mt={2}>{dateGetter(data.createdAt)} </Typography>
           </CardHeader>
           <Box>
             <Tooltip title={data.note}>
-            <Typography mt={3} sx={{overflow: "hidden",textOverflow: "ellipsis",
+            <Typography mt={3} pl={1} sx={{overflow: "hidden",textOverflow: "ellipsis",
                display: "-webkit-box",
                WebkitLineClamp: 4,
                WebkitBoxOrient: "vertical",
@@ -75,12 +84,12 @@ export default function CustomCard({chckBox, data,type}) {
             </Tooltip>
           </Box>
           {renderdueDate()}
-          <Stack direction="row" spacing={-1} mt={1} sx={{ display: 'inline-flex' }}>
+          <Stack direction="row" spacing={-1} mt={2} pl={1} sx={{ display: 'inline-flex' }}>
             {
               ['Kartik Goel', 'Samim Gupta', 'Abhishek Bharadwaj'].map((names) => <Avatar {...stringAvatar(names)} />)
             }
           </Stack>
-          <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 20 }}>JIRA LINK</Button>
+          {renderLink()}
         </CardContent>
       </Cards>
     </Box>

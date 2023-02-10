@@ -30,7 +30,7 @@ export default function KeyDecisionsTable() {
               </TableRow>
             </TableHead>
             <TableBody >
-              <TableRow> <CardLayout type='key_decisions'/> </TableRow>
+              <TableRow> <CardLayout type='key_decision'/> </TableRow>
             </TableBody>
           </Table>
         </TableContainer>

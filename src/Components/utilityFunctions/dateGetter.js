@@ -4,6 +4,7 @@ const dateGetter = (timeStamp) => {
     const month = date.toLocaleString('default', { month: 'short' });
     const day = date.getDate();
     const year = date.getFullYear();
-    return `${day} ${month}, ${year}`;
+    const time= date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+    return `${day} ${month}, ${year} ${time}`;
 }
 export default dateGetter;
