@@ -58,6 +58,17 @@ export default function CustomCard({chckBox, data,type}) {
     return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 30}} >JIRA LINK</Button>
   }
 
+  const renderCheckBox=()=>{
+    if(chckBox===true)
+      {
+        if (data.status === 'COMPLETED') 
+        {
+         return <Checkbox color='primary' size="large" checked={checked} onChange={() => setChecked(toggle)} />
+         }
+      return <Checkbox color='primary' size="large" disabled />
+      }
+    return <Checkbox color='primary' size="large" sx={{visibility:'hidden'}} />
+  };
 
   return (
     <Box m={3}>
@@ -65,9 +76,7 @@ export default function CustomCard({chckBox, data,type}) {
         <CardContent >
           <CardHeader>
             {
-              chckBox === true ?
-                (<Checkbox color='primary'  size="large" checked={checked} onChange={() => setChecked(toggle)} />)
-                : (<Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />)
+              renderCheckBox()
             }
             {
               data.status === 'COMPLETED' ? ( <Status colour='#40A737' status='PUBLISHED' />): <Status colour='#FF6E00' status='DRAFT' />

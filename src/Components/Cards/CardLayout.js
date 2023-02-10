@@ -15,7 +15,7 @@ export default function CardLayout(props) {
     return res.json();
   },
     {
-      refetchInterval: 1000,
+      refetchInterval: 100000,
     });
   if (isLoading) {
     return <div>Loading...</div>
