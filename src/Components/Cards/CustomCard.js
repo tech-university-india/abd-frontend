@@ -36,6 +36,13 @@ const CardHeader = styled(Box)(() => ({
 }));
 
 
+const STATUS = {
+  completed: 'COMPLETE',
+  pending: 'PENDING',
+  none: 'NONE',
+  draft: 'DRAFT',
+};
+
 export default function CustomCard({chckBox, data,type}) {
   console.log(data.createdAt)
   const theme = useTheme();
@@ -45,9 +52,9 @@ export default function CustomCard({chckBox, data,type}) {
 
   const renderdueDate = () => {
     if (type==='action_item') {
-         return <Typography color="primary" fontWeight={500} mt={2} pl={1}> Needed By {dateGetter(data.dueDate)}</Typography>
+         return <Typography color="primary" fontWeight={500} mt={2} pl={1}> Needed By {dateGetter(data.dueDate,"dueDate")}</Typography>
     } 
-    return <Typography color="primary" fontWeight={500} mt={2} sx={{visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate)}</Typography>
+    return <Typography color="primary" fontWeight={500} mt={2} sx={{visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate,"dueDate")}</Typography>
   }
 
   const renderLink=()=>{
@@ -61,7 +68,7 @@ export default function CustomCard({chckBox, data,type}) {
   const renderCheckBox=()=>{
     if(chckBox===true)
       {
-        if (data.status === 'COMPLETED') 
+        if (data.status === STATUS.completed) 
         {
          return <Checkbox color='primary' size="large" checked={checked} onChange={() => setChecked(toggle)} />
          }
@@ -81,7 +88,7 @@ export default function CustomCard({chckBox, data,type}) {
             {
               data.status === 'COMPLETED' ? ( <Status colour='#40A737' status='PUBLISHED' />): <Status colour='#FF6E00' status='DRAFT' />
             }
-            <Typography color="secondary" variant="h8" mt={2}>{dateGetter(data.createdAt)} </Typography>
+            <Typography color="secondary" variant="h8" mt={2}>{dateGetter(data.createdAt,"createdAt")} </Typography>
           </CardHeader>
           <Box>
             <Tooltip title={data.note}>
