@@ -6,7 +6,7 @@ import { PropTypes } from 'prop-types';
 import CustomCard from './CustomCard';
 import theme from '../Theme/GlobalTheme';
 import filterToDifferentTypes from '../utilityFunctions/filterData';
-import { DOMAIN } from '../../config';
+import { DOMAIN,REFETCH_INTERVAL} from '../../config';
 
 export default function CardLayout(props) {
   const { colour, chckBox, type } = props;
@@ -15,7 +15,7 @@ export default function CardLayout(props) {
     return res.json();
   },
     {
-      refetchInterval: 100000,
+      refetchInterval: REFETCH_INTERVAL,
     });
   if (isLoading) {
     return <div>Loading...</div>
