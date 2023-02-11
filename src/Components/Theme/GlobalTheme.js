@@ -1,4 +1,6 @@
 import { createTheme } from '@mui/material/styles';
+import '@fontsource/roboto/400.css';
+
 
 // Theme for the PO Notes Tables Header
 const theme = createTheme({
@@ -21,9 +23,9 @@ const theme = createTheme({
           props: { variant: 'h6' },
           style: {
             color: 'white',
-            fontFamily: 'Roboto',
             display: 'flow',
-            lineHeight: '22px'
+            lineHeight: '22px',
+            fontFamily: 'Roboto',
           },
         },
 
