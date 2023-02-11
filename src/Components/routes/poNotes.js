@@ -1,8 +1,8 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 
-import PoNotesBody from '../PONotesComponents/PONotesBody';
-import PoNotesHeader from '../PONotesComponents/PONotesHeader';
+import PoNotesBody from '../poNotesComponents/PONotesBody';
+import PoNotesHeader from '../poNotesComponents/PONotesHeader';
 
 export default function PoNotesContainer() {
   return (
