@@ -1,39 +1,14 @@
 import React from 'react';
 import { ThemeProvider } from '@mui/material';
-import { useQuery } from 'react-query';
 import { PropTypes } from 'prop-types';
-
 import CustomCard from './CustomCard';
-import theme from '../Theme/GlobalTheme';
-import filterToDifferentTypes from '../utilityFunctions/filterData';
-import { DOMAIN } from '../../config';
+import theme from '../theme/GlobalTheme';
 
 export default function CardLayout(props) {
-  const { colour, chckBox, type } = props;
-  const { data, error, isError, isLoading } = useQuery('data', async () => {
-    const res = await fetch(`${DOMAIN}/api/po-notes`);
-    return res.json();
-  },
-    {
-      refetchInterval: 1000,
-    });
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-  if (isError) {
-    return <div>Error! {error.message}</div>
-  }
-  const datas = filterToDifferentTypes(data);
-  let dataType = [];
-  if (type === 'action_item') {
-    dataType = datas.ACTION_ITEM ?? [];
-  }
-  else if (type === 'key_decisions') {
-    dataType = datas.KEY_DECISION ?? [];
-  }
-  else if (type === 'agenda_item') {
-    dataType = datas.AGENDA_ITEM ?? [];
-  }
+  const { colour, chckBox, type, data } = props;
+  const dataType = data;
+  console.log("data >>", data, type);
+
   return (
     <ThemeProvider theme={theme}>
       {
@@ -48,7 +23,15 @@ export default function CardLayout(props) {
 CardLayout.propTypes = {
   colour: PropTypes.string,
   chckBox: PropTypes.bool,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    createdAt: PropTypes.string,
+    dueDate: PropTypes.string,
+    issueLink: PropTypes.string,
+    note: PropTypes.string,
+    noteId: PropTypes.number,
+    type: PropTypes.string,
+  }).isRequired,
 };
 
 CardLayout.defaultProps = {
