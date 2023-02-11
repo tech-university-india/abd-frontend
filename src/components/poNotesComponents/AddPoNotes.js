@@ -4,7 +4,7 @@ import Proptypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
   Box, IconButton, Dialog, ListItem, List, Typography, MenuItem,
-  FormControl, AppBar, Toolbar, InputLabel, Select
+  FormControl, AppBar, Toolbar, InputLabel, Select, ListItemButton
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
@@ -23,7 +23,14 @@ const getNextDate = () => {
 };
 
 function Item({ entity: { name, char } }) {
-  return <Box>{`${name}: ${char}`}</Box>
+  return (
+    <ListItem disablePadding>
+      <ListItemButton>
+        <Typography>{char}</Typography>
+        <Typography sx={{ fontWeight: 700, fontSize: '15px'}}>{name}</Typography>
+      </ListItemButton>
+    </ListItem>
+  )
 }
 
 function Loading() {
@@ -36,6 +43,11 @@ Item.propTypes = {
     char: Proptypes.string.isRequired,
   }).isRequired,
 };
+
+
+// TODO VALIDATION
+// None state in publish other than action item
+// Make buttons for publish and draft
 
 export default function AddPoNotes({ setError, setSuccess }) {
   const [addNote, setAddNote] = useState(false);
@@ -173,11 +185,12 @@ export default function AddPoNotes({ setError, setSuccess }) {
                 trigger={{
                   ":": {
                     dataProvider: token => emoji(token)
-                        .slice(0, 10)
+                        .slice(0, 3)
                         .map(({ name, char }) => ({ name, char })),
                     component: Item,
                     output: (item) => item.char
                   }
+                  // For adding users we can use @ as trigger
                 }}
                 value={statement}
                 onChange={handleStatement}
