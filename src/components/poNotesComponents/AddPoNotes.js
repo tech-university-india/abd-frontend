@@ -3,11 +3,13 @@ import axios from 'axios';
 import Proptypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
-  Box, IconButton, TextField, Dialog, ListItem, List, Typography, MenuItem,
+  Box, IconButton, Dialog, ListItem, List, Typography, MenuItem,
   FormControl, AppBar, Toolbar, InputLabel, Select
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
+import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
+import emoji from "@jukben/emoji-search";
 
 import Transition from '../utilityFunctions/OverlayTransition';
 import Timeline from "../utilityFunctions/Timeline";
@@ -18,6 +20,21 @@ const getNextDate = () => {
   date.setDate(date.getDate() + 1);
   const dateString = date.toISOString().substring(0, date.toISOString().indexOf('T'));
   return dateString;
+};
+
+function Item({ entity: { name, char } }) {
+  return <Box>{`${name}: ${char}`}</Box>
+}
+
+function Loading() {
+  return <Box>Loading...</Box>;
+}
+
+Item.propTypes = {
+  entity: Proptypes.shape({
+    name: Proptypes.string.isRequired,
+    char: Proptypes.string.isRequired,
+  }).isRequired,
 };
 
 export default function AddPoNotes({ setError, setSuccess }) {
@@ -126,14 +143,42 @@ export default function AddPoNotes({ setError, setSuccess }) {
           </List>
         </Box>
         <Box>
-          <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '20px' }}>Statement</Typography>
+          <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '20px' }}>Smart Statement</Typography>
           <List>
             <ListItem>
-              <TextField
-                id="outlined-multiline-static" sx={{ width: 350 }} label="Type here..."
-                multiline rows={5} variant="outlined" value={statement} onChange={handleStatement}
+              <ReactTextareaAutocomplete
+                className="autocomplete-textarea"
+                loadingComponent={Loading}
+                style={{
+                  multiline: true,
+                  rows: 4,
+                  fontSize: "16px",
+                  lineHeight: "20px",
+                  width: 310,
+                  height: '150px',
+                  padding: '15px 20px',
+                  border: '2px solid #ccc',
+                  fontFamily: 'Roboto, sans-serif',
+                }}
+                containerStyle={{
+                  margin: "20px auto"
+                }}
+                minChar={1}
+                trigger={{
+                  ":": {
+                    dataProvider: token => emoji(token)
+                        .slice(0, 10)
+                        .map(({ name, char }) => ({ name, char })),
+                    component: Item,
+                    output: (item) => item.char
+                  }
+                }}
+                value={statement}
+                onChange={handleStatement}
                 disabled={submit}
+
               />
+
             </ListItem>
           </List>
         </Box>
