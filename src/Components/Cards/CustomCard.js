@@ -5,10 +5,9 @@ import stc from 'string-to-color';
 
 // import theme from './theme';
 import Status from './Status';
-import dateGetter from '../utilityFunctions/dateGetter';
+import dateGetter from '../utilityFunctions/DateGetter';
 
 const stringToColor = (string) => (stc(string)) 
-
 
 function stringAvatar(name) {
   return {
@@ -35,10 +34,11 @@ const CardHeader = styled(Box)(() => ({
 }));
 
 
-export default function CustomCard({chckBox, data,type}) {
-  console.log(data.createdAt)
+export default function CustomCard({chckBox, data, type}) {
+
+  // console.log(data.createdAt,type, data)
   const theme = useTheme();
-  console.log(theme);
+  console.log(!theme??"");
   const [checked, setChecked] = useState(false);
   // const classes = useStyles();
 
