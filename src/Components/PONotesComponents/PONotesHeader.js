@@ -10,7 +10,7 @@ import SearchBar from '../utilityFunctions/searchBar';
 import AddPoNotes from './AddPoNotes';
 import ErrorSnackbar from '../utilityFunctions/errorSnackbar';
 import SuccessSnackbar from '../utilityFunctions/successSnackbar';
-import theme from '../Theme/GlobalTheme';
+import theme from '../theme/GlobalTheme';
 
 export default function PoNotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');

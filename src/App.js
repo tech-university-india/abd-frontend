@@ -3,14 +3,14 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Routes } from 'react-router-dom';
 import { Box } from "@mui/material";
 
-import HomeContainer from './Components/routes/home';
-import AnnouncementContainer from './Components/routes/announcements';
-import InformationRadiatorContainer from './Components/routes/informationRadiator';
-import OurTeamsContainer from './Components/routes/ourTeams';
-import PoNotesContainer from './Components/routes/poNotes';
-import RefMaterialsContainer from './Components/routes/refMaterials';
-import TimelineContainer from './Components/routes/timelines';
-import Navbar from './Components/Elements/NavBar';
+import HomeContainer from './components/routes/home';
+import AnnouncementContainer from './components/routes/announcements';
+import InformationRadiatorContainer from './components/routes/informationRadiator';
+import OurTeamsContainer from './components/routes/ourTeams';
+import PoNotesContainer from './components/routes/poNotes';
+import RefMaterialsContainer from './components/routes/refMaterials';
+import TimelineContainer from './components/routes/timelines';
+import Navbar from './components/elements/NavBar';
 
 const queryClient = new QueryClient();
 export default function App() {

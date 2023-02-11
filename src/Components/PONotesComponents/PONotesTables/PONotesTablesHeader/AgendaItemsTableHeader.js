@@ -4,7 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import PONotesInformationModel from './PONotesInformationModel';
-import PONotesTableTheme from '../../../Theme/GlobalTheme';
+import PONotesTableTheme from '../../../theme/GlobalTheme';
 
 export default function AgendaItemsTableHeader(props) {
   // countOfItems is the number of items in the table

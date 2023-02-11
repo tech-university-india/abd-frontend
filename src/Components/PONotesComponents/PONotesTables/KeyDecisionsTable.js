@@ -11,9 +11,9 @@ import React from 'react'
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 
-import KeyDecisionsTableHeader from './PONotesTablesHeader/KeyDecisionsTableHeader';
-import theme from '../../Theme/GlobalTheme';
-import CardLayout from '../../Cards/CardLayout'
+import KeyDecisionsTableHeader from './poNotesTablesHeader/KeyDecisionsTableHeader';
+import theme from '../../theme/GlobalTheme';
+import CardLayout from '../../cards/CardLayout'
 
 
 // table for the action items

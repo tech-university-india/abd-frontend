@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { PropTypes } from 'prop-types';
 
 import CustomCard from './CustomCard';
-import theme from '../Theme/GlobalTheme';
+import theme from '../theme/GlobalTheme';
 import filterToDifferentTypes from '../utilityFunctions/filterData';
 import { DOMAIN,REFETCH_INTERVAL} from '../../config';
 import { TYPE } from '../utilityFunctions/enums';

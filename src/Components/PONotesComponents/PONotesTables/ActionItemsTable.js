@@ -11,9 +11,9 @@ import React from 'react'
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 
-import AgendaItemsTableHeader from './PONotesTablesHeader/ActionItemsTableHeader';
-import PONotesTableTheme from '../../Theme/GlobalTheme';
-import CardLayout from '../../Cards/CardLayout'
+import AgendaItemsTableHeader from './poNotesTablesHeader/ActionItemsTableHeader';
+import PONotesTableTheme from '../../theme/GlobalTheme';
+import CardLayout from '../../cards/CardLayout'
 
 // table for the action items
 export default function ActionItemsTable() {
