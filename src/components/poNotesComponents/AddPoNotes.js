@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from "react";
 import axios from 'axios';
 import Proptypes from 'prop-types';
