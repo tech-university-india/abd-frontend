@@ -15,8 +15,16 @@ const theme = createTheme({
     },
     custom: {
       draft: '#FF6E00',
-      published: '#40A737'
-    }
+      published: '#40A737',
+    },
+    customButton1: {
+      main: '#7784EE',
+      contrastText: '#FFFFFF',
+    },
+    customButton2: {
+      main: '#FFFFFF',
+      contrastText: '#044ED7',
+    },
   },
   components: {
     MuiTypography: {
