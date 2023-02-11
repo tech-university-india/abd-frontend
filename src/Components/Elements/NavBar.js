@@ -6,7 +6,7 @@ import {
   Container, Avatar, Tooltip, MenuItem
 }
   from '@mui/material';
-import theme from '../Theme/GlobalTheme';
+import theme from '../theme/GlobalTheme';
 import Logo from '../../assets/images/agileLogo.png';
 
 const pages = ['Home', 'PO Notes', 'Our Teams', 'Timelines & Roadmaps',
