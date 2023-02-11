@@ -8,7 +8,7 @@ export default function Timeline({ isSubmit, timeline, setTimeline }) {
   };
   return (
     <Box>
-      <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '20px' }}>Timeline</Typography>
+      <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '2px' }}>Timeline</Typography>
       <List>
         <ListItem>
           <TextField id="datetime-local" label="Select date, time" type="date"
