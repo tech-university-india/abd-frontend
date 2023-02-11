@@ -25,12 +25,14 @@ const getNextDate = () => {
 
 function Item({ entity: { name, char } }) {
   return (
-    <ListItem disablePadding>
-      <ListItemButton>
-        <Typography>{char}</Typography>
-        <Typography sx={{ fontWeight: 700, fontSize: '15px'}}>{name}</Typography>
-      </ListItemButton>
+    <List>
+      <ListItem disablePadding>
+        <ListItemButton>
+          <Typography>{char}</Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: '15px'}}>{name}</Typography>
+        </ListItemButton>
     </ListItem>
+    </List>
   )
 }
 
@@ -86,9 +88,14 @@ export default function AddPoNotes({ setError, setSuccess }) {
   const handleDraft = () => {
     handleSubmit('DRAFT');
   };
-  const handleCompletedStatus = () => {
-    handleSubmit('COMPLETED');
+  const handlePublish = () => {
+    handleSubmit('PENDING');
   };
+
+  const handleKeyDecisionPublish = () => {
+    handleSubmit('NONE');
+  };
+
   const handleNoteType = (event) => {
     setNoteType(event.target.value);
   };
@@ -121,8 +128,14 @@ export default function AddPoNotes({ setError, setSuccess }) {
               Add a Note
             </Typography>
             <Box sx={{ m: 2 }}>
-              {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
-                <Typography autoFocus variant="h7" color="inherit" onClick={handleCompletedStatus}
+              {(statement !== '') && (noteType!=='KEY_DECISION') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
+                <Typography autoFocus variant="h7" color="inherit" onClick={handlePublish}
+                  sx={{
+                    ':hover': { color: 'secondary.main' }, color: 'secondary.light'
+                  }}> Publish </Typography> </Link>}
+              
+              {(statement !== '') && (noteType==='KEY_DECISION') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
+                <Typography autoFocus variant="h7" color="inherit" onClick={handleKeyDecisionPublish}
                   sx={{
                     ':hover': { color: 'secondary.main' }, color: 'secondary.light'
                   }}> Publish </Typography> </Link>}
