@@ -10,11 +10,9 @@ import {
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
-
-import Transition from '../utilityFunctions/overlayTransition';
-import Timeline from "../utilityFunctions/timeline";
-import theme from "../Theme/GlobalTheme";
-
+import Transition from '../utilityFunctions/OverlayTransition';
+import Timeline from "../utilityFunctions/Timeline";
+import theme from "../theme/GlobalTheme";
 import { DOMAIN } from "../../config";
 
 const getNextDate = () => {
@@ -38,7 +36,8 @@ export default function AddPoNotes({ setError, setSuccess }) {
     try {
       const body = (noteType === 'ACTION_ITEM') ?
         { 'type': noteType, 'note': statement, 'dueDate': timeline, 'status': status }
-        : { 'type': noteType, 'note': statement, 'status': status };
+        : { 'type': noteType, 'note': statement, 'status': (noteType === 'KEY_DECISION' )? 'NONE': 'COMPLETED' };
+      
       await axios.post(`${DOMAIN}/api/po-notes`, body);
       const response = 'Note added successfully';
       setSuccess(() => response);
