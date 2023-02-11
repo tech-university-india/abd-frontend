@@ -43,6 +43,12 @@ export default function AddPoNotes({ setError, setSuccess }) {
   const [noteType, setNoteType] = useState('ACTION_ITEM');
   const [statement, setStatement] = useState('');
   const [timeline, setTimeline] = useState(getNextDate());
+  const placeholder = {
+    'ACTION_ITEM': 'Example: PO is to get the marketing approvals for the Payment screen text content by Monday so that we are prepared for our next sprint.',
+    'KEY_DECISION': 'Example: The client suggested to use Stripe for payment integration as they already have corporate subscription.',
+    'AGENDA_ITEM': 'Example: Which cloud platform are we choosing to host our app? Our Client team wants to know by this week.'
+  }
+
   const handleNoteOpener = () => {
     setAddNote(!addNote);
   };
@@ -154,7 +160,7 @@ export default function AddPoNotes({ setError, setSuccess }) {
                   rows: 4,
                   fontSize: "16px",
                   lineHeight: "20px",
-                  width: 310,
+                  width: 305,
                   height: '150px',
                   padding: '15px 20px',
                   border: '2px solid #ccc',
@@ -163,7 +169,7 @@ export default function AddPoNotes({ setError, setSuccess }) {
                 containerStyle={{
                   margin: "20px auto"
                 }}
-                minChar={1}
+                minChar={0}
                 trigger={{
                   ":": {
                     dataProvider: token => emoji(token)
@@ -176,7 +182,7 @@ export default function AddPoNotes({ setError, setSuccess }) {
                 value={statement}
                 onChange={handleStatement}
                 disabled={submit}
-
+                placeholder={placeholder[noteType]}
               />
 
             </ListItem>
