@@ -36,7 +36,7 @@ export default function PONotesTable(props) {
   const map = {
     'Action Items': 'action_item',
     'Agenda Items': 'agenda_item',
-    'Key Decisions': 'key_decisions',
+    'Key Decisions': 'key_decision',
   }
   const { data, error, isError, isLoading } = useQuery('data', async () => {
     const res = await fetch(apiUrl);
@@ -59,7 +59,7 @@ export default function PONotesTable(props) {
   if (noteType === 'action_item') {
     dataValue = filteredData.ACTION_ITEM ?? [];
   }
-  else if (noteType === 'key_decisions') {
+  else if (noteType === 'key_decision') {
     dataValue = filteredData.KEY_DECISION ?? [];
   }
   else if (noteType === 'agenda_item') {
