@@ -16,7 +16,7 @@ import { DOMAIN } from "../../config";
 const getNextDate = () => {
   const date = new Date();
   date.setDate(date.getDate() + 1);
-  const dateString = date.toISOString().substring(0, date.toISOString().indexOf('.'));
+  const dateString = date.toISOString().substring(0, date.toISOString().indexOf('T'));
   return dateString;
 };
 
