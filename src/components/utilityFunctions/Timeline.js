@@ -12,7 +12,7 @@ export default function Timeline({ isSubmit, timeline, setTimeline }) {
       <List>
         <ListItem>
           <TextField id="datetime-local" label="Select date, time" type="date"
-            disabled={isSubmit} defaultValue={timeline} sx={{ width: 350 }}
+            disabled={isSubmit} defaultValue={timeline} sx={{ width: '300px' }}
             InputLabelProps={{ shrink: true }} onChange={handleTimeline}
           />
         </ListItem>

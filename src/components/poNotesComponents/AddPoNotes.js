@@ -4,8 +4,8 @@ import axios from 'axios';
 import Proptypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
-  Box, IconButton, Dialog, ListItem, List, Typography, MenuItem,
-  FormControl, AppBar, Toolbar, InputLabel, Select, ListItemButton
+  Box, IconButton, Dialog, ListItem, List, Typography, MenuItem,Button,
+  FormControl, Toolbar, InputLabel, Select, ListItemButton
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
@@ -46,11 +46,6 @@ Item.propTypes = {
     char: Proptypes.string.isRequired,
   }).isRequired,
 };
-
-
-// TODO VALIDATION
-// None state in publish other than action item
-// Make buttons for publish and draft
 
 export default function AddPoNotes({ setError, setSuccess }) {
   const [addNote, setAddNote] = useState(false);
@@ -114,48 +109,26 @@ export default function AddPoNotes({ setError, setSuccess }) {
         onClose={handleNoteOpener}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: 'static', backgroundColor: 'primary.main' }}>
+        <Box sx={{ position: 'static', backgroundColor: 'primary.contrastText' }}>
           <Toolbar>
             <IconButton
               edge="start"
               color="inherit"
               onClick={handleNoteOpener}
               aria-label="close"
+              sx={{marginLeft:'95%'}}
             >
-              <CloseIcon />
+              <CloseIcon sx={{color:'secondary.main'}}/>
             </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Add a Note
-            </Typography>
-            <Box sx={{ m: 2 }}>
-              {(statement !== '') && (noteType!=='KEY_DECISION') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
-                <Typography autoFocus variant="h7" color="inherit" onClick={handlePublish}
-                  sx={{
-                    ':hover': { color: 'secondary.main' }, color: 'secondary.light'
-                  }}> Publish </Typography> </Link>}
-              
-              {(statement !== '') && (noteType==='KEY_DECISION') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
-                <Typography autoFocus variant="h7" color="inherit" onClick={handleKeyDecisionPublish}
-                  sx={{
-                    ':hover': { color: 'secondary.main' }, color: 'secondary.light'
-                  }}> Publish </Typography> </Link>}
-            </Box>
-            <Box>
-              {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
-                <Typography autoFocus variant="h7" color="inherit" onClick={handleDraft}
-                  sx={{
-                    ':hover': { color: 'secondary.main' }, color: 'secondary.light'
-                  }}> Draft </Typography></Link>}
-            </Box>
           </Toolbar>
-        </AppBar>
+        </Box>
         <Box>
-          <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '25px' }}>PO Note Type</Typography>
+          <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '1px' }}>PO Note Type</Typography>
           <List>
             <ListItem>
               <Box sx={{ flexGrow: 0.2, display: { xs: 'none', md: 'flex' } }}>
-                <FormControl sx={{ minWidth: 350 }} size="small">
-                  <InputLabel id="demo-select-small-2"> Select Note Type </InputLabel>
+                <FormControl sx={{ minWidth: 300 }} size="small">
+                  <InputLabel id="demo-select-small-2">Note Type</InputLabel>
                   <Select
                     data-testid="noteTypeSelect"
                     labelId="demo-select-small-2"
@@ -186,14 +159,14 @@ export default function AddPoNotes({ setError, setSuccess }) {
                   rows: 4,
                   fontSize: "16px",
                   lineHeight: "20px",
-                  width: 305,
+                  width: '260px',
                   height: '150px',
                   padding: '15px 20px',
                   border: '2px solid #ccc',
                   fontFamily: 'Roboto, sans-serif',
                 }}
                 containerStyle={{
-                  margin: "20px auto"
+                  margin: "5px auto"
                 }}
                 minChar={0}
                 trigger={{
@@ -218,6 +191,30 @@ export default function AddPoNotes({ setError, setSuccess }) {
         <Box>
           {noteType === 'ACTION_ITEM' && <Timeline isSubmit={submit} timeline={timeline} setTimeline={setTimeline} />}
         </Box>
+
+        <Box>
+          {(statement.trim() !== '') && (noteType!=='KEY_DECISION') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
+            <Box textAlign='center'>
+            <Button variant="contained" color='customButton1' onClick={handlePublish} sx={{borderRadius: '8px',width:'292px',heigth:'49px'}}>
+                Publish
+            </Button> </Box> </Link>}
+          
+            {(statement.trim() !== '') && (noteType==='KEY_DECISION') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
+            <Box textAlign='center'>
+            <Button variant="contained" color='customButton1' onClick={handleKeyDecisionPublish} sx={{borderRadius: '8px',width:'292px',heigth:'49px'}}>
+                Publish
+            </Button> </Box></Link>}
+
+      </Box>
+      <Box>
+        {(statement.trim() !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
+        <Box textAlign='center' sx={{marginTop: '12px',marginBottom: '12px'}}>
+        <Button variant="contained" color='customButton2' onClick={handleDraft} sx={{borderRadius: '8px',width:'292px',heigth:'49px'}}>
+                Save as Draft
+        </Button></Box></Link>}
+      </Box>
+
+
       </Dialog>
     </Box>
   );
