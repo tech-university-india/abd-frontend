@@ -13,7 +13,7 @@ export default function PONotesTableHeader(props) {
   return (
     <ThemeProvider theme={PONotesTableTheme}>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Typography variant='h6' fontFamily='Roboto'>
+        <Typography variant='h6'>
         {heading.toUpperCase()}{' '}
           ({countOfItems})
         </Typography>
