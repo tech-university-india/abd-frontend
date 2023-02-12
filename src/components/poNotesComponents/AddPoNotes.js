@@ -1,13 +1,16 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from "react";
 import axios from 'axios';
 import Proptypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
-  Box, IconButton, TextField, Dialog, ListItem, List, Typography, MenuItem,
-  FormControl, AppBar, Toolbar, InputLabel, Select
+  Box, IconButton, Dialog, ListItem, List, Typography, MenuItem,Button,
+  FormControl, Toolbar, InputLabel, Select, ListItemButton
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
+import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
+import emoji from "@jukben/emoji-search";
 
 import Transition from '../utilityFunctions/OverlayTransition';
 import Timeline from "../utilityFunctions/Timeline";
@@ -16,8 +19,32 @@ import { DOMAIN } from "../../config";
 const getNextDate = () => {
   const date = new Date();
   date.setDate(date.getDate() + 1);
-  const dateString = date.toISOString().substring(0, date.toISOString().indexOf('.'));
+  const dateString = date.toISOString().substring(0, date.toISOString().indexOf('T'));
   return dateString;
+};
+
+function Item({ entity: { name, char } }) {
+  return (
+    <List>
+      <ListItem disablePadding>
+        <ListItemButton>
+          <Typography>{char}</Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: '15px'}}>{name}</Typography>
+        </ListItemButton>
+    </ListItem>
+    </List>
+  )
+}
+
+function Loading() {
+  return <Box>Loading...</Box>;
+}
+
+Item.propTypes = {
+  entity: Proptypes.shape({
+    name: Proptypes.string.isRequired,
+    char: Proptypes.string.isRequired,
+  }).isRequired,
 };
 
 export default function AddPoNotes({ setError, setSuccess }) {
@@ -26,6 +53,12 @@ export default function AddPoNotes({ setError, setSuccess }) {
   const [noteType, setNoteType] = useState('ACTION_ITEM');
   const [statement, setStatement] = useState('');
   const [timeline, setTimeline] = useState(getNextDate());
+  const placeholder = {
+    'ACTION_ITEM': 'Example: PO is to get the marketing approvals for the Payment screen text content by Monday so that we are prepared for our next sprint.',
+    'KEY_DECISION': 'Example: The client suggested to use Stripe for payment integration as they already have corporate subscription.',
+    'AGENDA_ITEM': 'Example: Which cloud platform are we choosing to host our app? Our Client team wants to know by this week.'
+  }
+
   const handleNoteOpener = () => {
     setAddNote(!addNote);
   };
@@ -50,9 +83,14 @@ export default function AddPoNotes({ setError, setSuccess }) {
   const handleDraft = () => {
     handleSubmit('DRAFT');
   };
-  const handleCompletedStatus = () => {
-    handleSubmit('COMPLETED');
+  const handlePublish = () => {
+    handleSubmit('PENDING');
   };
+
+  const handleKeyDecisionPublish = () => {
+    handleSubmit('NONE');
+  };
+
   const handleNoteType = (event) => {
     setNoteType(event.target.value);
   };
@@ -71,42 +109,26 @@ export default function AddPoNotes({ setError, setSuccess }) {
         onClose={handleNoteOpener}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: 'static', backgroundColor: 'primary.main' }}>
+        <Box sx={{ position: 'static', backgroundColor: 'primary.contrastText' }}>
           <Toolbar>
             <IconButton
               edge="start"
               color="inherit"
               onClick={handleNoteOpener}
               aria-label="close"
+              sx={{marginLeft:'95%'}}
             >
-              <CloseIcon />
+              <CloseIcon sx={{color:'secondary.main'}}/>
             </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Add a Note
-            </Typography>
-            <Box sx={{ m: 2 }}>
-              {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
-                <Typography autoFocus variant="h7" color="inherit" onClick={handleCompletedStatus}
-                  sx={{
-                    ':hover': { color: 'secondary.main' }, color: 'secondary.light'
-                  }}> Publish </Typography> </Link>}
-            </Box>
-            <Box>
-              {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
-                <Typography autoFocus variant="h7" color="inherit" onClick={handleDraft}
-                  sx={{
-                    ':hover': { color: 'secondary.main' }, color: 'secondary.light'
-                  }}> Draft </Typography></Link>}
-            </Box>
           </Toolbar>
-        </AppBar>
+        </Box>
         <Box>
-          <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '25px' }}>PO Note Type</Typography>
+          <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '1px' }}>PO Note Type</Typography>
           <List>
             <ListItem>
               <Box sx={{ flexGrow: 0.2, display: { xs: 'none', md: 'flex' } }}>
-                <FormControl sx={{ minWidth: 350 }} size="small">
-                  <InputLabel id="demo-select-small-2"> Select Note Type </InputLabel>
+                <FormControl sx={{ minWidth: 300 }} size="small">
+                  <InputLabel id="demo-select-small-2">Note Type</InputLabel>
                   <Select
                     data-testid="noteTypeSelect"
                     labelId="demo-select-small-2"
@@ -126,20 +148,73 @@ export default function AddPoNotes({ setError, setSuccess }) {
           </List>
         </Box>
         <Box>
-          <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '20px' }}>Statement</Typography>
+          <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '20px' }}>Smart Statement</Typography>
           <List>
             <ListItem>
-              <TextField
-                id="outlined-multiline-static" sx={{ width: 350 }} label="Type here..."
-                multiline rows={5} variant="outlined" value={statement} onChange={handleStatement}
+              <ReactTextareaAutocomplete
+                className="autocomplete-textarea"
+                loadingComponent={Loading}
+                style={{
+                  multiline: true,
+                  rows: 4,
+                  fontSize: "16px",
+                  lineHeight: "20px",
+                  width: '260px',
+                  height: '150px',
+                  padding: '15px 20px',
+                  border: '2px solid #ccc',
+                  fontFamily: 'Roboto, sans-serif',
+                }}
+                containerStyle={{
+                  margin: "5px auto"
+                }}
+                minChar={0}
+                trigger={{
+                  ":": {
+                    dataProvider: token => emoji(token)
+                        .slice(0, 3)
+                        .map(({ name, char }) => ({ name, char })),
+                    component: Item,
+                    output: (item) => item.char
+                  }
+                  // For adding users we can use @ as trigger
+                }}
+                value={statement}
+                onChange={handleStatement}
                 disabled={submit}
+                placeholder={placeholder[noteType]}
               />
+
             </ListItem>
           </List>
         </Box>
         <Box>
           {noteType === 'ACTION_ITEM' && <Timeline isSubmit={submit} timeline={timeline} setTimeline={setTimeline} />}
         </Box>
+
+        <Box>
+          {(statement.trim() !== '') && (noteType!=='KEY_DECISION') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
+            <Box textAlign='center'>
+            <Button variant="contained" color='customButton1' onClick={handlePublish} sx={{borderRadius: '8px',width:'292px',heigth:'49px'}}>
+                Publish
+            </Button> </Box> </Link>}
+          
+            {(statement.trim() !== '') && (noteType==='KEY_DECISION') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
+            <Box textAlign='center'>
+            <Button variant="contained" color='customButton1' onClick={handleKeyDecisionPublish} sx={{borderRadius: '8px',width:'292px',heigth:'49px'}}>
+                Publish
+            </Button> </Box></Link>}
+
+      </Box>
+      <Box>
+        {(statement.trim() !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
+        <Box textAlign='center' sx={{marginTop: '12px',marginBottom: '12px'}}>
+        <Button variant="contained" color='customButton2' onClick={handleDraft} sx={{borderRadius: '8px',width:'292px',heigth:'49px'}}>
+                Save as Draft
+        </Button></Box></Link>}
+      </Box>
+
+
       </Dialog>
     </Box>
   );
