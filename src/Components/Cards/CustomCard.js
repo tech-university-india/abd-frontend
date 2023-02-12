@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { PropTypes } from 'prop-types';
-import { Box, Card, CardContent, Typography, Button, Checkbox,useTheme, styled ,Stack,Avatar,Tooltip} from '@mui/material';
+import { Box, Card, CardContent, Typography, Button, Checkbox, styled, Stack, Avatar, Tooltip } from '@mui/material';
+// import { useTheme } from '@mui/material';
 import stc from 'string-to-color';
 
 // import theme from './theme';
 import Status from './Status';
-import dateGetter from '../utilityFunctions/DateGetter';
+import dateGetter from '../UtilityFunctions/DateGetter';
 
-const stringToColor = (string) => (stc(string)) 
+const stringToColor = (string) => (stc(string))
 
 function stringAvatar(name) {
   return {
@@ -34,19 +35,17 @@ const CardHeader = styled(Box)(() => ({
 }));
 
 
-export default function CustomCard({chckBox, data, type}) {
+export default function CustomCard({ chckBox, data, type }) {
 
-  // console.log(data.createdAt,type, data)
-  const theme = useTheme();
-  console.log(!theme??"");
+  // const theme = useTheme();
   const [checked, setChecked] = useState(false);
   // const classes = useStyles();
 
   const renderdueDate = () => {
-    if (type==='action_item') {
-         return <Typography color="primary" fontWeight={500} mt={2}> Needed By {dateGetter(data.dueDate)}</Typography>
-    } 
-    return <Typography color="primary" fontWeight={500} mt={2} sx={{visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate)}</Typography>
+    if (type === 'action_item') {
+      return <Typography color="primary" fontWeight={500} mt={2}> Needed By {dateGetter(data.dueDate)}</Typography>
+    }
+    return <Typography color="primary" fontWeight={500} mt={2} sx={{ visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate)}</Typography>
   }
 
 
@@ -61,17 +60,18 @@ export default function CustomCard({chckBox, data, type}) {
                 : (<Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />)
             }
             {
-              data.status === 'COMPLETED' ? ( <Status colour='#40A737' status='PUBLISHED' />): <Status colour='#FF6E00' status='DRAFT' />
+              data.status === "DRAFT" ? (<Status colour='#FF6E00' status='DRAFT' />) : (<Status colour='#40A737' status='PUBLISHED' />)
             }
             <Typography color="secondary" variant="h8" mt={1.5}>{dateGetter(data.createdAt)} </Typography>
           </CardHeader>
           <Box>
             <Tooltip title={data.note}>
-            <Typography mt={3} sx={{overflow: "hidden",textOverflow: "ellipsis",
-               display: "-webkit-box",
-               WebkitLineClamp: 4,
-               WebkitBoxOrient: "vertical",
-            }}> {data.note}</Typography>
+              <Typography mt={3} sx={{
+                overflow: "hidden", textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: 4,
+                WebkitBoxOrient: "vertical",
+              }}> {data.note}</Typography>
             </Tooltip>
           </Box>
           {renderdueDate()}

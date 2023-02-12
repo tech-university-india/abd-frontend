@@ -5,11 +5,11 @@ import {
   Typography, ThemeProvider
 } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-import SearchBar from '../utilityFunctions/SearchBar';
+import SearchBar from '../UtilityFunctions/SearchBar';
 import AddPoNotes from './AddPoNotes';
-import ErrorSnackbar from '../utilityFunctions/ErrorSnackbar';
-import SuccessSnackbar from '../utilityFunctions/SuccessSnackbar';
-import theme from '../theme/GlobalTheme';
+import ErrorSnackbar from '../UtilityFunctions/ErrorSnackbar';
+import SuccessSnackbar from '../UtilityFunctions/SuccessSnackbar';
+import theme from '../Theme/GlobalTheme';
 
 export default function PoNotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');

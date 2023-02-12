@@ -12,16 +12,21 @@ import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import { useQuery } from 'react-query';
-import PONotsTableHeader from './poNotesTablesHeader/PONotesTableHeader';
-import filterToDifferentTypes from '../../utilityFunctions/FilterData';
-import PONotesTableTheme from '../../theme/GlobalTheme';
-import CardLayout from '../../cards/CardLayout';
+import PONotsTableHeader from './PONotesTablesHeader/PONotesTableHeader';
+import PONotesTableTheme from '../../Theme/GlobalTheme';
+import CardLayout from '../../Cards/CardLayout';
 import { DOMAIN } from '../../../config';
 
 // query params for get Api call
-const getApiUrl = (query, page, limit) => {
-  let queryParams = `page=${page}&limit=${limit}`;
-  queryParams += query.status ? `&status=${query.status}` : '';
+
+const getStatusQuery = (type, status) => {
+  if (type === 'KEY_DECISION' && status !== 'DRAFT') return '';
+  return `&status=${status}`;
+}
+
+const getApiUrl = (type, query, page, limit) => {
+  let queryParams = `type=${type}&page=${page}&limit=${limit}`;
+  queryParams += query.status ? getStatusQuery(type, query.status) : '';
   queryParams += query.search ? `&search=${query.search}` : '';
   queryParams += query.startDate ? `&startDate=${query.startDate}` : '';
   queryParams += query.endDate ? `&endDate=${query.endDate}` : '';
@@ -31,19 +36,23 @@ const getApiUrl = (query, page, limit) => {
 // table for the action items
 export default function PONotesTable(props) {
   const { heading, definition, accessibilityInformation, query } = props;
+
   // need to add page & limit to the query
-  const apiUrl = getApiUrl(query, 1, 10);
   const map = {
     'Action Items': 'action_item',
     'Agenda Items': 'agenda_item',
     'Key Decisions': 'key_decision',
   }
-  const { data, error, isError, isLoading } = useQuery('data', async () => {
+  const type = map[heading].toUpperCase();
+
+  const apiUrl = getApiUrl(type, query, 1, 10);
+
+  const { data, error, isError, isLoading } = useQuery(map[heading], async () => {
     const res = await fetch(apiUrl);
     return res.json();
   },
     {
-      refetchInterval: 10000,
+      refetchInterval: 5000,
     }
   );
   if (isLoading) {
@@ -53,19 +62,7 @@ export default function PONotesTable(props) {
     return <div>Error! {error.message}</div>
   }
 
-  let dataValue = [];
-  const filteredData = filterToDifferentTypes(data);
-  const noteType = map[heading];
-  if (noteType === 'action_item') {
-    dataValue = filteredData.ACTION_ITEM ?? [];
-  }
-  else if (noteType === 'key_decision') {
-    dataValue = filteredData.KEY_DECISION ?? [];
-  }
-  else if (noteType === 'agenda_item') {
-    dataValue = filteredData.AGENDA_ITEM ?? [];
-  }
-  const countOfItems = dataValue.length;
+  const countOfItems = data.length;
   return (
     <Box sx={{ width: '600px' }}>
       <ThemeProvider theme={PONotesTableTheme}>
@@ -84,9 +81,9 @@ export default function PONotesTable(props) {
               </TableRow>
             </TableHead>
             <TableBody >
-              <TableRow> 
+              <TableRow>
                 {/* Data from get Api call using query params is passed to cardlayout for displaying it in cards */}
-                <CardLayout chckBox type={map[heading]} data={dataValue} /> </TableRow>
+                <CardLayout chckBox type={map[heading]} data={data} /> </TableRow>
             </TableBody>
           </Table>
         </TableContainer>

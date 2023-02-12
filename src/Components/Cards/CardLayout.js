@@ -2,12 +2,11 @@ import React from 'react';
 import { ThemeProvider } from '@mui/material';
 import { PropTypes } from 'prop-types';
 import CustomCard from './CustomCard';
-import theme from '../theme/GlobalTheme';
+import theme from '../Theme/GlobalTheme';
 
 export default function CardLayout(props) {
   const { colour, chckBox, type, data } = props;
   const dataType = data;
-  console.log("data >>", data, type);
 
   return (
     <ThemeProvider theme={theme}>

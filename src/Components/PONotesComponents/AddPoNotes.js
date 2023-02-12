@@ -10,15 +10,15 @@ import {
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
-import Transition from '../utilityFunctions/OverlayTransition';
-import Timeline from "../utilityFunctions/Timeline";
-import theme from "../theme/GlobalTheme";
+import Transition from '../UtilityFunctions/OverlayTransition';
+import Timeline from "../UtilityFunctions/Timeline";
+import theme from "../Theme/GlobalTheme";
 import { DOMAIN } from "../../config";
 
 const getNextDate = () => {
   const date = new Date();
   date.setDate(date.getDate() + 1);
-  const dateString = date.toISOString().substring(0, date.toISOString().indexOf('.'));
+  const dateString = date.toISOString().substring(0, date.toISOString().indexOf('T'));
   return dateString;
 };
 
@@ -31,13 +31,19 @@ export default function AddPoNotes({ setError, setSuccess }) {
   const handleNoteOpener = () => {
     setAddNote(!addNote);
   };
+
+  const getStatus = (type, status) => {
+    if (noteType === 'KEY_DECISION' && status !== "DRAFT") return "NONE"
+    return status;
+  }
+
   const handleSubmit = async (status) => {
     setSubmit(val => !val);
     try {
       const body = (noteType === 'ACTION_ITEM') ?
         { 'type': noteType, 'note': statement, 'dueDate': timeline, 'status': status }
-        : { 'type': noteType, 'note': statement, 'status': (noteType === 'KEY_DECISION' )? 'NONE': 'COMPLETED' };
-      
+        : { 'type': noteType, 'note': statement, 'status': getStatus(noteType, status) };
+
       await axios.post(`${DOMAIN}/api/po-notes`, body);
       const response = 'Note added successfully';
       setSuccess(() => response);
@@ -53,8 +59,8 @@ export default function AddPoNotes({ setError, setSuccess }) {
   const handleDraft = () => {
     handleSubmit('DRAFT');
   };
-  const handleCompletedStatus = () => {
-    handleSubmit('COMPLETED');
+  const handlePublishStatus = () => {
+    handleSubmit('PENDING');
   };
   const handleNoteType = (event) => {
     setNoteType(event.target.value);
@@ -90,7 +96,7 @@ export default function AddPoNotes({ setError, setSuccess }) {
               </Typography>
               <Box sx={{ m: 2 }}>
                 {(statement !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
-                  <Typography autoFocus variant="h7" color="inherit" onClick={handleCompletedStatus}
+                  <Typography autoFocus variant="h7" color="inherit" onClick={handlePublishStatus}
                     sx={{
                       ':hover': { color: 'secondary.main' }, color: 'secondary.light'
                     }}> Publish </Typography> </Link>}

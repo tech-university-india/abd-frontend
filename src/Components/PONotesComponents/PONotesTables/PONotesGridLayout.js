@@ -1,4 +1,4 @@
-import  React from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import PONotesTable from './PONotesTable';
 
@@ -27,14 +27,14 @@ const keyDecisions = {
 }
 
 export default function PONotesGridLayout(
- 
-  ) {
-// setting serach query based on { text, start date , end date and status }.
+
+) {
+  // setting serach query based on { text, start date , end date and status }.
   const query = {
-      // search: "l",
-      // startDate: "2023-02-10",
-      // endDate: "2023-02-10",
-      // status: "PENDING"
+    search: "a",
+    // startDate: "2023-02-10",
+    // endDate: "2023-02-10",
+    status: "DRAFT"
   }
   return (
     // grid layout for the three tables
@@ -46,11 +46,11 @@ export default function PONotesGridLayout(
         display: 'flex',
         flexDirection: 'row'
       }} item xs={6}>
-        {/* Table for action items */ }
-        <PONotesTable heading={actionItems.heading} 
-        definition={actionItems.definition} 
-        accessibilityInformation={actionItems.accessibilityInformation} 
-        query={query} />
+        {/* Table for action items */}
+        <PONotesTable heading={actionItems.heading}
+          definition={actionItems.definition}
+          accessibilityInformation={actionItems.accessibilityInformation}
+          query={query} />
       </Grid>
       <Grid sx={{
         p: 6,
@@ -58,26 +58,26 @@ export default function PONotesGridLayout(
         display: 'flex',
         flexDirection: 'row'
       }} item xs={6}>
-         {/* Table for key decisions */ }
-         <PONotesTable heading={keyDecisions.heading}
-         definition={keyDecisions.definition} 
-         accessibilityInformation={keyDecisions.accessibilityInformation}
+        {/* Table for key decisions */}
+        <PONotesTable heading={keyDecisions.heading}
+          definition={keyDecisions.definition}
+          accessibilityInformation={keyDecisions.accessibilityInformation}
           query={query} />
-    </Grid>
-    <Grid sx={{
+      </Grid>
+      <Grid sx={{
         p: 6,
         m: 1,
         display: 'flex',
         flexDirection: 'row'
       }} item xs={6}>
-        {/* Table for agenda items */ }
+        {/* Table for agenda items */}
         <PONotesTable heading={agendaItems.heading}
-         definition={agendaItems.definition} 
-         accessibilityInformation={agendaItems.accessibilityInformation} 
-         query={query} />
+          definition={agendaItems.definition}
+          accessibilityInformation={agendaItems.accessibilityInformation}
+          query={query} />
+      </Grid>
+      <Grid item sx={1} />
     </Grid>
-    <Grid item sx={1} />
-      </Grid>  
   );
 }
 
