@@ -10,23 +10,25 @@ const theme = createTheme({
     },
     secondary: {
       main: '#3D3D3D',
-      light: '#E0E0E0',
+      light: '#F5F5F5',
       contrastText: '#FFFFFF',
     },
+    custom: {
+      draft: '#FF6E00',
+      published: '#40A737'
+    }
   },
   components: {
     MuiTypography: {
-      variants: [
-        {
-          props: { variant: 'h6' },
-          style: {
-            color: 'white',
-            fontFamily: 'Roboto',
-            display: 'flow',
-            lineHeight: '22px'
-          },
+      variants: [{
+        props: { variant: 'h6' },
+        style: {
+          color: 'white',
+          fontFamily: 'Roboto',
+          display: 'flow',
+          lineHeight: '22px'
         },
-
+      },
       ],
     },
     // theme for the PO Notes tables header
@@ -52,6 +54,11 @@ const theme = createTheme({
         },
       },
     },
+    jiraButton: {
+      palette: {
+        backgroundColor: '#E6EEF2'
+      }
+    }
   }
 });
 

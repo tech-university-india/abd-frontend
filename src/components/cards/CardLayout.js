@@ -1,11 +1,10 @@
 import React from 'react';
-import { ThemeProvider } from '@mui/material';
+import { Box } from '@mui/material';
 import { useQuery } from 'react-query';
 import { PropTypes } from 'prop-types';
 
 import CustomCard from './CustomCard';
-import theme from '../Theme/GlobalTheme';
-import filterToDifferentTypes from '../utilityFunctions/filterData';
+import filterToDifferentTypes from '../utilityFunctions/FilterData';
 import { DOMAIN } from '../../config';
 
 export default function CardLayout(props) {
@@ -35,13 +34,9 @@ export default function CardLayout(props) {
     dataType = datas.AGENDA_ITEM ?? [];
   }
   return (
-    <ThemeProvider theme={theme}>
-      {
-        dataType.map((item) => (
-          <CustomCard colour={colour} chckBox={chckBox} type={type} data={item} />
-        ))
-      }
-    </ThemeProvider>
+    <Box>
+      {dataType.map((item) => (<CustomCard colour={colour} chckBox={chckBox} type={type} data={item} />))}
+    </Box>
   );
 }
 
