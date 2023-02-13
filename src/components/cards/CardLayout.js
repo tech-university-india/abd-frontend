@@ -1,56 +1,32 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { useQuery } from 'react-query';
 import { PropTypes } from 'prop-types';
-
 import CustomCard from './CustomCard';
-import filterToDifferentTypes from '../utilityFunctions/FilterData';
-import { DOMAIN,REFETCH_INTERVAL} from '../../config';
-import { TYPE } from '../utilityFunctions/Enums';
-
 
 export default function CardLayout(props) {
-  const { chckBox, type } = props;
-  const { data, error, isError, isLoading } = useQuery('data', async () => {
-    const res = await fetch(`${DOMAIN}/api/po-notes`);
-    return res.json();
-  },
-    {
-      refetchInterval: REFETCH_INTERVAL,
-    });
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-  if (isError) {
-    return <div>Error! {error.message}</div>
-  }
-  const datas = filterToDifferentTypes(data);
-  let dataType = [];
-  if (type === TYPE.action_item) {
-    dataType = datas.ACTION_ITEM ?? [];
-  }
-  else if (type === TYPE.key_decision) {
-    dataType = datas.KEY_DECISION ?? [];
-  }
-  else if (type === TYPE.agenda_item) {
-    dataType = datas.AGENDA_ITEM ?? [];
-  }
+  const { chckBox, type, data } = props;
   return (
     <Box>
-       {
-        dataType.map((item) => (
+      {
+        data.map((item) => (
           <CustomCard chckBox={chckBox} type={type} data={item} />
         ))
       }
     </Box>
   );
 }
-
 CardLayout.propTypes = {
   chckBox: PropTypes.bool,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({
+    note: PropTypes.string.isRequired,
+    issueLink: PropTypes.string,
+    dueDate: PropTypes.string,
+    createdAt: PropTypes.string.isRequired,
+    status: PropTypes.string,
+    // collabrators: PropTypes.arrayOf(PropTypes.string).isRequired,
+  })).isRequired,
 };
-
 CardLayout.defaultProps = {
   chckBox: false,
 };
