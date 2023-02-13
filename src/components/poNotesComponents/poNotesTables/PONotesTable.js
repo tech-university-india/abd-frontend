@@ -25,7 +25,7 @@ const getApiUrl = (type, query, page, limit) => {
 };
 // table for the action items
 export default function PONotesTable(props) {
-    const { heading, definition, accessibilityInformation, query } = props;
+    const { heading, definition, accessibilityInformation, query, checkBox } = props;
     // need to add page & limit to the query
     const type = HEADINGS[heading].toUpperCase();
     const apiUrl = getApiUrl(type, query, 1, 10);
@@ -66,7 +66,7 @@ export default function PONotesTable(props) {
                         <TableBody >
                             <TableRow>
                                 {/* Data from get Api call using query params is passed to cardlayout for displaying it in cards */}
-                                <CardLayout chckBox type={HEADINGS[heading]} data={data} /> </TableRow>
+                                <CardLayout checkBox={checkBox} type={HEADINGS[heading]} data={data} /> </TableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>
@@ -78,6 +78,7 @@ export default function PONotesTable(props) {
 // props validation
 PONotesTable.propTypes = {
     definition: PropTypes.string.isRequired,
+    checkBox: PropTypes.bool.isRequired,
     heading: PropTypes.string.isRequired,
     accessibilityInformation: PropTypes.string.isRequired,
     query: PropTypes.shape({

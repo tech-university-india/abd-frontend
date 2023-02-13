@@ -53,8 +53,14 @@ export default function AddPoNotes({ setError, setSuccess }) {
     setSubmit(val => !val);
     try {
       const body = (noteType === 'ACTION_ITEM') ?
-        { 'type': noteType, 'note': statement, 'dueDate': timeline, 'status': status }
+        {
+          'type': noteType,
+          'note': statement,
+          ...(timeline && { 'dueDate': timeline }),
+          'status': status
+        }
         : { 'type': noteType, 'note': statement, 'status': status };
+      console.log("body", body);
       await axios.post(`${DOMAIN}/api/po-notes`, body);
       const response = 'Note added successfully';
       setSuccess(() => response);

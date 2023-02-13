@@ -65,10 +65,16 @@ export default function CustomCard({ checkBox, data, type }) {
 
   const renderdueDate = () => {
     if (isActionItem()) {
-      return <Typography color="primary" fontWeight={500} mt={2} pl={1}> Needed By {dateGetter(data.dueDate, "dueDate")}</Typography>
+      return <Typography color="primary" fontWeight={500} mt={2} pl={1} >
+        <Typography variant="overline" display="inline-flex" gutterBottom pr={1}>
+          Needed By
+        </Typography>
+        {dateGetter(data.dueDate, "dueDate")}
+      </Typography >
     }
-    return <Typography color="primary" fontWeight={500} sx={{ visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate, "dueDate")}</Typography>
+    return <Typography color="primary" fontWeight={500} sx={{ visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate, "dueDate")} </Typography>
   }
+
   const renderLink = () => {
     if (isActionItem()) {
       return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 30 }} >JIRA LINK</Button>
