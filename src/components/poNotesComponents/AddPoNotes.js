@@ -11,8 +11,8 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 
-import Transition from '../utilityFunctions/overlayTransition';
-import Timeline from "../utilityFunctions/timeline";
+import Transition from '../utilityFunctions/OverlayTransition';
+import Timeline from "../utilityFunctions/Timeline";
 import theme from "../theme/GlobalTheme";
 
 import { DOMAIN } from "../../config";

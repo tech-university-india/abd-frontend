@@ -3,10 +3,10 @@ import { PropTypes } from 'prop-types';
 import { Box, Card, CardContent, Typography, Button, Checkbox, styled, Stack, Avatar, Tooltip } from '@mui/material';
 import stc from 'string-to-color';
 import Status from './Status';
-import dateGetter from '../utilityFunctions/dateGetter';
-import { STATUS, TYPE } from '../utilityFunctions/enums';
-import { statusCompleted, statusDraft } from '../utilityFunctions/color';
-import collabrators from '../utilityFunctions/collaboratorsData';
+import dateGetter from '../utilityFunctions/DateGetter';
+import { STATUS, TYPE } from '../utilityFunctions/Enums';
+import { statusCompleted, statusDraft } from '../utilityFunctions/Color';
+import collabrators from '../utilityFunctions/CollaboratorsData';
 
 const stringToColor = (string) => (stc(string))
 

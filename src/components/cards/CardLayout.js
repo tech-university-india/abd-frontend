@@ -5,9 +5,9 @@ import { PropTypes } from 'prop-types';
 
 import CustomCard from './CustomCard';
 import theme from '../theme/GlobalTheme';
-import filterToDifferentTypes from '../utilityFunctions/filterData';
+import filterToDifferentTypes from '../utilityFunctions/FilterData';
 import { DOMAIN,REFETCH_INTERVAL} from '../../config';
-import { TYPE } from '../utilityFunctions/enums';
+import { TYPE } from '../utilityFunctions/Enums';
 
 
 export default function CardLayout(props) {
