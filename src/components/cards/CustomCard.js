@@ -1,13 +1,14 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import { PropTypes } from 'prop-types';
-import { Box, Card, CardContent, Typography, Button, Checkbox, styled ,Stack,Avatar,Tooltip} from '@mui/material';
+import { Box, Card, CardContent, Typography, Button, Checkbox, styled, Stack, Avatar, Tooltip } from '@mui/material';
 import stc from 'string-to-color';
 import Status from './Status';
 import dateGetter from '../utilityFunctions/dateGetter';
 import { STATUS, TYPE } from '../utilityFunctions/enums';
-import  {statusCompleted,statusDraft} from '../utilityFunctions/color';
+import { statusCompleted, statusDraft } from '../utilityFunctions/color';
+import collabrators from '../utilityFunctions/collaboratorsData';
 
-const stringToColor = (string) => (stc(string)) 
+const stringToColor = (string) => (stc(string))
 
 
 function stringAvatar(name) {
@@ -37,33 +38,31 @@ const CardHeader = styled(Box)(() => ({
 
 
 
-export default function CustomCard({chckBox, data,type}) {
+export default function CustomCard({ chckBox, data, type }) {
   const [checked, setChecked] = useState(false);
   const renderdueDate = () => {
-    if (TYPE.action_item===type) {
-         return <Typography color="primary" fontWeight={500} mt={2} pl={1}> Needed By {dateGetter(data.dueDate,"dueDate")}</Typography>
-    } 
-    return <Typography color="primary" fontWeight={500}  sx={{visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate,"dueDate")}</Typography>
+    if (TYPE.action_item === type) {
+      return <Typography color="primary" fontWeight={500} mt={2} pl={1}> Needed By {dateGetter(data.dueDate, "dueDate")}</Typography>
+    }
+    return <Typography color="primary" fontWeight={500} sx={{ visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate, "dueDate")}</Typography>
   }
 
-  const renderLink=()=>{
-  if(type===TYPE.key_decision || type===TYPE.agenda_item){
-    return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 20,visibility:'hidden'}} >JIRA LINK</Button>
-  }
- 
-    return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 30}} >JIRA LINK</Button>
+  const renderLink = () => {
+    if (type === TYPE.key_decision || type === TYPE.agenda_item) {
+      return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 20, visibility: 'hidden' }} >JIRA LINK</Button>
+    }
+
+    return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 30 }} >JIRA LINK</Button>
   }
 
-  const renderCheckBox=()=>{
-    if(chckBox===true)
-      {
-        if (data.status === STATUS.completed) 
-        {
-         return <Checkbox color='primary' size="large" checked={checked} onChange={() => setChecked(toggle)} />
-         }
-      return <Checkbox color='primary' size="large" disabled />
+  const renderCheckBox = () => {
+    if (chckBox === true) {
+      if (data.status === STATUS.completed) {
+        return <Checkbox color='primary' size="large" checked={checked} onChange={() => setChecked(toggle)} />
       }
-    return <Checkbox color='primary' size="large" sx={{visibility:'hidden'}} />
+      return <Checkbox color='primary' size="large" disabled />
+    }
+    return <Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />
   };
 
   return (
@@ -75,29 +74,29 @@ export default function CustomCard({chckBox, data,type}) {
               renderCheckBox()
             }
             {
-              data.status === STATUS.completed ? ( <Status colour={statusCompleted} status={STATUS.published} />): <Status colour={statusDraft} status={STATUS.draft} />
+              data.status === STATUS.completed ? (<Status colour={statusCompleted} status={STATUS.published} />) : <Status colour={statusDraft} status={STATUS.draft} />
             }
-            <Typography color="secondary" variant="h8" mt={2}>{dateGetter(data.createdAt,"createdAt")} </Typography>
+            <Typography color="secondary" variant="h8" mt={2}>{dateGetter(data.createdAt, "createdAt")} </Typography>
           </CardHeader>
           <Box>
             <Tooltip title={data.note}>
-            <Typography   mt={3} pl={1} sx={{overflow: "hidden",textOverflow: "ellipsis",
-               display: "-webkit-box",
-               WebkitLineClamp: 4,
-               WebkitBoxOrient: "vertical",
-            }}> {data.note}</Typography>
+              <Typography mt={3} pl={1} sx={{
+                overflow: "hidden", textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: 4,
+                WebkitBoxOrient: "vertical",
+              }}> {data.note}</Typography>
             </Tooltip>
           </Box>
-          <Box sx={{position:'relative', bottom:0,top:35, display:'inline-block'}}>
-          {renderdueDate()}
-          <Stack direction="row" spacing={-1} mt={2} pl={1} sx={{ display: 'inline-flex'}}>
-            {
-              ['Kartik Goel', 'Samim Gupta', 'Abhishek Bharadwaj'].map((names) => <Avatar {...stringAvatar(names)} />)
-            }
-          </Stack>
+          <Box sx={{ position: 'relative', bottom: 0, top: 35, display: 'inline-block' }}>
+            {renderdueDate()}
+            <Stack direction="row" spacing={-1} mt={2} pl={1} sx={{ display: 'inline-flex' }}>
+              {
+               collabrators.map((names) => <Avatar {...stringAvatar(names)} />)
+              }
+            </Stack>
           </Box>
           {renderLink()}
-       
         </CardContent>
       </Cards>
     </Box>
