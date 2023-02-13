@@ -2,22 +2,14 @@ import React, { useState } from 'react'
 import { PropTypes } from 'prop-types';
 import { Box, Card, CardContent, Typography, Button, Checkbox, styled, Stack, Avatar, Tooltip } from '@mui/material';
 import stc from 'string-to-color';
-
 import Status from './Status';
 import dateGetter from '../utilityFunctions/DateGetter';
+import { STATUS, TYPE } from '../utilityFunctions/Enums';
+import { statusCompleted, statusDraft } from '../utilityFunctions/Color';
+import collabrators from '../utilityFunctions/CollaboratorsData';
 
-const stringToColor = (string) => (stc(string));
+const stringToColor = (string) => (stc(string))
 
-const Cards = styled(Card)(() => ({
-  width: 400,
-  height: 300,
-  borderRadius: 30,
-}));
-
-const CardHeader = styled(Box)(() => ({
-  display: 'flex',
-  justifyContent: 'space-between'
-}));
 
 function stringAvatar(name) {
   return {
@@ -32,35 +24,63 @@ function toggle(value) {
   return !value;
 }
 
+const Cards = styled(Card)(() => ({
+  width: 'auto',
+  height: 'auto',
+  borderRadius: 30,
+}));
+
+const CardHeader = styled(Box)(() => ({
+  display: 'flex',
+  justifyContent: 'space-between'
+}));
+
+
+
+
 export default function CustomCard({ chckBox, data, type }) {
   const [checked, setChecked] = useState(false);
-
   const renderdueDate = () => {
-    if (type === 'action_item') {
-      return <Typography color="primary" fontWeight={500} mt={2}> Needed By {dateGetter(data.dueDate)}</Typography>
+    if (TYPE.action_item === type) {
+      return <Typography color="primary" fontWeight={500} mt={2} pl={1}> Needed By {dateGetter(data.dueDate, "dueDate")}</Typography>
     }
-    return <Typography color="primary" fontWeight={500} mt={2}
-      sx={{ visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate)}</Typography>
+    return <Typography color="primary" fontWeight={500} sx={{ visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate, "dueDate")}</Typography>
   }
+
+  const renderLink = () => {
+    if (type === TYPE.key_decision || type === TYPE.agenda_item) {
+      return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 20, visibility: 'hidden' }} >JIRA LINK</Button>
+    }
+
+    return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 30 }} >JIRA LINK</Button>
+  }
+
+  const renderCheckBox = () => {
+    if (chckBox === true) {
+      if (data.status === STATUS.completed) {
+        return <Checkbox color='primary' size="large" checked={checked} onChange={() => setChecked(toggle)} />
+      }
+      return <Checkbox color='primary' size="large" disabled />
+    }
+    return <Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />
+  };
+
   return (
     <Box m={3}>
       <Cards>
-        <CardContent>
+        <CardContent >
           <CardHeader>
             {
-              chckBox === true ?
-                (<Checkbox color='primary' size="large" checked={checked} onChange={() => setChecked(toggle)} />)
-                : (<Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />)
+              renderCheckBox()
             }
             {
-              data.status === 'COMPLETED' ?
-                (<Status colour='custom.published' status='PUBLISHED' />) : <Status colour='custom.draft' status='DRAFT' />
+              data.status === STATUS.completed ? (<Status colour={statusCompleted} status={STATUS.published} />) : <Status colour={statusDraft} status={STATUS.draft} />
             }
-            <Typography color="secondary" variant="h8" mt={1.5}>{dateGetter(data.createdAt)} </Typography>
+            <Typography color="secondary" variant="h8" mt={2}>{dateGetter(data.createdAt, "createdAt")} </Typography>
           </CardHeader>
           <Box>
             <Tooltip title={data.note}>
-              <Typography mt={3} sx={{
+              <Typography mt={3} pl={1} sx={{
                 overflow: "hidden", textOverflow: "ellipsis",
                 display: "-webkit-box",
                 WebkitLineClamp: 4,
@@ -68,13 +88,15 @@ export default function CustomCard({ chckBox, data, type }) {
               }}> {data.note}</Typography>
             </Tooltip>
           </Box>
-          {renderdueDate()}
-          <Stack direction="row" spacing={-1} mt={1} sx={{ display: 'inline-flex' }}>
-            {
-              ['Kartik Goel', 'Samim Gupta', 'Abhishek Bharadwaj'].map((names) => <Avatar {...stringAvatar(names)} />)
-            }
-          </Stack>
-          <Button variant="contained" size="medium" sx={{ backgroundColor: "primary.main", borderRadius: 5, display: 'inline-flex', marginLeft: 20 }}>Jira Link</Button>
+          <Box sx={{ position: 'relative', bottom: 0, top: 35, display: 'inline-block' }}>
+            {renderdueDate()}
+            <Stack direction="row" spacing={-1} mt={2} pl={1} sx={{ display: 'inline-flex' }}>
+              {
+               collabrators.map((names) => <Avatar {...stringAvatar(names)} />)
+              }
+            </Stack>
+          </Box>
+          {renderLink()}
         </CardContent>
       </Cards>
     </Box>
@@ -90,5 +112,6 @@ CustomCard.propTypes = {
     dueDate: PropTypes.string,
     createdAt: PropTypes.string.isRequired,
     status: PropTypes.string,
+    // collabrators: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 };

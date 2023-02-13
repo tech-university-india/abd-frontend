@@ -16,7 +16,7 @@ export default function KeyDecisionsTable() {
             </TableRow>
           </TableHead>
           <TableBody >
-            <TableRow> <CardLayout chckBox type='key_decisions' /> </TableRow>
+            <TableRow> <CardLayout chckBox type='key_decision' /> </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
