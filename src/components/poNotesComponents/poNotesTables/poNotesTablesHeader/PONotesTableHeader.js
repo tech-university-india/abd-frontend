@@ -16,7 +16,6 @@ export default function PONotesTableHeader(props) {
           {heading.toUpperCase()}{' '}
           ({countOfItems})
         </Typography>
-
         {/* The information model displaying the information about Action Item is called here and information 
       about Action items (heading, definition and accessibility information) are passed as props */}
         <PONotesInformationModel heading={heading}

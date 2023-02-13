@@ -1,4 +1,3 @@
-
 const dateGetter = (timeStamp,dateHolder) => {
     const DUE_DATE = "dueDate";
     const date = new Date(timeStamp);

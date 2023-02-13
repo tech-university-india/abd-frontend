@@ -2,7 +2,6 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Routes } from 'react-router-dom';
 import { Box } from "@mui/material";
-
 import HomeContainer from './components/routes/Home';
 import AnnouncementContainer from './components/routes/Announcements';
 import InformationRadiatorContainer from './components/routes/InformationRadiator';

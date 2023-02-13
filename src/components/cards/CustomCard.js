@@ -9,8 +9,6 @@ import { statusCompleted, statusDraft } from '../utilityFunctions/Color';
 import collabrators from '../utilityFunctions/CollaboratorsData';
 
 const stringToColor = (string) => (stc(string))
-
-
 function stringAvatar(name) {
   return {
     sx: {
@@ -19,25 +17,18 @@ function stringAvatar(name) {
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   };
 }
-
 function toggle(value) {
   return !value;
 }
-
 const Cards = styled(Card)(() => ({
   width: 'auto',
   height: 'auto',
   borderRadius: 30,
 }));
-
 const CardHeader = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'space-between'
 }));
-
-
-
-
 export default function CustomCard({ chckBox, data, type }) {
   const [checked, setChecked] = useState(false);
   const renderdueDate = () => {
@@ -46,7 +37,6 @@ export default function CustomCard({ chckBox, data, type }) {
     }
     return <Typography color="primary" fontWeight={500} sx={{ visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate, "dueDate")}</Typography>
   }
-
   const renderLink = () => {
     if (type === TYPE.key_decision || type === TYPE.agenda_item) {
       return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 20, visibility: 'hidden' }} >JIRA LINK</Button>
@@ -54,7 +44,6 @@ export default function CustomCard({ chckBox, data, type }) {
 
     return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 30 }} >JIRA LINK</Button>
   }
-
   const renderCheckBox = () => {
     if (chckBox === true) {
       if (data.status === STATUS.completed) {
@@ -64,7 +53,6 @@ export default function CustomCard({ chckBox, data, type }) {
     }
     return <Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />
   };
-
   return (
     <Box m={3}>
       <Cards>
@@ -102,7 +90,6 @@ export default function CustomCard({ chckBox, data, type }) {
     </Box>
   );
 };
-
 CustomCard.propTypes = {
   chckBox: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
