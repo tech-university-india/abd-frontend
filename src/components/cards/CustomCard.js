@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { PropTypes } from 'prop-types';
 import { Box, Card, CardContent, Typography, Button, Checkbox, styled, Stack, Avatar, Tooltip } from '@mui/material';
 import stc from 'string-to-color';
+import axios from 'axios';
 import Status from './Status';
 import dateGetter from '../utilityFunctions/DateGetter';
 import { STATUS, TYPE } from '../utilityFunctions/Enums';
 import { statusCompleted, statusDraft } from '../utilityFunctions/Color';
 import collabrators from '../utilityFunctions/CollaboratorsData';
+import { DOMAIN } from '../../config';
 
 const stringToColor = (string) => (stc(string))
 function stringAvatar(name) {
@@ -17,9 +19,6 @@ function stringAvatar(name) {
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   };
 }
-function toggle(value) {
-  return !value;
-}
 const Cards = styled(Card)(() => ({
   width: 'auto',
   height: 'auto',
@@ -29,25 +28,57 @@ const CardHeader = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'space-between'
 }));
-export default function CustomCard({ chckBox, data, type }) {
-  const [checked, setChecked] = useState(false);
+
+export default function CustomCard({ checkBox, data, type }) {
+  const [checked, setChecked] = useState(data.status === STATUS.completed);
+
+  const isActionItem = () => {
+    if (type === TYPE.action_item) {
+      return true;
+    }
+    return false;
+  }
+
+  const handleToggle = async (status) => {
+    try {
+      const body = { 'status': !status ? STATUS.completed : STATUS.pending }
+      await axios.patch(`${DOMAIN}/api/po-notes/${data.noteId}`, body)
+      setChecked(!status)
+    }
+    catch (er) {
+      // need to show the error message to the user
+      console.log(er.message)
+    }
+
+  }
+
+  const isPublished = () => {
+    if (
+      data.status === STATUS.completed ||
+      data.status === STATUS.pending ||
+      data.status === STATUS.none
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   const renderdueDate = () => {
-    if (TYPE.action_item === type) {
+    if (isActionItem()) {
       return <Typography color="primary" fontWeight={500} mt={2} pl={1}> Needed By {dateGetter(data.dueDate, "dueDate")}</Typography>
     }
     return <Typography color="primary" fontWeight={500} sx={{ visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate, "dueDate")}</Typography>
   }
   const renderLink = () => {
-    if (type === TYPE.key_decision || type === TYPE.agenda_item) {
-      return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 20, visibility: 'hidden' }} >JIRA LINK</Button>
+    if (isActionItem()) {
+      return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 30 }} >JIRA LINK</Button>
     }
-
-    return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 30 }} >JIRA LINK</Button>
+    return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 20, visibility: 'hidden' }} >JIRA LINK</Button>
   }
   const renderCheckBox = () => {
-    if (chckBox === true) {
-      if (data.status === STATUS.completed) {
-        return <Checkbox color='primary' size="large" checked={checked} onChange={() => setChecked(toggle)} />
+    if (checkBox === true) {
+      if (isPublished()) {
+        return <Checkbox color='primary' size="large" checked={checked} onChange={() => handleToggle(checked)} />
       }
       return <Checkbox color='primary' size="large" disabled />
     }
@@ -62,9 +93,11 @@ export default function CustomCard({ chckBox, data, type }) {
               renderCheckBox()
             }
             {
-              data.status === STATUS.completed ? (<Status colour={statusCompleted} status={STATUS.published} />) : <Status colour={statusDraft} status={STATUS.draft} />
+              isPublished() ? (<Status colour={statusCompleted} status={STATUS.published} />) : <Status colour={statusDraft} status={STATUS.draft} />
             }
-            <Typography color="secondary" variant="h8" mt={2}>{dateGetter(data.createdAt, "createdAt")} </Typography>
+            <Typography variant="caption" display="block" gutterBottom>
+              {dateGetter(data.createdAt, "createdAt")}
+            </Typography>
           </CardHeader>
           <Box>
             <Tooltip title={data.note}>
@@ -80,7 +113,7 @@ export default function CustomCard({ chckBox, data, type }) {
             {renderdueDate()}
             <Stack direction="row" spacing={-1} mt={2} pl={1} sx={{ display: 'inline-flex' }}>
               {
-               collabrators.map((names) => <Avatar {...stringAvatar(names)} />)
+                collabrators.map((names) => <Avatar {...stringAvatar(names)} />)
               }
             </Stack>
           </Box>
@@ -91,9 +124,10 @@ export default function CustomCard({ chckBox, data, type }) {
   );
 };
 CustomCard.propTypes = {
-  chckBox: PropTypes.bool.isRequired,
+  checkBox: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
   data: PropTypes.shape({
+    noteId: PropTypes.number.isRequired,
     note: PropTypes.string.isRequired,
     issueLink: PropTypes.string,
     dueDate: PropTypes.string,

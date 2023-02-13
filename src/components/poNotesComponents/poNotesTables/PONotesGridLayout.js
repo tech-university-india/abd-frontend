@@ -23,8 +23,8 @@ const keyDecisions = {
   definition: ' are the vital outcomes/decisions from the various discussions that PO has been part of.',
   accessibilityInformation: '  PO is the owner of this section only PO can add or edit these entries.'
 }
-export default function PONotesGridLayout(
-) {
+
+export default function PONotesGridLayout() {
   // setting serach query based on { text, start date , end date and status }.
   const query = {
     // search: "a",
@@ -44,6 +44,7 @@ export default function PONotesGridLayout(
       }} item xs={6}>
         {/* Table for action items */}
         <PONotesTable heading={actionItems.heading}
+          checkBox
           definition={actionItems.definition}
           accessibilityInformation={actionItems.accessibilityInformation}
           query={query} />
@@ -56,6 +57,7 @@ export default function PONotesGridLayout(
       }} item xs={6}>
         {/* Table for key decisions */}
         <PONotesTable heading={keyDecisions.heading}
+          checkBox={false}
           definition={keyDecisions.definition}
           accessibilityInformation={keyDecisions.accessibilityInformation}
           query={query} />
@@ -67,7 +69,9 @@ export default function PONotesGridLayout(
         flexDirection: 'row'
       }} item xs={6}>
         {/* Table for agenda items */}
-        <PONotesTable heading={agendaItems.heading}
+        <PONotesTable
+          heading={agendaItems.heading}
+          checkBox
           definition={agendaItems.definition}
           accessibilityInformation={agendaItems.accessibilityInformation}
           query={query} />
