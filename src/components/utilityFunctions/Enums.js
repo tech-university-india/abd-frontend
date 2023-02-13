@@ -12,7 +12,14 @@ const TYPE = {
   agenda_item: 'agenda_item',
 };
 
+const HEADINGS = {
+  'Action Items': 'action_item',
+  'Agenda Items': 'agenda_item',
+  'Key Decisions': 'key_decision',
+}
+
 module.exports = {
   STATUS,
   TYPE,
+  HEADINGS
 };
