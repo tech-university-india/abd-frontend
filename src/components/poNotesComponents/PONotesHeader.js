@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {
-  Box, AppBar, Container, InputLabel,
-  MenuItem, FormControl, Select, Toolbar,
-  Typography, ThemeProvider
+  Box, AppBar, Container, InputLabel, MenuItem,
+  FormControl, Select, Toolbar, Typography
 } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
@@ -10,7 +9,6 @@ import SearchBar from '../utilityFunctions/SearchBar';
 import AddPoNotes from './AddPoNotes';
 import ErrorSnackbar from '../utilityFunctions/ErrorSnackbar';
 import SuccessSnackbar from '../utilityFunctions/SuccessSnackbar';
-import theme from '../theme/GlobalTheme';
 
 export default function PoNotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -21,49 +19,54 @@ export default function PoNotesHeader() {
     setQuickFilter(event.target.value);
   };
   return (
-    <ThemeProvider theme={theme}>
-      <AppBar position="static" style={{ background: 'transparent', boxShadow: 'none' }}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
+    <AppBar position="static" sx={{ background: 'transparent', boxShadow: 'none' }}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Box sx={{ flexGrow: 2, display: { xs: 'none', md: 'flex' } }}>
             <Typography
               data-testid="poNotesIdentifier"
               variant="h5"
               noWrap
-              sx={{
-                flexGrow: 2, mr: 2, display: { xs: 'none', md: 'flex' },
-                fontWeight: 500, letterSpacing: '.025rem', color: 'secondary.main', textDecoration: 'none'
-              }}
+              sx={{ ml: 5, fontWeight: 500, letterSpacing: '.025rem', color: 'secondary.main', textDecoration: 'none' }}
             >
               PO Notes
             </Typography>
-            <Box sx={{ flexGrow: 0.2, display: { xs: 'none', md: 'flex' } }}>
+          </Box>
+          <Box sx={{ flexGrow: 0.2, display: { xs: 'none', md: 'flex' } }}>
+            <Box sx={{ flexGrow: 0.5 }}>
               <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </Box>
-            <Box sx={{ flexGrow: 0.2, display: { xs: 'none', md: 'flex' } }}>
-              <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-                <InputLabel id="demo-select-small"> Quick Filters <FilterAltOutlinedIcon fontSize='small' /></InputLabel>
-                <Select
-                  labelId="demo-select-small"
-                  id="demo-select-small"
-                  value={quickFilterType}
-                  label="Quick Filter"
-                  onChange={quickFilterHandler}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={1}>Today</MenuItem>
-                  <MenuItem value={2}>Yesterday</MenuItem>
-                  <MenuItem value={3}>Custom Date Range</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+            <FormControl sx={{ minWidth: 200 }} size="small">
+              <InputLabel id="demo-select-small">
+                <Box display='flex' align-items='center'>
+                  Quick Filters
+                  &nbsp;
+                  <FilterAltOutlinedIcon fontSize='small' />
+                </Box>
+              </InputLabel>
+              <Select
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={quickFilterType}
+                label="Quick Filters Icn"
+                onChange={quickFilterHandler}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={1}>Today</MenuItem>
+                <MenuItem value={2}>Yesterday</MenuItem>
+                <MenuItem value={3}>Custom Date Range</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Box sx={{ mr: 5, display: { xs: 'none', md: 'flex' } }}>
             <AddPoNotes setError={setError} setSuccess={setSuccess} />
-            {error !== '' && (<Box><ErrorSnackbar message={error} setError={setError} /></Box>)}
-            {success !== '' && (<Box><SuccessSnackbar message={success} setSuccess={setSuccess} /></Box>)}
-          </Toolbar>
-        </Container>
-      </AppBar >
-    </ThemeProvider>
+          </Box>
+          {error !== '' && (<Box><ErrorSnackbar message={error} setError={setError} /></Box>)}
+          {success !== '' && (<Box><SuccessSnackbar message={success} setSuccess={setSuccess} /></Box>)}
+        </Toolbar>
+      </Container>
+    </AppBar >
   );
 }

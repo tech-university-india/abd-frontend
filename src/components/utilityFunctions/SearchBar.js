@@ -10,11 +10,16 @@ export default function SearchBar({ setSearchQuery }) {
         id="search-bar"
         className="text"
         onInput={(e) => { setSearchQuery(e.target.value); }}
-        label="Search" variant="outlined" placeholder="Search..." size="small"
+        label="Search"
+        variant="outlined" placeholder="Search..." size="small"
+        InputProps={{
+          endAdornment: (
+            <IconButton type="submit" sx={{ color: "primary.main" }}>
+              <SearchIcon />
+            </IconButton>
+          ),
+        }}
       />
-      <IconButton type="submit" aria-label="search" sx={{ color: "#2258F5" }}>
-        <SearchIcon />
-      </IconButton>
     </form>
   );
 }

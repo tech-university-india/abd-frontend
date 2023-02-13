@@ -1,10 +1,9 @@
 import React from 'react';
-import { ThemeProvider } from '@mui/material';
+import { Box } from '@mui/material';
 import { useQuery } from 'react-query';
 import { PropTypes } from 'prop-types';
 
 import CustomCard from './CustomCard';
-import theme from '../theme/GlobalTheme';
 import filterToDifferentTypes from '../utilityFunctions/FilterData';
 import { DOMAIN,REFETCH_INTERVAL} from '../../config';
 import { TYPE } from '../utilityFunctions/Enums';
@@ -37,13 +36,13 @@ export default function CardLayout(props) {
     dataType = datas.AGENDA_ITEM ?? [];
   }
   return (
-    <ThemeProvider theme={theme}>
-      {
+    <Box>
+       {
         dataType.map((item) => (
           <CustomCard chckBox={chckBox} type={type} data={item} />
         ))
       }
-    </ThemeProvider>
+    </Box>
   );
 }
 
