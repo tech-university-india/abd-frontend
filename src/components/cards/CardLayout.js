@@ -4,19 +4,22 @@ import { PropTypes } from 'prop-types';
 import CustomCard from './CustomCard';
 
 export default function CardLayout(props) {
-  const { chckBox, type, data } = props;
+  const { checkBox, type, data } = props;
   return (
     <Box>
       {
         data.map((item) => (
-          <CustomCard chckBox={chckBox} type={type} data={item} />
+          <CustomCard
+            checkBox={checkBox}
+            type={type}
+            data={item} />
         ))
       }
     </Box>
   );
 }
 CardLayout.propTypes = {
-  chckBox: PropTypes.bool,
+  checkBox: PropTypes.bool,
   type: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(PropTypes.shape({
     note: PropTypes.string.isRequired,
@@ -25,8 +28,8 @@ CardLayout.propTypes = {
     createdAt: PropTypes.string.isRequired,
     status: PropTypes.string,
     // collabrators: PropTypes.arrayOf(PropTypes.string).isRequired,
-  })).isRequired,
+  })).isRequired
 };
 CardLayout.defaultProps = {
-  chckBox: false,
+  checkBox: false,
 };
