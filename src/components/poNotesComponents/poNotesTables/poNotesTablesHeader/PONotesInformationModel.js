@@ -18,11 +18,10 @@ const style = {
     px: 4,
     pb: 3,
 };
-
 export default function NestedModal(props) {
     // props destructuring
     /* props contains values for heading, definition and accessibility information of the selected
-    PO notes type (Action item or Key decisions or Agenda items) */
+    PO notes type (Action item or Key decision or Agenda item) */
     const { heading, definition, accessibiltyInformation } = props;
     const [open, setOpen] = useState(false);
     // function to open the modal
@@ -34,10 +33,9 @@ export default function NestedModal(props) {
         setOpen(false);
     };
     return (
-        <Box>
+        <Box sx={{paddingLeft:'0.5%'}}>
             {/* Icon to open the modal */}
-            <InfoOutlinedIcon onClick={handleOpen} />
-
+            <InfoOutlinedIcon sx={{fontSize:'22px'}} onClick={handleOpen} />
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -45,17 +43,17 @@ export default function NestedModal(props) {
                 aria-describedby="parent-modal-description"
             >
                 {/* Modal content */}
-                <Box sx={{ ...style }} >
+                <Box sx={{ ...style }}  >
 
-                    {/** Heading of the PO notes type (Action item or Key decisions or Agenda items) */}
+                    {/** Heading of the PO notes type (Action item or Key decision or Agenda item) */}
                     <h2 id="parent-modal-title">
-                        {heading}
+                        <b>{heading} </b>
                     </h2>
-                    {/** Definition of the PO notes type (Action item or Key decisions or Agenda items) */}
+                    {/** Definition of the PO notes type (Action item or Key decision or Agenda item) */}
                     <p id="parent-modal-description">
                         <b>{heading}</b>{definition}
                     </p>
-                    {/** Accessibility information of the (Action item or Key decisions or Agenda items) */}
+                    {/** Accessibility information of the (Action item or Key decision or Agenda item) */}
                     <p id="parent-modal-description">
                         {accessibiltyInformation}
                     </p>
