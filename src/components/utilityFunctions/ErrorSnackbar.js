@@ -5,7 +5,7 @@ import MuiAlert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
 
 export default function ErrorSnackbar({ message, setError }) {
-  const clickAway= 'clickaway'
+  const clickAway= 'clickaway';
   const [open, setOpen] = useState(true);
   const handleClose = (event, reason) => {
     if (reason === clickAway) {
