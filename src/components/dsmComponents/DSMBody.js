@@ -76,7 +76,7 @@ export default function DSMBody() {
         {/* Component for Celebration board */}
         <Paper key={2} sx={{minWidth:widths[2]}}>
           <StyledAccordion sx={{ minHeight: '47px' }} expanded={expandCelebration}>
-            <AccordionSummary expandIcon={(expandCelebration)?<FullscreenIcon />:<FullscreenExitIcon/>} onClick={handleExpandCelebration}>
+            <AccordionSummary expandIcon={(expandCelebration)?<FullscreenExitIcon/>:<FullscreenIcon/>} onClick={handleExpandCelebration}>
               <Typography>CELEBRATION BOARD</Typography>
             </AccordionSummary>
             <AccordionDetails><CelebrationBoard/></AccordionDetails>
