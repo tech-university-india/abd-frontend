@@ -19,7 +19,7 @@ import Requests from './Requests';
 import CelebrationBoard from './CelebrationBoard';
 import Announcements from './Announcements';
 
-const widths = [800, 311, 800, 311];
+const widths = ['57.6%', '22.4%','57.6%', '22.4%'];
 
 const StyledAccordion = styled(Accordion)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -28,23 +28,23 @@ const StyledAccordion = styled(Accordion)(({ theme }) => ({
 
 export default function DSMBody() {
 
-  const [expandEmotions, setExpandEmotions] = useState(true);
-  const [expandRequests, setExpandRequests] = useState(true);
+  const [expandSentiment, setExpandSentiment] = useState(true);
   const [expandCelebration, setExpandCelebration] = useState(true);
+  const [expandRequests, setExpandRequests] = useState(true);
   const [expandAnnouncements, setExpandAnnouncements] = useState(true);
 
-  const handleExpandEmotions = () => {
-    setExpandEmotions(!expandEmotions);
-  };
-
-  const handleExpandRequests = () => {
-    setExpandRequests(!expandRequests);
+  const handleExpandSentiment = () => {
+    setExpandSentiment(!expandSentiment);
   };
 
   const handleExpandCelebration = () => {
     setExpandCelebration(!expandCelebration);
   };
 
+  const handleExpandRequests = () => {
+    setExpandRequests(!expandRequests);
+  };
+  
   const handleExpandAnnouncements = () => {
     setExpandAnnouncements(!expandAnnouncements);
   };
@@ -55,8 +55,8 @@ export default function DSMBody() {
 
         {/* Component For Handling Sentiment */}
         <Paper key={0} sx={{minWidth:widths[0]}}>
-          <StyledAccordion sx={{ minHeight: '47px' }} expanded={expandEmotions}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={handleExpandEmotions} >
+          <StyledAccordion sx={{ minHeight: '47px' }} expanded={expandSentiment}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={handleExpandSentiment}>
               <Typography>HOW ARE YOU FEELING TODAY?</Typography>
             </AccordionSummary>
             <AccordionDetails><Sentiment/></AccordionDetails>
@@ -65,7 +65,7 @@ export default function DSMBody() {
 
         {/* Component For Requests */}
         <Paper key={1} sx={{minWidth:widths[1]}}>
-          <StyledAccordion sx={{ minHeight: '47px' }} expanded={expandRequests}>
+          <StyledAccordion sx={{minWidth:widths[1]}} expanded={expandRequests}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={handleExpandRequests}>
               <Typography>REQUESTS</Typography>
             </AccordionSummary>
@@ -76,7 +76,7 @@ export default function DSMBody() {
         {/* Component for Celebration board */}
         <Paper key={2} sx={{minWidth:widths[2]}}>
           <StyledAccordion sx={{ minHeight: '47px' }} expanded={expandCelebration}>
-            <AccordionSummary expandIcon={(expandCelebration)?<FullscreenExitIcon/>:<FullscreenIcon/>} onClick={handleExpandCelebration}>
+            <AccordionSummary expandIcon={(expandCelebration)?<FullscreenExitIcon/>:<FullscreenIcon />} onClick={handleExpandCelebration}>
               <Typography>CELEBRATION BOARD</Typography>
             </AccordionSummary>
             <AccordionDetails><CelebrationBoard/></AccordionDetails>
@@ -84,7 +84,6 @@ export default function DSMBody() {
         </Paper>
 
         {/* Component for Anouncements */}
-
         <Paper key={3} sx={{minWidth:widths[3]}}>
           <StyledAccordion sx={{ minHeight: '47px' }} expanded={expandAnnouncements}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={handleExpandAnnouncements}>
