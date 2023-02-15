@@ -52,14 +52,8 @@ export default function CustomCard({ checkBox, data, type }) {
 
   }
 
-  const isPublished = () => {
-    if (
-      data.status === STATUS.completed ||
-      data.status === STATUS.pending ||
-      data.status === STATUS.none
-    ) {
-      return true;
-    }
+  const isDraft = () => {
+    if (data.status === STATUS.draft) return true;
     return false;
   }
 
@@ -83,10 +77,10 @@ export default function CustomCard({ checkBox, data, type }) {
   }
   const renderCheckBox = () => {
     if (checkBox === true) {
-      if (isPublished()) {
-        return <Checkbox color='primary' size="large" checked={checked} onChange={() => handleToggle(checked)} />
+      if (isDraft()) {
+        return <Checkbox color='primary' size="large" disabled />
       }
-      return <Checkbox color='primary' size="large" disabled />
+      return <Checkbox color='primary' size="large" checked={checked} onChange={() => handleToggle(checked)} />
     }
     return <Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />
   };
@@ -99,7 +93,7 @@ export default function CustomCard({ checkBox, data, type }) {
               renderCheckBox()
             }
             {
-              isPublished() ? (<Status colour={statusCompleted} status={STATUS.published} />) : <Status colour={statusDraft} status={STATUS.draft} />
+              isDraft() ? <Status colour={statusDraft} status={STATUS.draft} /> : (<Status colour={statusCompleted} status={STATUS.published} />)
             }
             <Typography variant="caption" display="block" gutterBottom>
               {dateGetter(data.createdAt, "createdAt")}
