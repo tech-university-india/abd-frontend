@@ -3,14 +3,10 @@ import { Box, AppBar, Container, InputLabel, MenuItem, FormControl, Select, Tool
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import SearchBar from '../utilityFunctions/SearchBar';
 import AddPoNotes from './AddPoNotes';
-import ErrorSnackbar from '../utilityFunctions/ErrorSnackbar';
-import SuccessSnackbar from '../utilityFunctions/SuccessSnackbar';
 
 export default function PoNotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');
   const [quickFilterType, setQuickFilter] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const quickFilterHandler = (event) => {
     setQuickFilter(event.target.value);
   };
@@ -57,10 +53,8 @@ export default function PoNotesHeader() {
             </FormControl>
           </Box>
           <Box sx={{ mr: 5, display: { xs: 'none', md: 'flex' } }}>
-            <AddPoNotes setError={setError} setSuccess={setSuccess} />
+            <AddPoNotes />
           </Box>
-          {error !== '' && (<Box><ErrorSnackbar message={error} setError={setError} /></Box>)}
-          {success !== '' && (<Box><SuccessSnackbar message={success} setSuccess={setSuccess} /></Box>)}
         </Toolbar>
       </Container>
     </AppBar >

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { PropTypes } from 'prop-types';
 import { Box, Card, CardContent, Typography, Button, Checkbox, styled, Stack, Avatar, Tooltip } from '@mui/material';
 import stc from 'string-to-color';
@@ -9,6 +9,7 @@ import { STATUS, TYPE } from '../utilityFunctions/Enums';
 import { statusCompleted, statusDraft } from '../utilityFunctions/Color';
 import collabrators from '../utilityFunctions/CollaboratorsData';
 import { DOMAIN } from '../../config';
+import { ErrorContext } from '../contexts/ErrorContext';
 
 const stringToColor = (string) => (stc(string))
 function stringAvatar(name) {
@@ -31,6 +32,7 @@ const CardHeader = styled(Box)(() => ({
 
 export default function CustomCard({ checkBox, data, type }) {
   const [checked, setChecked] = useState(data.status === STATUS.completed);
+  const { setError, setSuccess } = useContext(ErrorContext);
 
   const isActionItem = () => {
     if (type === TYPE.action_item) {
@@ -43,13 +45,12 @@ export default function CustomCard({ checkBox, data, type }) {
     try {
       const body = { 'status': !status ? STATUS.completed : STATUS.pending }
       await axios.patch(`${DOMAIN}/api/po-notes/${data.noteId}`, body)
+      setSuccess(`Suceessfully marked as ${!status ? STATUS.completed : STATUS.pending}`)
       setChecked(!status)
     }
     catch (er) {
-      // need to show the error message to the user
-      console.log(er.message)
+      setError(`Error in marking as ${!status ? STATUS.completed : STATUS.pending}`)
     }
-
   }
 
   const isDraft = () => {
@@ -84,6 +85,7 @@ export default function CustomCard({ checkBox, data, type }) {
     }
     return <Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />
   };
+
   return (
     <Box m={3}>
       <Cards>
@@ -93,7 +95,9 @@ export default function CustomCard({ checkBox, data, type }) {
               renderCheckBox()
             }
             {
-              isDraft() ? <Status colour={statusDraft} status={STATUS.draft} /> : (<Status colour={statusCompleted} status={STATUS.published} />)
+              isDraft() ?
+                (<Status colour={statusDraft} status={STATUS.draft} />) :
+                (<Status colour={statusCompleted} status={STATUS.published} />)
             }
             <Typography variant="caption" display="block" gutterBottom>
               {dateGetter(data.createdAt, "createdAt")}
@@ -119,10 +123,11 @@ export default function CustomCard({ checkBox, data, type }) {
           </Box>
           {renderLink()}
         </CardContent>
-      </Cards>
-    </Box>
+      </Cards >
+    </Box >
   );
 };
+
 CustomCard.propTypes = {
   checkBox: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,

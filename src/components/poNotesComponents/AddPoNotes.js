@@ -1,5 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from 'axios';
 import Proptypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -12,6 +11,7 @@ import Transition from '../utilityFunctions/OverlayTransition';
 import Timeline from "../utilityFunctions/Timeline";
 import { DOMAIN } from "../../config";
 import { PLACEHOLDER } from '../utilityFunctions/Enums';
+import { ErrorContext } from '../contexts/ErrorContext';
 
 const getNextDate = () => {
   const date = new Date();
@@ -40,7 +40,8 @@ Item.propTypes = {
     char: Proptypes.string.isRequired,
   }).isRequired,
 };
-export default function AddPoNotes({ setError, setSuccess }) {
+export default function AddPoNotes() {
+  const { setError, setSuccess } = useContext(ErrorContext);
   const [addNote, setAddNote] = useState(false);
   const [submit, setSubmit] = useState(false);
   const [noteType, setNoteType] = useState('ACTION_ITEM');
@@ -60,7 +61,6 @@ export default function AddPoNotes({ setError, setSuccess }) {
           'status': status
         }
         : { 'type': noteType, 'note': statement, 'status': status };
-      console.log("body", body);
       await axios.post(`${DOMAIN}/api/po-notes`, body);
       const response = 'Note added successfully';
       setSuccess(() => response);
@@ -203,8 +203,4 @@ export default function AddPoNotes({ setError, setSuccess }) {
       </Dialog>
     </Box>
   );
-};
-AddPoNotes.propTypes = {
-  setError: Proptypes.func.isRequired,
-  setSuccess: Proptypes.func.isRequired
 };
