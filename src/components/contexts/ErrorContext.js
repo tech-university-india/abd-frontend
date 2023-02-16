@@ -21,7 +21,6 @@ export function ErrorProvider({ children }) {
       </Box>
     </ErrorContext.Provider>
   );
-
 }
 
 ErrorProvider.propTypes = {

@@ -11,8 +11,7 @@ import Status from './Status';
 import dateGetter from '../utilityFunctions/DateGetter';
 import { STATUS, TYPE } from '../utilityFunctions/Enums';
 import { statusCompleted, statusDraft } from '../utilityFunctions/Color';
-
-import collabrators from '../utilityFunctions/CollaboratorsData';
+import { collaborators } from '../constants/PONotes';
 import { DOMAIN } from '../../config';
 import { ErrorContext } from '../contexts/ErrorContext';
 
@@ -121,7 +120,7 @@ export default function CustomCard({ checkBox, data, type }) {
             {renderdueDate()}
             <Stack direction="row" spacing={-1} mt={2} pl={1} sx={{ display: 'inline-flex' }}>
               {
-                collabrators.map((names) => <Avatar {...stringAvatar(names)} />)
+                collaborators.map((names) => <Avatar {...stringAvatar(names)} />)
               }
             </Stack>
           </Box>

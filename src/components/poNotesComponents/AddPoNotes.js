@@ -11,7 +11,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 import emoji from "@jukben/emoji-search";
-import { placeholder } from '../constants/PONotes';
 import Transition from '../utilityFunctions/OverlayTransition';
 import Timeline from "../utilityFunctions/Timeline";
 import { DOMAIN } from "../../config";
@@ -212,4 +211,5 @@ export default function AddPONotes() {
         </Box>
       </Dialog>
     </Box>
-  );
+  )
+}

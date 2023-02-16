@@ -1,5 +1,6 @@
 const dateGetter = (timeStamp, dateHolder) => {
-    if (timeStamp === null) return "[DD Mon, YYYY]";
+    const noDueDate = "[DD Mon, YYYY]";
+    if (timeStamp === null) return noDueDate;
     const DUE_DATE = "dueDate";
     const date = new Date(timeStamp);
     const month = date.toLocaleString('default', { month: 'short' });

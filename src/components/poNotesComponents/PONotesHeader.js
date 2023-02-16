@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, AppBar, Container, InputLabel, MenuItem, FormControl, Select, Toolbar, Typography } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import SearchBar from '../utilityFunctions/SearchBar';
-import AddPONotes from './AddPONotes';
+import AddPONotes from './AddPoNotes';
 
 export default function PONotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');
