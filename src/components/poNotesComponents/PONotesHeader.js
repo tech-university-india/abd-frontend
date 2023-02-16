@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Box, AppBar, Container, InputLabel, MenuItem, FormControl, Select, Toolbar, Typography } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import SearchBar from '../utilityFunctions/SearchBar';
-import AddPoNotes from './AddPoNotes';
+import AddPONotes from './AddPONotes';
 
-export default function PoNotesHeader() {
+export default function PONotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');
   const [quickFilterType, setQuickFilter] = useState('');
   const quickFilterHandler = (event) => {
@@ -53,7 +53,7 @@ export default function PoNotesHeader() {
             </FormControl>
           </Box>
           <Box sx={{ mr: 5, display: { xs: 'none', md: 'flex' } }}>
-            <AddPoNotes />
+            <AddPONotes />
           </Box>
         </Toolbar>
       </Container>
