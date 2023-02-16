@@ -13,6 +13,7 @@ import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 import emoji from "@jukben/emoji-search";
 import { placeholder } from '../constants/PONotes';
+
 import Transition from '../utilityFunctions/OverlayTransition';
 import Timeline from "../utilityFunctions/Timeline";
 import { DOMAIN } from "../../config";
@@ -50,6 +51,7 @@ export default function AddPoNotes({ setError, setSuccess }) {
   const [noteType, setNoteType] = useState('ACTION_ITEM');
   const [statement, setStatement] = useState('');
   const [timeline, setTimeline] = useState(getNextDate());
+
   const handleNoteOpener = () => {
     setAddNote(!addNote);
   };
@@ -194,7 +196,7 @@ export default function AddPoNotes({ setError, setSuccess }) {
               </Button> </Box> </Link>}
         </Box>
         <Box>
-          {(statement.trim() !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
+          {(statement.trim() !== '') && <Link sx={{ textDecoration: 'none' }} to='/po-notes'>
             <Box textAlign='center' sx={{ marginTop: '12px', marginBottom: '12px' }}>
               <Button variant="contained" color='customButton2' onClick={handleDraft}
                 sx={{ borderRadius: '8px', width: '292px', heigth: '49px' }}>

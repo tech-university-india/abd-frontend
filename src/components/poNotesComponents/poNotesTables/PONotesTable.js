@@ -72,7 +72,6 @@ export default function PONotesTable(props) {
                 </TableContainer>
             </ThemeProvider>
         </Box>
-
     )
 }
 // props validation
