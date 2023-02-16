@@ -2,8 +2,7 @@ import React from 'react';
 import { render, cleanup, getByTestId, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
-
-import PONotesContainer from '../components/routes/poNotes';
+import PONotesContainer from '../components/routes/PONotes';
 
 describe('po-notes', () => {
   afterEach(cleanup);

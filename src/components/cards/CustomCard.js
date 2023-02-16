@@ -1,12 +1,17 @@
 import React, { useState, useContext } from 'react'
 import { PropTypes } from 'prop-types';
-import { Box, Card, CardContent, Typography, Button, Checkbox, styled, Stack, Avatar, Tooltip } from '@mui/material';
+import {
+  Box, Card, CardContent, Typography, Button,
+  Checkbox, styled, Stack, Avatar, Tooltip
+}
+  from '@mui/material';
 import stc from 'string-to-color';
 import axios from 'axios';
 import Status from './Status';
 import dateGetter from '../utilityFunctions/DateGetter';
 import { STATUS, TYPE } from '../utilityFunctions/Enums';
 import { statusCompleted, statusDraft } from '../utilityFunctions/Color';
+
 import collabrators from '../utilityFunctions/CollaboratorsData';
 import { DOMAIN } from '../../config';
 import { ErrorContext } from '../contexts/ErrorContext';
@@ -20,6 +25,7 @@ function stringAvatar(name) {
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   };
 }
+
 const Cards = styled(Card)(() => ({
   width: 'auto',
   height: 'auto',
@@ -69,7 +75,6 @@ export default function CustomCard({ checkBox, data, type }) {
     }
     return <Typography color="primary" fontWeight={500} sx={{ visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate, "dueDate")} </Typography>
   }
-
   const renderLink = () => {
     if (isActionItem()) {
       return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 30 }} >JIRA LINK</Button>
@@ -85,7 +90,6 @@ export default function CustomCard({ checkBox, data, type }) {
     }
     return <Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />
   };
-
   return (
     <Box m={3}>
       <Cards>
@@ -127,7 +131,6 @@ export default function CustomCard({ checkBox, data, type }) {
     </Box >
   );
 };
-
 CustomCard.propTypes = {
   checkBox: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
@@ -138,6 +141,5 @@ CustomCard.propTypes = {
     dueDate: PropTypes.string,
     createdAt: PropTypes.string.isRequired,
     status: PropTypes.string,
-    // collabrators: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 };
