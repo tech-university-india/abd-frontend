@@ -13,8 +13,7 @@ export default function PONotesTableHeader(props) {
     <ThemeProvider theme={PONotesTableTheme}>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Typography variant='h6'>
-          {heading.toUpperCase()}{' '}
-          ({countOfItems})
+          {`${heading.toUpperCase()} (${countOfItems}) `}
         </Typography>
         {/* The information model displaying the information about Action Item is called here and information 
       about Action items (heading, definition and accessibility information) are passed as props */}
