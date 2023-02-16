@@ -20,7 +20,6 @@ export default function Timeline({ isSubmit, timeline, setTimeline }) {
     </Box>
   );
 }
-
 Timeline.propTypes = {
   isSubmit: PropTypes.bool.isRequired,
   timeline: PropTypes.string.isRequired,

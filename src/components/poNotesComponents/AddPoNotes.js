@@ -3,15 +3,11 @@ import React, { useState } from "react";
 import axios from 'axios';
 import Proptypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import {
-  Box, IconButton, Dialog, ListItem, List, Typography, MenuItem,Button,
-  FormControl, Toolbar, InputLabel, Select, ListItemButton
-} from "@mui/material";
+import {Box, IconButton, Dialog, ListItem, List, Typography, MenuItem,Button,FormControl, Toolbar, InputLabel, Select, ListItemButton} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 import emoji from "@jukben/emoji-search";
-
 import Transition from '../utilityFunctions/OverlayTransition';
 import Timeline from "../utilityFunctions/Timeline";
 import { DOMAIN } from "../../config";
@@ -22,7 +18,6 @@ const getNextDate = () => {
   const dateString = date.toISOString().substring(0, date.toISOString().indexOf('T'));
   return dateString;
 };
-
 function Item({ entity: { name, char } }) {
   return (
     <List>
@@ -35,18 +30,15 @@ function Item({ entity: { name, char } }) {
     </List>
   )
 }
-
 function Loading() {
   return <Box>Loading...</Box>;
 }
-
 Item.propTypes = {
   entity: Proptypes.shape({
     name: Proptypes.string.isRequired,
     char: Proptypes.string.isRequired,
   }).isRequired,
 };
-
 export default function AddPoNotes({ setError, setSuccess }) {
   const [addNote, setAddNote] = useState(false);
   const [submit, setSubmit] = useState(false);
@@ -58,7 +50,6 @@ export default function AddPoNotes({ setError, setSuccess }) {
     'KEY_DECISION': 'Example: The client suggested to use Stripe for payment integration as they already have corporate subscription.',
     'AGENDA_ITEM': 'Example: Which cloud platform are we choosing to host our app? Our Client team wants to know by this week.'
   }
-
   const handleNoteOpener = () => {
     setAddNote(!addNote);
   };
@@ -86,11 +77,9 @@ export default function AddPoNotes({ setError, setSuccess }) {
   const handlePublish = () => {
     handleSubmit('PENDING');
   };
-
   const handleKeyDecisionPublish = () => {
     handleSubmit('NONE');
   };
-
   const handleNoteType = (event) => {
     setNoteType(event.target.value);
   };
@@ -184,27 +173,23 @@ export default function AddPoNotes({ setError, setSuccess }) {
                 disabled={submit}
                 placeholder={placeholder[noteType]}
               />
-
             </ListItem>
           </List>
         </Box>
         <Box>
           {noteType === 'ACTION_ITEM' && <Timeline isSubmit={submit} timeline={timeline} setTimeline={setTimeline} />}
         </Box>
-
         <Box>
           {(statement.trim() !== '') && (noteType!=='KEY_DECISION') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
             <Box textAlign='center'>
             <Button variant="contained" color='customButton1' onClick={handlePublish} sx={{borderRadius: '8px',width:'292px',heigth:'49px'}}>
                 Publish
             </Button> </Box> </Link>}
-          
             {(statement.trim() !== '') && (noteType==='KEY_DECISION') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
             <Box textAlign='center'>
             <Button variant="contained" color='customButton1' onClick={handleKeyDecisionPublish} sx={{borderRadius: '8px',width:'292px',heigth:'49px'}}>
                 Publish
             </Button> </Box></Link>}
-
       </Box>
       <Box>
         {(statement.trim() !== '') && <Link style={{ textDecoration: 'none' }} to='/po-notes'>
@@ -213,13 +198,10 @@ export default function AddPoNotes({ setError, setSuccess }) {
                 Save as Draft
         </Button></Box></Link>}
       </Box>
-
-
       </Dialog>
     </Box>
   );
 };
-
 AddPoNotes.propTypes = {
   setError: Proptypes.func.isRequired,
   setSuccess: Proptypes.func.isRequired

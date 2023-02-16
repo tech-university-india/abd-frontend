@@ -23,7 +23,6 @@ export default function SearchBar({ setSearchQuery }) {
     </form>
   );
 }
-
 SearchBar.propTypes = {
   setSearchQuery: PropTypes.func.isRequired
 };
