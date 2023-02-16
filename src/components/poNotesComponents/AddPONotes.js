@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, IconButton } from "@mui/material";
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
-import PoNotesDialog from './PONotesDialog';
+import PONotesDialog from './PONotesDialog';
 
 export default function AddPoNotes() {
 
@@ -17,7 +17,7 @@ export default function AddPoNotes() {
         component="label" sx={{ color: 'primary.main' }} onClick={handleNoteOpener}>
         <QueueSharpIcon fontSize='large' />
       </IconButton>
-      <PoNotesDialog updateItem={false} open={addNote} handleClose={handleNoteOpener} />
+      <PONotesDialog updateItem={false} open={addNote} handleClose={handleNoteOpener} />
     </Box >
   );
 };

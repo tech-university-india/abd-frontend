@@ -14,7 +14,7 @@ import { statusCompleted, statusDraft } from '../utilityFunctions/Color';
 import { collaborators } from '../constants/PONotes';
 import { DOMAIN } from '../../config';
 import { ErrorContext } from '../contexts/ErrorContext';
-import PoNotesDialog from '../poNotesComponents/PONotesDialog';
+import PONotesDialog from '../poNotesComponents/PONotesDialog';
 import PreventParentClick from '../utilityFunctions/PreventParentClick';
 
 const stringToColor = (string) => (stc(string))
@@ -110,7 +110,7 @@ export default function CustomCard({ checkBox, data, type }) {
   };
   return (
     <Box m={3}>
-      <PoNotesDialog updateItem open={open} handleClose={handleClose} data={data} />
+      <PONotesDialog updateItem open={open} handleClose={handleClose} data={data} />
       <Cards>
         <CardActionArea onClick={handleClickOpen}>
           <CardContent >
@@ -131,7 +131,7 @@ export default function CustomCard({ checkBox, data, type }) {
               <Tooltip title={data.note}>
                 <Typography mt={3} pl={1} sx={{
                   overflow: "hidden", textOverflow: "ellipsis",
-                  display: "-webkit-box",
+                  display: "webkit-box",
                   WebkitLineClamp: 4,
                   WebkitBoxOrient: "vertical",
                 }}> {data.note}</Typography>
