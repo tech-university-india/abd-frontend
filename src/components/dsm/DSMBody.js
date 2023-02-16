@@ -27,7 +27,6 @@ const StyledAccordion = styled(Accordion)(({ theme }) => ({
 }));
 
 export default function DSMBody() {
-
   const [expandSentiment, setExpandSentiment] = useState(true);
   const [expandCelebration, setExpandCelebration] = useState(true);
   const [expandRequests, setExpandRequests] = useState(true);
