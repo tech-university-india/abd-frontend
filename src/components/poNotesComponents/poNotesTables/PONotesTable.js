@@ -1,4 +1,4 @@
-import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material'
+import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, CircularProgress } from '@mui/material'
 import React from 'react'
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
@@ -39,7 +39,7 @@ export default function PONotesTable(props) {
         }
     );
     if (isLoading) {
-        return <div>Loading...</div>
+        return <CircularProgress />
     }
     if (isError) {
         return <div>Error! {error.message}</div>
@@ -49,7 +49,7 @@ export default function PONotesTable(props) {
         <Box sx={{ width: '600px' }}>
             <ThemeProvider theme={PONotesTableTheme}>
                 <TableContainer component={Paper}>
-                    <Table stickyHeader aria-label='simple table'>
+                    <Table align="center" textAlign="center" stickyHeader aria-label='simple table'>
                         <TableHead>
                             <TableRow align='center'>
                                 {/* calling the action item table header and passing count of action items in the table as props in countOfItems variable */}
