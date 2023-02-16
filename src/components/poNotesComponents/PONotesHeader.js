@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
-import {Box, AppBar, Container, InputLabel, MenuItem,FormControl, Select, Toolbar, Typography} from '@mui/material';
+import { Box, AppBar, Container, InputLabel, MenuItem, FormControl, Select, Toolbar, Typography } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import SearchBar from '../utilityFunctions/SearchBar';
-import AddPoNotes from './AddPoNotes';
-import ErrorSnackbar from '../utilityFunctions/ErrorSnackbar';
-import SuccessSnackbar from '../utilityFunctions/SuccessSnackbar';
+import AddPONotes from './AddPoNotes';
 
-export default function PoNotesHeader() {
+export default function PONotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');
   const [quickFilterType, setQuickFilter] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const quickFilterHandler = (event) => {
     setQuickFilter(event.target.value);
   };
@@ -57,10 +53,8 @@ export default function PoNotesHeader() {
             </FormControl>
           </Box>
           <Box sx={{ mr: 5, display: { xs: 'none', md: 'flex' } }}>
-            <AddPoNotes setError={setError} setSuccess={setSuccess} />
+            <AddPONotes />
           </Box>
-          {error !== '' && (<Box><ErrorSnackbar message={error} setError={setError} /></Box>)}
-          {success !== '' && (<Box><SuccessSnackbar message={success} setSuccess={setSuccess} /></Box>)}
         </Toolbar>
       </Container>
     </AppBar >

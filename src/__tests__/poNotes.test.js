@@ -2,15 +2,14 @@ import React from 'react';
 import { render, cleanup, getByTestId, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
-
-import PoNotesContainer from '../components/routes/PONotes';
+import PONotesContainer from '../components/routes/PONotes';
 
 describe('po-notes', () => {
   afterEach(cleanup);
   it('renders the po-notes page', () => {
     const { container } = render(
       <MemoryRouter initialEntries={['/po-notes']}>
-        <PoNotesContainer />
+        <PONotesContainer />
       </MemoryRouter>
     )
     const poNotesIdentifier = getByTestId(container, 'poNotesIdentifier');
@@ -19,11 +18,11 @@ describe('po-notes', () => {
   it('should open form to add po notes', () => {
     const { container, getByText } = render(
       <MemoryRouter initialEntries={['/po-notes']}>
-        <PoNotesContainer />
+        <PONotesContainer />
       </MemoryRouter>
     );
-    const AddPoNotesForm = getByTestId(container, 'AddPoNotesFormIdentifier');
-    fireEvent.click(AddPoNotesForm);
+    const AddPONotesForm = getByTestId(container, 'AddPONotesFormIdentifier');
+    fireEvent.click(AddPONotesForm);
     expect(getByText('Add a Note')).toBeInTheDocument();
   });
 

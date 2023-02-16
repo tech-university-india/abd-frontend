@@ -1,7 +1,6 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import PONotesTable from './PONotesTable';
-
 import { actionItems, keyDecisions, agendaItems } from '../../constants/PONotes';
 
 export default function PONotesGridLayout(
@@ -25,6 +24,7 @@ export default function PONotesGridLayout(
       }} item xs={6}>
         {/* Table for action items */}
         <PONotesTable heading={actionItems.heading}
+          checkBox
           definition={actionItems.definition}
           accessibilityInformation={actionItems.accessibilityInformation}
           query={query} />
@@ -37,6 +37,7 @@ export default function PONotesGridLayout(
       }} item xs={6}>
         {/* Table for key decisions */}
         <PONotesTable heading={keyDecisions.heading}
+          checkBox={false}
           definition={keyDecisions.definition}
           accessibilityInformation={keyDecisions.accessibilityInformation}
           query={query} />
@@ -48,7 +49,9 @@ export default function PONotesGridLayout(
         flexDirection: 'row'
       }} item xs={6}>
         {/* Table for agenda items */}
-        <PONotesTable heading={agendaItems.heading}
+        <PONotesTable
+          heading={agendaItems.heading}
+          checkBox
           definition={agendaItems.definition}
           accessibilityInformation={agendaItems.accessibilityInformation}
           query={query} />
