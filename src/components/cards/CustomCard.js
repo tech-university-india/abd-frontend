@@ -90,11 +90,11 @@ export default function CustomCard({ checkBox, data, type }) {
         {dateGetter(data.dueDate, "dueDate")}
       </Typography >
     }
-    return <Typography color="primary" fontWeight={500} mt={2} pl={1} sx={{ visibility: 'hidden '}}> Needed By {dateGetter(data.dueDate, "dueDate")} </Typography>
+    return <Typography color="primary" fontWeight={500} mt={2} pl={1} sx={{ visibility: 'hidden ' }}> Needed By {dateGetter(data.dueDate, "dueDate")} </Typography>
   }
   const renderLink = () => {
     if (isActionItem()) {
-      return <Button variant="contained" size='small' sx={{ display: 'inline-flex', marginLeft: 30 }} >JIRA LINK</Button>
+      return <Button variant="contained" size='small' sx={{ display: 'inline-flex' }} onClick={PreventParentClick(() => handleLinkButton())}>JIRA LINK</Button>
     }
     return <Button variant="contained" sx={{ display: 'inline-flex', visibility: 'hidden' }} >JIRA LINK</Button>
   }
@@ -129,30 +129,30 @@ export default function CustomCard({ checkBox, data, type }) {
             </CardHeader>
             <Box>
               <Tooltip title={data.note}>
-              <Typography mt={3} pl={1} sx={{
-                maxWidth:'400px',
-                overflow: "hidden", 
-                textOverflow: "ellipsis",
-                wordWrap: "break-word",
-                display: "-webkit-box",
-                WebkitLineClamp: 4,
-                WebkitBoxOrient: "vertical",
-              }}> {data.note}</Typography>
+                <Typography mt={3} pl={1} sx={{
+                  maxWidth: '400px',
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  wordWrap: "break-word",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 4,
+                  WebkitBoxOrient: "vertical",
+                }}> {data.note}</Typography>
               </Tooltip>
             </Box>
-            <Box sx={{ position: 'relative', bottom: 0, top: 35}}>
+            <Box sx={{ position: 'relative', bottom: 0, top: 35 }}>
               {renderdueDate()}
-              <Box sx={{display:'flex',justifyContent:'space-between'}}>
-              <Stack direction="row" spacing={-1} mb={4} pl={1}>
-                {
-                  collaborators.map((names) => <Avatar {...stringAvatar(names)} />)
-                }
-              </Stack>
-              <Box pr={2}>
-            {renderLink()}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Stack direction="row" spacing={-1} mb={4} pl={1}>
+                  {
+                    collaborators.map((names) => <Avatar {...stringAvatar(names)} />)
+                  }
+                </Stack>
+                <Box pr={2}>
+                  {renderLink()}
+                </Box>
               </Box>
             </Box>
-              </Box>
           </CardContent>
         </CardActionArea>
       </Cards >
