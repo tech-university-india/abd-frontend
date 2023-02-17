@@ -94,7 +94,7 @@ export default function CustomCard({ checkBox, data, type }) {
   }
   const renderLink = () => {
     if (isActionItem()) {
-      return <Button variant="contained" sx={{ display: 'inline-flex'}} onClick={PreventParentClick(() => handleLinkButton())}>JIRA LINK</Button>
+      return <Button variant="contained" size='small' sx={{ display: 'inline-flex', marginLeft: 30 }} >JIRA LINK</Button>
     }
     return <Button variant="contained" sx={{ display: 'inline-flex', visibility: 'hidden' }} >JIRA LINK</Button>
   }

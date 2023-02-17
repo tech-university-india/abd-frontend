@@ -12,7 +12,7 @@ export default function PONotesHeader() {
   };
   return (
     <AppBar position="static" sx={{ background: 'transparent', boxShadow: 'none' }}>
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" padding='0' margin='0'>
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 2, display: { xs: 'none', md: 'flex' } }}>
             <Typography

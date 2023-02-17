@@ -26,14 +26,14 @@ export default function PONotesTable(props) {
     const { heading, definition, accessibilityInformation, query, checkBox } = props;
     // need to add page & limit to the query
     const type = HEADINGS[heading].toUpperCase();
-    const apiUrl = getApiUrl(type, query, 1, 10);
+    const apiUrl = getApiUrl(type, query, 1, 100);
 
     const { data, error, isError, isLoading } = useQuery(HEADINGS[heading], async () => {
         const res = await fetch(apiUrl);
         return res.json();
     },
         {
-            refetchInterval: 5000,
+            refetchInterval: 1000,
         }
     );
     if (isLoading) {
@@ -44,9 +44,9 @@ export default function PONotesTable(props) {
     }
     const countOfItems = data.length;
     return (
-        <Box sx={{ width: '600px' }}>
-            <TableContainer component={Paper}>
-                <Table align="center" textAlign="center" stickyHeader aria-label='simple table'>
+        <Box sx={{ width: '500px' }}>
+            <TableContainer component={Paper}>cs
+                <Table stickyHeader aria-label='simple table'>
                     <TableHead>
                         <TableRow align='center'>
                             {/* calling the action item table header and passing count of action items in the table as props in countOfItems variable */}
