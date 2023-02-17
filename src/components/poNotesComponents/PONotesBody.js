@@ -5,7 +5,7 @@ import PONotesGridLayout from './poNotesTables/PONotesGridLayout';
 export default function PONotesBody() {
   return (
     <Grid >
-      <Grid backgroundColor='secondary.light'>
+      <Grid backgroundColor='secondary.light' height='100%'>
         <PONotesGridLayout />
       </Grid>
     </Grid >

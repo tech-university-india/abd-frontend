@@ -45,7 +45,7 @@ export default function PONotesTable(props) {
     const countOfItems = data.length;
     return (
         <Box sx={{ width: '500px' }}>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} sx={{ height: '100vh' }}>
                 <Table stickyHeader aria-label='simple table'>
                     <TableHead>
                         <TableRow align='center'>
