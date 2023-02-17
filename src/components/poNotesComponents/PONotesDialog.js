@@ -107,7 +107,7 @@ export default function PONotesDialog({ updateItem, data, open, handleClose }) {
       setError(val => val + err);
     }
     finally {
-      setLock(val => !val);
+      setLock(true);
       handleClose();
       if (!updateItem) setStatement('')
     }

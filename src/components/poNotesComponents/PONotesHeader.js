@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, AppBar, Container, InputLabel, MenuItem, FormControl, Select, Toolbar, Typography } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import SearchBar from '../utilityFunctions/SearchBar';
-import AddPONotes from './AddPoNotes';
+import AddPONotes from './AddPONotes';
 
 export default function PONotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -53,7 +53,7 @@ export default function PONotesHeader() {
             </FormControl>
           </Box>
           <Box sx={{ mr: 5, display: { xs: 'none', md: 'flex' } }}>
-            <AddPONotes />
+            <AddPONotes updateItem={false} data={{ status: "DRAT", noteType: "ACTION_ITEM", note: "hello", dueDate: "kk" }} />
           </Box>
         </Toolbar>
       </Container>

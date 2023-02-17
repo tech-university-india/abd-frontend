@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { PropTypes } from 'prop-types';
 import {
   Box, Card, CardContent, Typography, Button,
-  Checkbox, styled, Stack, Avatar, Tooltip
+  Checkbox, styled, Stack, Avatar, Tooltip, CardActionArea
 }
   from '@mui/material';
 import stc from 'string-to-color';
@@ -14,6 +14,8 @@ import { statusCompleted, statusDraft } from '../utilityFunctions/Color';
 import { collaborators } from '../constants/PONotes';
 import { DOMAIN } from '../../config';
 import { ErrorContext } from '../contexts/ErrorContext';
+import PONotesDialog from '../poNotesComponents/PONotesDialog';
+import PreventParentClick from '../utilityFunctions/PreventParentClick';
 
 const stringToColor = (string) => (stc(string))
 function stringAvatar(name) {
@@ -37,7 +39,16 @@ const CardHeader = styled(Box)(() => ({
 
 export default function CustomCard({ checkBox, data, type }) {
   const [checked, setChecked] = useState(data.status === STATUS.completed);
-  const { setError, setSuccess } = useContext(ErrorContext);
+  const { setError, setSuccess } = React.useContext(ErrorContext);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false ?? !open)
+  };
 
   const isActionItem = () => {
     if (type === TYPE.action_item) {
@@ -48,14 +59,20 @@ export default function CustomCard({ checkBox, data, type }) {
 
   const handleToggle = async (status) => {
     try {
+      handleClose();
       const body = { 'status': !status ? STATUS.completed : STATUS.pending }
       await axios.patch(`${DOMAIN}/api/po-notes/${data.noteId}`, body)
       setSuccess(`Suceessfully marked as ${!status ? STATUS.completed : STATUS.pending}`)
       setChecked(!status)
     }
     catch (er) {
-      setError(`Error in marking as ${!status ? STATUS.completed : STATUS.pending}`)
+      setError(`${er.message}Error in marking as ${!status ? STATUS.completed : STATUS.pending}`)
     }
+  }
+
+  const handleLinkButton = () => {
+    handleClose();
+    console.log("JIRA LINK")
   }
 
   const isDraft = () => {
@@ -72,14 +89,15 @@ export default function CustomCard({ checkBox, data, type }) {
         {dateGetter(data.dueDate, "dueDate")}
       </Typography >
     }
-    return <Typography color="primary" fontWeight={500} sx={{ visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate, "dueDate")} </Typography>
+    return <Typography color="primary" fontWeight={500} mt={2} pl={1} sx={{ visibility: 'hidden ' }}> Needed By {dateGetter(data.dueDate, "dueDate")} </Typography>
   }
   const renderLink = () => {
     if (isActionItem()) {
-      return <Button variant="contained" size='small' sx={{ display: 'inline-flex', marginLeft: 30 }} >JIRA LINK</Button>
+      return <Button variant="contained" size='small' sx={{ display: 'inline-flex' }} onClick={PreventParentClick(() => handleLinkButton())}>JIRA LINK</Button>
     }
-    return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 20, visibility: 'hidden' }} >JIRA LINK</Button>
+    return <Button variant="contained" sx={{ display: 'inline-flex', visibility: 'hidden' }} >JIRA LINK</Button>
   }
+
   const renderCheckBox = () => {
     if (checkBox === true) {
       if (isDraft()) {
@@ -91,45 +109,48 @@ export default function CustomCard({ checkBox, data, type }) {
   };
   return (
     <Box m={3}>
+      <PONotesDialog updateItem open={open} handleClose={handleClose} data={data} />
       <Cards>
-        <CardContent >
-          <CardHeader>
-            {
-              renderCheckBox()
-            }
-            {
-              isDraft() ?
+        <CardActionArea onClick={handleClickOpen}>
+          <CardContent >
+            <CardHeader>{renderCheckBox()}
+              {isDraft() ?
                 (<Status colour={statusDraft} status={STATUS.draft} />) :
                 (<Status colour={statusCompleted} status={STATUS.published} />)
-            }
-            <Typography variant="caption" display="block" gutterBottom>
-              {dateGetter(data.createdAt, "createdAt")}
-            </Typography>
-          </CardHeader>
-          <Box>
-            <Tooltip title={data.note}>
-              <Typography mt={3} pl={1} sx={{
-                overflow: "hidden", textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitLineClamp: 4,
-                WebkitBoxOrient: "vertical",
-              }}> {data.note}</Typography>
-            </Tooltip>
-          </Box>
-          <Box sx={{ position: 'relative', bottom: 0, top: 35, display: 'inline-block' }}>
-            {renderdueDate()}
-            <Stack direction="row" spacing={-1} mt={2} pl={1} sx={{ display: 'inline-flex' }}>
-              {
-                collaborators.map((names) => <Avatar {...stringAvatar(names)} />)
               }
-            </Stack>
-          </Box>
-          {renderLink()}
-        </CardContent>
-      </Cards >
-    </Box >
+              <Typography variant="caption" display="block" gutterBottom>
+                {dateGetter(data.createdAt, "createdAt")}
+              </Typography>
+            </CardHeader>
+            <Box>
+              <Tooltip title={data.note}>
+                <Typography mt={3} pl={1} sx={{
+                  maxWidth: '400px',
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  wordWrap: "break-word",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 4,
+                  WebkitBoxOrient: "vertical",
+                }}> {data.note}</Typography>
+              </Tooltip>
+            </Box>
+            <Box sx={{ position: 'relative', bottom: 0, top: 35 }}>
+              {renderdueDate()}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Stack direction="row" spacing={-1} mb={4} pl={1}>
+                  {collaborators.map((names) => <Avatar {...stringAvatar(names)} />)}
+                </Stack>
+                <Box pr={2}> {renderLink()} </Box>
+              </Box>
+            </Box>
+          </CardContent>
+        </CardActionArea>
+      </Cards>
+    </Box>
   );
 };
+
 CustomCard.propTypes = {
   checkBox: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
