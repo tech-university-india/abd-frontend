@@ -17,7 +17,7 @@ export default function PONotesGridLayout(
     <Box
       sx={{
         display: 'flex', flexDirection: 'row', flexWrap: 'nowrap',
-        gap: '5vh', justifyContent: 'space-between', padding: '50px 50px 50px 50px'
+        gap: '5vh', justifyContent: 'space-around', padding: '50px 50px 50px 50px'
       }}>
 
       {/* Table for action items */}

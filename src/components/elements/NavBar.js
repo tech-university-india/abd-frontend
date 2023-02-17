@@ -47,9 +47,9 @@ export default function Navbar() {
                   <Typography
                     color='secondary.main'
                     sx={{
-                      my: 2, ...(location.pathname === routes[index] &&
+                      ...(location.pathname === routes[index] &&
                         { textDecoration: 'underline', textUnderlineOffset: '10px', color: 'primary.main' }),
-                      ':hover': { color: 'primary.main' }, display: 'flex'
+                      ':hover': { color: 'primary.main' }, display: 'flex', fontSize: '1rem'
                     }}> {page}
                   </Typography>
                 </Link>
@@ -68,25 +68,10 @@ export default function Navbar() {
               keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }}
               open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}
             >
-              My Agile Board
-            </Typography>
-            <Box sx={{ marginRight: 5, flexGrow: 3, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page, index) => (
-                <Box
-                  key={page}
-                  sx={{ flexGrow: 1 }}
-                >
-                  <Link style={{ textDecoration: 'none' }} to={routes[index]}>
-                    <Typography
-                      color='secondary.main'
-                      sx={{
-                        ...(location.pathname === routes[index] &&
-                          { textDecoration: 'underline', textUnderlineOffset: '10px', color: 'primary.main' }),
-                        ':hover': { color: 'primary.main' }, display: 'flex', fontSize: '1rem'
-                      }}> {page}
-                    </Typography>
-                  </Link>
-                </Box>
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
               ))}
             </Menu>
           </Box>
