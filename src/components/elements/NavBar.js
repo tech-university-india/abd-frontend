@@ -49,9 +49,9 @@ export default function Navbar() {
                     <Typography
                       color='secondary.main'
                       sx={{
-                        my: 2, ...(location.pathname === routes[index] &&
+                        ...(location.pathname === routes[index] &&
                           { textDecoration: 'underline', textUnderlineOffset: '10px', color: 'primary.main' }),
-                        ':hover': { color: 'primary.main' }, display: 'flex'
+                        ':hover': { color: 'primary.main' }, display: 'flex', fontSize: '1rem'
                       }}> {page}
                     </Typography>
                   </Link>
