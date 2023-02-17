@@ -40,7 +40,6 @@ const CardHeader = styled(Box)(() => ({
 export default function CustomCard({ checkBox, data, type }) {
   const [checked, setChecked] = useState(data.status === STATUS.completed);
   const { setError, setSuccess } = React.useContext(ErrorContext);
-
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -114,14 +113,10 @@ export default function CustomCard({ checkBox, data, type }) {
       <Cards>
         <CardActionArea onClick={handleClickOpen}>
           <CardContent >
-            <CardHeader>
-              {
-                renderCheckBox()
-              }
-              {
-                isDraft() ?
-                  (<Status colour={statusDraft} status={STATUS.draft} />) :
-                  (<Status colour={statusCompleted} status={STATUS.published} />)
+            <CardHeader>{renderCheckBox()}
+              {isDraft() ?
+                (<Status colour={statusDraft} status={STATUS.draft} />) :
+                (<Status colour={statusCompleted} status={STATUS.published} />)
               }
               <Typography variant="caption" display="block" gutterBottom>
                 {dateGetter(data.createdAt, "createdAt")}
@@ -144,21 +139,18 @@ export default function CustomCard({ checkBox, data, type }) {
               {renderdueDate()}
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Stack direction="row" spacing={-1} mb={4} pl={1}>
-                  {
-                    collaborators.map((names) => <Avatar {...stringAvatar(names)} />)
-                  }
+                  {collaborators.map((names) => <Avatar {...stringAvatar(names)} />)}
                 </Stack>
-                <Box pr={2}>
-                  {renderLink()}
-                </Box>
+                <Box pr={2}> {renderLink()} </Box>
               </Box>
             </Box>
           </CardContent>
         </CardActionArea>
-      </Cards >
-    </Box >
+      </Cards>
+    </Box>
   );
 };
+
 CustomCard.propTypes = {
   checkBox: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
