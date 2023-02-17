@@ -3,7 +3,7 @@ import { Box, IconButton } from "@mui/material";
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 import PONotesDialog from './PONotesDialog';
 
-export default function AddPoNotes() {
+export default function AddPONotes() {
 
   const [addNote, setAddNote] = useState(false);
 
