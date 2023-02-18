@@ -6,15 +6,16 @@ import PropTypes from "prop-types";
 
 import IconCheckbox from "../../../elements/poNotes/IconCheckbox";
 import DateFilterBox from "../../../elements/poNotes/DateFilterBox";
+import { capitalize } from "../../../utilityFunctions/String";
 
 const mainBoxPadding = "16px";
 
-export default function QuickFilterPopover({onChange}) {
+export default function QuickFilterPopover({ onChange }) {
   const [filters, setFilters] = React.useState({});
 
   useEffect(() => {
     onChange(filters);
-  }, [filters])
+  }, [filters]);
 
   return (
     <Box
@@ -36,39 +37,21 @@ export default function QuickFilterPopover({onChange}) {
           Date Filters
         </Typography>
 
-        <IconCheckbox
-          Icon={AccessAlarm}
-          label="Today"
-          isChecked={filters.date === "today"}
-          onChange={(isChecked) => {
-            setFilters({
-              ...filters,
-              date: isChecked ? "today" : undefined,
-            });
-          }}
-        />
-        <IconCheckbox
-          Icon={AccessAlarm}
-          label="Yesterday"
-          isChecked={filters.date === "yesterday"}
-          onChange={(isChecked) => {
-            setFilters({
-              ...filters,
-              date: isChecked ? "yesterday" : undefined,
-            });
-          }}
-        />
-        <IconCheckbox
-          Icon={AccessAlarm}
-          label="This Week"
-          isChecked={filters.date === "week"}
-          onChange={(isChecked) => {
-            setFilters({
-              ...filters,
-              date: isChecked ? "week" : undefined,
-            });
-          }}
-        />
+        {["today", "yesterday", "week"].map((date) => (
+          <IconCheckbox
+            Icon={AccessAlarm}
+            label={capitalize(date)}
+            isChecked={filters.date === date}
+            onChange={(isChecked) => {
+              setFilters({
+                ...filters,
+                startDate: undefined,
+                endDate: undefined,
+                date: isChecked ? date : undefined,
+              });
+            }}
+          />
+        ))}
 
         {/* Status Filters */}
         <Typography
@@ -81,41 +64,19 @@ export default function QuickFilterPopover({onChange}) {
           Status Filters
         </Typography>
 
-        <IconCheckbox
-          Icon={PendingActions}
-          label="PENDING"
-          isChecked={filters.status === "PENDING"}
-          onChange={(isChecked) => {
-            setFilters({
-              ...filters,
-              status: isChecked ? "PENDING" : undefined,
-            });
-          }}
-        />
-
-        <IconCheckbox
-          Icon={PendingActions}
-          label="COMPLETED"
-          isChecked={filters.status === "COMPLETED"}
-          onChange={(isChecked) => {
-            setFilters({
-              ...filters,
-              status: isChecked ? "COMPLETED" : undefined,
-            });
-          }}
-        />
-
-        <IconCheckbox
-          Icon={PendingActions}
-          label="DRAFT"
-          isChecked={filters.status === "DRAFT"}
-          onChange={(isChecked) => {
-            setFilters({
-              ...filters,
-              status: isChecked ? "DRAFT" : undefined,
-            });
-          }}
-        />
+        {["PENDING", "COMPLETED", "DRAFT"].map((status) => (
+          <IconCheckbox
+            Icon={PendingActions}
+            label={capitalize(status)}
+            isChecked={filters.status === status}
+            onChange={(isChecked) => {
+              setFilters({
+                ...filters,
+                status: isChecked ? status : undefined,
+              });
+            }}
+          />
+        ))}
 
         {/* Custom Filters */}
         <Typography
@@ -129,17 +90,17 @@ export default function QuickFilterPopover({onChange}) {
         </Typography>
 
         <DateFilterBox
-          label="From Date"
+          label={filters.startDate ?? "From Date"}
           disabled={Boolean(filters.date)}
           onChange={(date) => {
-            setFilters({...filters, startDate: date});
+            setFilters({ ...filters, startDate: date, date: undefined });
           }}
         />
         <DateFilterBox
-          label="End Date"
+          label={filters.endDate ?? "End Date"}
           disabled={Boolean(filters.date)}
           onChange={(date) => {
-            setFilters({...filters, endDate: date});
+            setFilters({ ...filters, endDate: date, date: undefined });
           }}
         />
       </Box>
@@ -149,4 +110,4 @@ export default function QuickFilterPopover({onChange}) {
 
 QuickFilterPopover.propTypes = {
   onChange: PropTypes.func.isRequired,
-}
+};
