@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
-import { Box, AppBar, Container, InputLabel, MenuItem, FormControl, Select, Toolbar, Typography } from '@mui/material';
+import { Box, AppBar, Container, InputLabel, FormControl, Toolbar, Typography, Popover, Select } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import SearchBar from '../utilityFunctions/SearchBar';
 import AddPONotes from './AddPONotes';
+import QuickFilterPopover from './poNotesTables/poNotesTablesHeader/QuickFilterPopover';
 
 export default function PONotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [quickFilterType, setQuickFilter] = useState('');
-  const quickFilterHandler = (event) => {
-    setQuickFilter(event.target.value);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handQuickFilterClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
+
+  const handleClose = () => {
+    console.log('close');
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
   return (
     <AppBar position="static" sx={{ background: 'transparent', boxShadow: 'none' }}>
       <Container maxWidth="xl" padding='0' margin='0'>
@@ -28,7 +38,7 @@ export default function PONotesHeader() {
             <Box sx={{ flexGrow: 0.5 }}>
               <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </Box>
-            <FormControl sx={{ minWidth: 200 }} size="small">
+            <FormControl id="demo-select-small" sx={{ minWidth: 200}} onClick={handQuickFilterClick} size="small">
               <InputLabel id="demo-select-small">
                 <Box display='flex' align-items='center'>
                   Quick Filters
@@ -38,18 +48,25 @@ export default function PONotesHeader() {
               </InputLabel>
               <Select
                 labelId="demo-select-small"
-                id="demo-select-small"
-                value={quickFilterType}
-                label="Quick Filters Icn"
-                onChange={quickFilterHandler}
+                aria-describedby={id}
+                label="Quick Filters Icon"
+                disabled
+               />
+               <Popover
+                id='quick-filter-popover'
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={1}>Today</MenuItem>
-                <MenuItem value={2}>Yesterday</MenuItem>
-                <MenuItem value={3}>Custom Date Range</MenuItem>
-              </Select>
+                <QuickFilterPopover onChange={(filters) => {
+                  // TODO: update the filters as per requirement and integrate with backend
+                  console.log(filters);
+                }} />
+              </Popover>
             </FormControl>
           </Box>
           <Box sx={{ mr: 5, display: { xs: 'none', md: 'flex' } }}>

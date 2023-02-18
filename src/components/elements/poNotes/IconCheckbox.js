@@ -1,10 +1,10 @@
-import { Checkbox, InputLabel } from "@mui/material";
+import { Checkbox, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import PropTypes from "prop-types";
 import style from "react-style-proptype";
 
-export default function IconCheckbox({ Icon, label, onChange, sx = {} }) {
+export default function IconCheckbox({ Icon, label, onChange, isChecked=false, sx = {} }) {
   const idName = `${label.toLowerCase().replace(" ", "-")}-checkbox`;
 
   return (
@@ -30,14 +30,14 @@ export default function IconCheckbox({ Icon, label, onChange, sx = {} }) {
             marginRight: "18px",
           }}
         />
-        <InputLabel
-          htmlFor={idName}
+        <Typography
           sx={{
             color: "black",
+            position: "relative",
           }}
         >
           {label}
-        </InputLabel>
+        </Typography>
       </Box>
 
       <Checkbox
@@ -53,6 +53,7 @@ export default function IconCheckbox({ Icon, label, onChange, sx = {} }) {
             fontSize: 26,
           },
         }}
+        checked={isChecked}
         onChange={(e) => onChange(e.target.checked)}
       />
     </Box>
@@ -63,9 +64,11 @@ IconCheckbox.propTypes = {
   Icon: PropTypes.elementType.isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  isChecked: PropTypes.bool,
   sx: style,
 };
 
 IconCheckbox.defaultProps = {
+  isChecked: false,
   sx: {},
 };

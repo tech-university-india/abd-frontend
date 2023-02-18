@@ -3,14 +3,16 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { DateRange } from "@mui/icons-material";
 import ReactDatePicker from "react-datepicker";
 import PropTypes from "prop-types";
-import { getOnlyDateString } from "../../utilityFunctions/date";
+import { getOnlyDateString } from "../../utilityFunctions/Date";
 
-// eslint-disable-next-line react/prop-types
-export default function DateFilterBox({ label, onChange }) {
+import "react-datepicker/dist/react-datepicker.css";
+
+export default function DateFilterBox({ label, onChange, disabled = false }) {
   const [date, setDate] = React.useState(undefined);
 
   return (
     <ReactDatePicker
+      disabled={disabled}
       onChange={(_date) => {
         setDate(_date);
         onChange(_date);
@@ -36,7 +38,7 @@ export default function DateFilterBox({ label, onChange }) {
           >
             <DateRange
               sx={{
-                color: "#08A0F7",
+                color: disabled ? "gray" : "#08A0F7",
               }}
             />
           </IconButton>
@@ -46,7 +48,12 @@ export default function DateFilterBox({ label, onChange }) {
   );
 }
 
-DateFilterBox.prop = {
+DateFilterBox.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+DateFilterBox.defaultProps = {
+  disabled: false,
 };
