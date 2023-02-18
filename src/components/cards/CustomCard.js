@@ -1,16 +1,23 @@
 import React, { useState } from 'react'
 import { PropTypes } from 'prop-types';
-import { Box, Card, CardContent, Typography, Button, Checkbox, styled, Stack, Avatar, Tooltip } from '@mui/material';
+import {
+  Box, Card, CardContent, Typography, Button,
+  Checkbox, styled, Stack, Avatar, Tooltip, CardActionArea
+}
+  from '@mui/material';
 import stc from 'string-to-color';
+import axios from 'axios';
 import Status from './Status';
 import dateGetter from '../utilityFunctions/DateGetter';
 import { STATUS, TYPE } from '../utilityFunctions/Enums';
 import { statusCompleted, statusDraft } from '../utilityFunctions/Color';
-import collabrators from '../utilityFunctions/CollaboratorsData';
+import { collaborators } from '../constants/PONotes';
+import { DOMAIN } from '../../config';
+import { ErrorContext } from '../contexts/ErrorContext';
+import PONotesDialog from '../poNotesComponents/PONotesDialog';
+import PreventParentClick from '../utilityFunctions/PreventParentClick';
 
 const stringToColor = (string) => (stc(string))
-
-
 function stringAvatar(name) {
   return {
     sx: {
@@ -20,98 +27,139 @@ function stringAvatar(name) {
   };
 }
 
-function toggle(value) {
-  return !value;
-}
-
 const Cards = styled(Card)(() => ({
   width: 'auto',
   height: 'auto',
   borderRadius: 30,
 }));
-
 const CardHeader = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'space-between'
 }));
 
+export default function CustomCard({ checkBox, data, type }) {
+  const [checked, setChecked] = useState(data.status === STATUS.completed);
+  const { setError, setSuccess } = React.useContext(ErrorContext);
+  const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
+  const handleClose = () => {
+    setOpen(false ?? !open)
+  };
 
-export default function CustomCard({ chckBox, data, type }) {
-  const [checked, setChecked] = useState(false);
-  const renderdueDate = () => {
-    if (TYPE.action_item === type) {
-      return <Typography color="primary" fontWeight={500} mt={2} pl={1}> Needed By {dateGetter(data.dueDate, "dueDate")}</Typography>
+  const isActionItem = () => {
+    if (type === TYPE.action_item) {
+      return true;
     }
-    return <Typography color="primary" fontWeight={500} sx={{ visibility: 'hidden' }}> Needed By {dateGetter(data.dueDate, "dueDate")}</Typography>
+    return false;
   }
 
-  const renderLink = () => {
-    if (type === TYPE.key_decision || type === TYPE.agenda_item) {
-      return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 20, visibility: 'hidden' }} >JIRA LINK</Button>
+  const handleToggle = async (status) => {
+    try {
+      handleClose();
+      const body = { 'status': !status ? STATUS.completed : STATUS.pending }
+      await axios.patch(`${DOMAIN}/api/po-notes/${data.noteId}`, body)
+      setSuccess(`Suceessfully marked as ${!status ? STATUS.completed : STATUS.pending}`)
+      setChecked(!status)
     }
+    catch (er) {
+      setError(`${er.message}Error in marking as ${!status ? STATUS.completed : STATUS.pending}`)
+    }
+  }
 
-    return <Button variant="contained" sx={{ display: 'inline-flex', marginLeft: 30 }} >JIRA LINK</Button>
+  const handleLinkButton = () => {
+    handleClose();
+    console.log("JIRA LINK")
+  }
+
+  const isDraft = () => {
+    if (data.status === STATUS.draft) return true;
+    return false;
+  }
+
+  const renderdueDate = () => {
+    if (isActionItem()) {
+      return <Typography color="primary" fontWeight={500} mt={2} pl={1} >
+        <Typography variant="overline" display="inline-flex" gutterBottom pr={1}>
+          Needed By
+        </Typography>
+        {dateGetter(data.dueDate, "dueDate")}
+      </Typography >
+    }
+    return <Typography color="primary" fontWeight={500} mt={2} pl={1} sx={{ visibility: 'hidden ' }}> Needed By {dateGetter(data.dueDate, "dueDate")} </Typography>
+  }
+  const renderLink = () => {
+    if (isActionItem()) {
+      return <Button variant="contained" size='small' sx={{ display: 'inline-flex' }} onClick={PreventParentClick(() => handleLinkButton())}>JIRA LINK</Button>
+    }
+    return <Button variant="contained" sx={{ display: 'inline-flex', visibility: 'hidden' }} >JIRA LINK</Button>
   }
 
   const renderCheckBox = () => {
-    if (chckBox === true) {
-      if (data.status === STATUS.completed) {
-        return <Checkbox color='primary' size="large" checked={checked} onChange={() => setChecked(toggle)} />
+    if (checkBox === true) {
+      if (isDraft()) {
+        return <Checkbox color='primary' size="large" disabled />
       }
-      return <Checkbox color='primary' size="large" disabled />
+      return <Checkbox color='primary' size="large" checked={checked} onChange={() => handleToggle(checked)} />
     }
     return <Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />
   };
-
   return (
     <Box m={3}>
+      <PONotesDialog updateItem open={open} handleClose={handleClose} data={data} />
       <Cards>
-        <CardContent >
-          <CardHeader>
-            {
-              renderCheckBox()
-            }
-            {
-              data.status === STATUS.completed ? (<Status colour={statusCompleted} status={STATUS.published} />) : <Status colour={statusDraft} status={STATUS.draft} />
-            }
-            <Typography color="secondary" variant="h8" mt={2}>{dateGetter(data.createdAt, "createdAt")} </Typography>
-          </CardHeader>
-          <Box>
-            <Tooltip title={data.note}>
-              <Typography mt={3} pl={1} sx={{
-                overflow: "hidden", textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitLineClamp: 4,
-                WebkitBoxOrient: "vertical",
-              }}> {data.note}</Typography>
-            </Tooltip>
-          </Box>
-          <Box sx={{ position: 'relative', bottom: 0, top: 35, display: 'inline-block' }}>
-            {renderdueDate()}
-            <Stack direction="row" spacing={-1} mt={2} pl={1} sx={{ display: 'inline-flex' }}>
-              {
-               collabrators.map((names) => <Avatar {...stringAvatar(names)} />)
+        <CardActionArea onClick={handleClickOpen}>
+          <CardContent >
+            <CardHeader>{renderCheckBox()}
+              {isDraft() ?
+                (<Status colour={statusDraft} status={STATUS.draft} />) :
+                (<Status colour={statusCompleted} status={STATUS.published} />)
               }
-            </Stack>
-          </Box>
-          {renderLink()}
-        </CardContent>
+              <Typography variant="caption" display="block" gutterBottom>
+                {dateGetter(data.createdAt, "createdAt")}
+              </Typography>
+            </CardHeader>
+            <Box>
+              <Tooltip title={data.note}>
+                <Typography mt={3} pl={1} sx={{
+                  maxWidth: '400px',
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  wordWrap: "break-word",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 4,
+                  WebkitBoxOrient: "vertical",
+                }}> {data.note}</Typography>
+              </Tooltip>
+            </Box>
+            <Box sx={{ position: 'relative', bottom: 0, top: 35 }}>
+              {renderdueDate()}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Stack direction="row" spacing={-1} mb={4} pl={1}>
+                  {collaborators.map((names) => <Avatar {...stringAvatar(names)} />)}
+                </Stack>
+                <Box pr={2}> {renderLink()} </Box>
+              </Box>
+            </Box>
+          </CardContent>
+        </CardActionArea>
       </Cards>
     </Box>
   );
 };
 
 CustomCard.propTypes = {
-  chckBox: PropTypes.bool.isRequired,
+  checkBox: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
   data: PropTypes.shape({
+    noteId: PropTypes.number.isRequired,
     note: PropTypes.string.isRequired,
     issueLink: PropTypes.string,
     dueDate: PropTypes.string,
     createdAt: PropTypes.string.isRequired,
     status: PropTypes.string,
-    // collabrators: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 };

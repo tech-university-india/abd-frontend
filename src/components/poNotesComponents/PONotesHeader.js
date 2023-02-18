@@ -1,26 +1,18 @@
 import React, { useState } from 'react';
-import {
-  Box, AppBar, Container, InputLabel, MenuItem,
-  FormControl, Select, Toolbar, Typography
-} from '@mui/material';
+import { Box, AppBar, Container, InputLabel, MenuItem, FormControl, Select, Toolbar, Typography } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-
 import SearchBar from '../utilityFunctions/SearchBar';
-import AddPoNotes from './AddPoNotes';
-import ErrorSnackbar from '../utilityFunctions/ErrorSnackbar';
-import SuccessSnackbar from '../utilityFunctions/SuccessSnackbar';
+import AddPONotes from './AddPONotes';
 
-export default function PoNotesHeader() {
+export default function PONotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');
   const [quickFilterType, setQuickFilter] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const quickFilterHandler = (event) => {
     setQuickFilter(event.target.value);
   };
   return (
     <AppBar position="static" sx={{ background: 'transparent', boxShadow: 'none' }}>
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" padding='0' margin='0'>
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 2, display: { xs: 'none', md: 'flex' } }}>
             <Typography
@@ -61,10 +53,8 @@ export default function PoNotesHeader() {
             </FormControl>
           </Box>
           <Box sx={{ mr: 5, display: { xs: 'none', md: 'flex' } }}>
-            <AddPoNotes setError={setError} setSuccess={setSuccess} />
+            <AddPONotes updateItem={false} data={{ status: "DRAT", noteType: "ACTION_ITEM", note: "hello", dueDate: "kk" }} />
           </Box>
-          {error !== '' && (<Box><ErrorSnackbar message={error} setError={setError} /></Box>)}
-          {success !== '' && (<Box><SuccessSnackbar message={success} setSuccess={setSuccess} /></Box>)}
         </Toolbar>
       </Container>
     </AppBar >

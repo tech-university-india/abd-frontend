@@ -7,7 +7,7 @@ export default function Timeline({ isSubmit, timeline, setTimeline }) {
     setTimeline(e.target.value);
   };
   return (
-    <Box>
+    <Box disabled>
       <Typography sx={{ fontWeight: 700, marginLeft: '20px', marginTop: '2px' }}>Timeline</Typography>
       <List>
         <ListItem>
@@ -20,7 +20,6 @@ export default function Timeline({ isSubmit, timeline, setTimeline }) {
     </Box>
   );
 }
-
 Timeline.propTypes = {
   isSubmit: PropTypes.bool.isRequired,
   timeline: PropTypes.string.isRequired,

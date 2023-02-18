@@ -1,17 +1,15 @@
 import React from 'react';
-import { Box, ThemeProvider } from '@mui/material';
+import { Box } from '@mui/material';
+import PONotesBody from '../poNotesComponents/PONotesBody';
+import PONotesHeader from '../poNotesComponents/PONotesHeader';
 
-import PoNotesBody from '../poNotesComponents/PONotesBody';
-import PoNotesHeader from '../poNotesComponents/PONotesHeader';
-import theme from '../theme/GlobalTheme';
-
-export default function PoNotesContainer() {
+export default function PONotesContainer() {
   return (
-    <ThemeProvider theme={theme}>
+    <Box>
       <Box>
-        <Box sx={{ m: -2, p: 4 }}> <PoNotesHeader /> </Box>
-        <Box > <PoNotesBody /> </Box>
+        <PONotesHeader />
       </Box>
-    </ThemeProvider>
+      <Box > <PONotesBody /> </Box>
+    </Box>
   );
 };

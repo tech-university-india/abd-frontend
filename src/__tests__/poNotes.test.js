@@ -2,15 +2,14 @@ import React from 'react';
 import { render, cleanup, getByTestId, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
-
-import PoNotesContainer from '../components/routes/poNotes';
+import PONotesContainer from '../components/routes/PONotes';
 
 describe('po-notes', () => {
   afterEach(cleanup);
   it('renders the po-notes page', () => {
     const { container } = render(
       <MemoryRouter initialEntries={['/po-notes']}>
-        <PoNotesContainer />
+        <PONotesContainer />
       </MemoryRouter>
     )
     const poNotesIdentifier = getByTestId(container, 'poNotesIdentifier');
@@ -19,23 +18,23 @@ describe('po-notes', () => {
   it('should open form to add po notes', () => {
     const { container, getByText } = render(
       <MemoryRouter initialEntries={['/po-notes']}>
-        <PoNotesContainer />
+        <PONotesContainer />
       </MemoryRouter>
     );
-    const AddPoNotesForm = getByTestId(container, 'AddPoNotesFormIdentifier');
-    fireEvent.click(AddPoNotesForm);
+    const AddPONotesForm = getByTestId(container, 'AddPONotesFormIdentifier');
+    fireEvent.click(AddPONotesForm);
     expect(getByText('Add a Note')).toBeInTheDocument();
   });
 
-  xit('should select action-item by default when we render addPoNotes form', () => {
+  xit('should select action-item by default when we render addPONotes form', () => {
 
   });
 
-  xit('should render timeline when action-item is selected in addPoNotesForm', () => {
+  xit('should render timeline when action-item is selected in addPONotesForm', () => {
 
   });
 
-  xit('should not render timeline when key decision or agenda-item is selected in addPoNotesForm', () => {
+  xit('should not render timeline when key decision or agenda-item is selected in addPONotesForm', () => {
 
   });
 

@@ -23,7 +23,6 @@ export default function SuccessSnackbar({ message, setSuccess }) {
     </Stack>
   );
 }
-
 SuccessSnackbar.propTypes = {
   message: PropTypes.string.isRequired,
   setSuccess: PropTypes.func.isRequired,
