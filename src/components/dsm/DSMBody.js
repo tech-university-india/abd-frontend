@@ -1,5 +1,4 @@
 import { React, useContext } from 'react';
-// import Proptypes from "prop-types";
 import {
   Grid
 } from '@mui/material';
@@ -9,10 +8,8 @@ import Announcements from './Announcements';
 import Requests from './Requests';
 import { DSMBodyLayoutContext } from '../contexts/DSMBodyLayoutContext';
 
-
 export default function DSMBody() {
   const { gridHeightState } = useContext(DSMBodyLayoutContext)
-
   return (
     <Grid container spacing={2} sx={{ padding: '50px 50px 50px 50px' }} height="100%" backgroundColor='backgroundColor.main'>
       <Grid item xs={gridHeightState.celebration.fullExpanded ? 12 : 8} height="inherit">

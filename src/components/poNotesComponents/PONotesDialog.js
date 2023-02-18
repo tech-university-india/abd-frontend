@@ -61,10 +61,7 @@ export default function PONotesDialog({ updateItem, data, open, handleClose }) {
     );
   const [type, setType] = useState(updateItem ? data?.type : 'ACTION_ITEM');
   const [statement, setStatement] = useState(updateItem ? data?.note : '');
-
-  // console.log(data, lock, updateItem, type, statement, timeline);
   const getEditColor = () => (updateItem && !lock) ? 'primary.main' : 'secondary.main'
-
   const handleEditIcon = () => {
     setLock(!lock);
   };

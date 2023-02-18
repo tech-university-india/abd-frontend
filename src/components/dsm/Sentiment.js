@@ -1,25 +1,13 @@
 import React, { useContext } from 'react';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
-// import Proptypes from "prop-types";
-// import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { DSMBodyLayoutContext } from "../contexts/DSMBodyLayoutContext"
-// import MuiAccordion from '@mui/material/Accordion';
-// import MuiAccordionSummary from '@mui/material/AccordionSummary';
+
 export default function Sentiment() {
   const { gridHeightState, dispatchGridHeight } = useContext(DSMBodyLayoutContext)
-
-  // const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  //   padding: 0,
-  //   borderTop: '1px solid rgba(0, 0, 0, .125)',
-  // }));
-
-
   const handleExpandSentiment = () => {
     dispatchGridHeight({ type: "SENTIMENT" })
   };
-
   return (
     <Grid item sx={{ marginBottom: "10px", paddingBottom: "10px", ...(gridHeightState.sentiment.expanded && { paddingBottom: "15px" }), display: "flex", flexDirection: "row", justifyContent: "space-between" }} height={gridHeightState.sentiment.height}>
       <Grid item xs={gridHeightState.celebration.fullExpanded ? 8 : 12}>
@@ -34,9 +22,11 @@ export default function Sentiment() {
               textAlign: "center",
             }}
           >
+            {/* All Content/Development of SentimentMeter HEADER goes here */}
             <Typography variant="dsmMain" width="100%">How are you feeling today?</Typography>
           </AccordionSummary>
           <AccordionDetails height="100%">
+            {/* All Content/Development of SentimentMeter BODY goes here */}
             <Typography>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
               malesuada lacus ex, sit amet blandit leo lobortis eget.

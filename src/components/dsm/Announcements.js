@@ -1,12 +1,10 @@
 import React, { useContext } from 'react';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import Proptypes from "prop-types";
 import { DSMBodyLayoutContext } from "../contexts/DSMBodyLayoutContext"
 
 export default function Announcements() {
   const { gridHeightState, dispatchGridHeight } = useContext(DSMBodyLayoutContext)
-
   const handleExpandAnnouncements = () => {
     dispatchGridHeight({ type: "ANNOUNCEMENT" })
   };
@@ -21,9 +19,11 @@ export default function Announcements() {
           aria-controls="panel4a-content"
           id="panel4a-header"
         >
+          {/* All Content/Development of Announcements HEADER goes here */}
           <Typography variant="dsmSubMain">Announcements</Typography>
         </AccordionSummary>
         <AccordionDetails>
+          {/* All Content/Development of Announcements BODY goes here */}
           <Typography>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
             malesuada lacus ex, sit amet blandit leo lobortis eget.

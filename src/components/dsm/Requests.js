@@ -1,16 +1,13 @@
 import React, { useContext } from 'react';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import Proptypes from 'prop-types';
 import { DSMBodyLayoutContext } from '../contexts/DSMBodyLayoutContext';
 
 export default function Requests() {
   const { gridHeightState, dispatchGridHeight } = useContext(DSMBodyLayoutContext)
-
   const handleExpandRequests = () => {
     dispatchGridHeight({ type: "REQUEST" })
   };
-
   return (
     <Grid item height={gridHeightState.request.height} sx={{ ...(gridHeightState.request.expanded && { paddingBottom: "15px" }) }}>
       <Accordion expanded={gridHeightState.request.expanded} onChange={handleExpandRequests} sx={{
@@ -21,9 +18,11 @@ export default function Requests() {
           aria-controls="panel3a-content"
           id="panel3a-header"
         >
+          {/* All Content/Development of Requests HEADER goes here */}
           <Typography variant="dsmSubMain">Requests</Typography>
         </AccordionSummary>
         <AccordionDetails>
+          {/* All Content/Development of Requests BODY goes here */}
           <Typography>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
             malesuada lacus ex, sit amet blandit leo lobortis eget.

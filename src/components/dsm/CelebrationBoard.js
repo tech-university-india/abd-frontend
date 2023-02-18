@@ -1,17 +1,14 @@
 import React, { useContext } from 'react';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
-// import Proptypes from "prop-types";
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { DSMBodyLayoutContext } from "../contexts/DSMBodyLayoutContext"
 
 export default function CelebrationBoard() {
   const { gridHeightState, dispatchGridHeight } = useContext(DSMBodyLayoutContext)
-
   const handleExpandCelebration = () => {
     dispatchGridHeight({ type: "CELEBRATION" })
   };
-
   return (
     <Grid item height={gridHeightState.celebration.height}>
       <Accordion expanded={gridHeightState.celebration.expanded} onChange={handleExpandCelebration} sx={{
@@ -22,9 +19,11 @@ export default function CelebrationBoard() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
+          {/* All Content/Development of Celebration Board HEADER goes here */}
           <Typography variant="dsmSubMain">Celebration Board</Typography>
         </AccordionSummary>
         <AccordionDetails>
+          {/* All Content/Development of Celebration Board BODY goes here */}
           <Typography>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
             malesuada lacus ex, sit amet blandit leo lobortis eget.
