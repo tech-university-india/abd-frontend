@@ -26,6 +26,9 @@ const theme = createTheme({
       main: '#FFFFFF',
       contrastText: '#044ED7',
     },
+    backgroundColor: {
+      main: '#e6eef2',
+    }
   },
   components: {
     MuiTypography: {
@@ -35,7 +38,6 @@ const theme = createTheme({
           color: 'white',
           display: 'flow',
           lineHeight: '22px',
-
           fontFamily: 'Roboto',
         },
       },
@@ -69,7 +71,26 @@ const theme = createTheme({
       palette: {
         backgroundColor: '#E6EEF2'
       }
-    }
+    },
   }
 });
+
+theme.typography.dsmMain = {
+  ...theme.typography.button,
+  color: '#051C2C',
+  display: 'flow',
+  fontFamily: 'Roboto',
+  fontSize: "25px",
+  fontWeight: "400"
+}
+
+theme.typography.dsmSubMain = {
+  ...theme.typography.button,
+  color: '#051C2C',
+  display: 'flow',
+  fontFamily: 'Roboto',
+  fontSize: "17px",
+  fontWeight: "400"
+}
+
 export default theme;
