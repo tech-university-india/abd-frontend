@@ -92,7 +92,6 @@ export default function PONotesDialog({ updateItem, data, open, handleClose }) {
 
 
       if (updateItem) {
-        console.log(body);
         await axios.patch(`${DOMAIN}/api/po-notes/${data.noteId}`, body);
         const response = 'Note UPDATED successfully';
         setSuccess(() => response);
