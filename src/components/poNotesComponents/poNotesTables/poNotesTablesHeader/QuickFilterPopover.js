@@ -25,6 +25,7 @@ export default function QuickFilterPopover({ onChange }) {
         p: mainBoxPadding,
         boxSizing: "border-box",
       }}
+      color="quickFilterPopover"
     >
       {/* Date Filters */}
       <Box>

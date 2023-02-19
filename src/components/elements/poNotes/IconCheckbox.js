@@ -29,10 +29,10 @@ export default function IconCheckbox({ Icon, label, onChange, isChecked=false, s
           sx={{
             marginRight: "18px",
           }}
+          color="iconCheckbox"
         />
         <Typography
           sx={{
-            color: "black",
             position: "relative",
           }}
         >

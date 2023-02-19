@@ -26,6 +26,13 @@ const theme = createTheme({
       main: '#FFFFFF',
       contrastText: '#044ED7',
     },
+    quickFilterPopover: {
+      main: '#FFFFFF',
+      contrastText: '#121212',
+    },
+    iconCheckbox: {
+      main: '#323232'
+    }
   },
   components: {
     MuiTypography: {
