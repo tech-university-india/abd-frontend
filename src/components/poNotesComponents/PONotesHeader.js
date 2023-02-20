@@ -4,6 +4,7 @@ import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import SearchBar from '../utilityFunctions/SearchBar';
 import AddPONotes from './AddPONotes';
 import QuickFilterPopover from './poNotesTables/poNotesTablesHeader/QuickFilterPopover';
+import { quickFilterSanitizerPONotes } from '../utilityFunctions/filters';
 
 export default function PONotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -63,8 +64,9 @@ export default function PONotesHeader() {
                 }}
               >
                 <QuickFilterPopover onChange={(filters) => {
+                  const sanitizedFilters = quickFilterSanitizerPONotes(filters);
                   // TODO: update the filters as per requirement and integrate with backend
-                  console.log(filters);
+                  console.log(sanitizedFilters);
                 }} />
               </Popover>
             </FormControl>

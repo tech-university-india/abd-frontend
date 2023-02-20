@@ -32,6 +32,7 @@ const theme = createTheme({
     },
     iconCheckbox: {
       main: '#323232'
+    },
     backgroundColor: {
       main: '#e6eef2',
     }

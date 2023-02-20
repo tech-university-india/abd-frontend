@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import IconCheckbox from "../../../elements/poNotes/IconCheckbox";
 import DateFilterBox from "../../../elements/poNotes/DateFilterBox";
 import { capitalize } from "../../../utilityFunctions/String";
+import dateGetter from "../../../utilityFunctions/DateGetter";
 
 const mainBoxPadding = "16px";
 
@@ -91,14 +92,14 @@ export default function QuickFilterPopover({ onChange }) {
         </Typography>
 
         <DateFilterBox
-          label={filters.startDate ?? "From Date"}
+          label={filters.startDate ? dateGetter(filters.startDate) :  "From Date"}
           disabled={Boolean(filters.date)}
           onChange={(date) => {
             setFilters({ ...filters, startDate: date, date: undefined });
           }}
         />
         <DateFilterBox
-          label={filters.endDate ?? "End Date"}
+          label={filters.endDate ? dateGetter(filters.endDate) : "End Date"}
           disabled={Boolean(filters.date)}
           onChange={(date) => {
             setFilters({ ...filters, endDate: date, date: undefined });
