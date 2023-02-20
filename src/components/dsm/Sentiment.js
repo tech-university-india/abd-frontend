@@ -1,36 +1,134 @@
 import React, { useContext } from 'react';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import SentimentVerySatisfiedOutlinedIcon from '@mui/icons-material/SentimentVerySatisfiedOutlined';
+import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
+import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
+import SentimentVeryDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentVeryDissatisfiedOutlined';
+import SentimentVerySatisfiedTwoToneIcon from '@mui/icons-material/SentimentVerySatisfiedTwoTone';
+import SentimentSatisfiedTwoToneIcon from '@mui/icons-material/SentimentSatisfiedTwoTone';
+import SentimentDissatisfiedTwoToneIcon from '@mui/icons-material/SentimentDissatisfiedTwoTone';
+import SentimentVeryDissatisfiedTwoToneIcon from '@mui/icons-material/SentimentVeryDissatisfiedTwoTone';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Stack } from '@mui/system';
+import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
 import { DSMBodyLayoutContext } from "../contexts/DSMBodyLayoutContext"
+import SentimentMeterDialog from './SentimentMeterDialog';
+import preventParentClick from '../utilityFunctions/PreventParentClick';
 
 export default function Sentiment() {
   const { gridHeightState, dispatchGridHeight } = useContext(DSMBodyLayoutContext)
   const handleExpandSentiment = () => {
     dispatchGridHeight({ type: "SENTIMENT" })
   };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const openMenu = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleDialog = () => {
+    setOpen(true);
+    setAnchorEl(null);
+  };
+  const [sentiment, setSentiment] = React.useState(0);
+  const handleSentiment = (event) => {
+    if (sentiment > 0 && sentiment < 9) { setSentiment(0) }
+    else { setSentiment(event.target.id) }
+
+    if (event.target.id === "SentimentVerySatisfiedOutlinedIcon") {
+      setSentiment(1)
+    } else if (event.target.id === "SentimentSatisfiedOutlinedIcon") {
+      setSentiment(2)
+    } else if (event.target.id === "SentimentDissatisfiedOutlinedIcon") {
+      setSentiment(3)
+    } else if (event.target.id === "SentimentVeryDissatisfiedOutlinedIcon") {
+      setSentiment(4)
+    } else if (event.target.id === "SentimentVerySatisfiedTwoToneIcon") {
+      setSentiment(5)
+    } else if (event.target.id === "SentimentSatisfiedTwoToneIcon") {
+      setSentiment(6)
+    } else if (event.target.id === "SentimentDissatisfiedTwoToneIcon") {
+      setSentiment(7)
+    } else if (event.target.id === "SentimentVeryDissatisfiedTwoToneIcon") {
+      setSentiment(8)
+    }
+  }
   return (
     <Grid item sx={{ marginBottom: "10px", paddingBottom: "10px", ...(gridHeightState.sentiment.expanded && { paddingBottom: "15px" }), display: "flex", flexDirection: "row", justifyContent: "space-between" }} height={gridHeightState.sentiment.height}>
       <Grid item xs={gridHeightState.celebration.fullExpanded ? 8 : 12}>
         <Accordion expanded={gridHeightState.sentiment.expanded} onChange={handleExpandSentiment} sx={{
           height: gridHeightState.sentiment.expanded ? "100%" : "auto",
         }}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-            sx={{
-              textAlign: "center",
-            }}
-          >
-            {/* All Content/Development of SentimentMeter HEADER goes here */}
-            <Typography variant="dsmMain" width="100%">How are you feeling today?</Typography>
-          </AccordionSummary>
+          <Box sx={{ display: 'flex' }}>
+            <SentimentMeterDialog open={open} setOpen={setOpen} />
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              sx={{
+                textAlign: "center",
+                flexGrow: 1,
+              }}
+            >
+              {/* All Content/Development of SentimentMeter HEADER goes here */}
+              <Typography variant="dsmMain" width="100%" >How are you feeling today?
+                <Tooltip title='This is an Anonymous entry. It is an team metric and we won’t identify you personally.
+                    Your voice matters for running a data driven and effective retrospective meetings. Please feel free to share your feeling.'
+                >
+                  <InfoOutlinedIcon onClick={preventParentClick(() => { })} />
+                </Tooltip>
+              </Typography>
+            </AccordionSummary>
+            <IconButton
+              sx={{ borderRadius: 100 }}
+              aria-label="more"
+              id="long-button"
+              aria-controls={open ? 'long-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <MoreVertIcon sx={{ borderRadius: 50 }} />
+            </IconButton>
+            <Menu
+              id="long-menu"
+              MenuListProps={{
+                'aria-labelledby': 'long-button',
+              }}
+              anchorEl={anchorEl}
+              open={openMenu}
+              onClose={handleClose} >
+              <MenuItem onClick={handleDialog}>See Results</MenuItem>
+              <MenuItem onClick={handleClose}>Export Results</MenuItem>
+            </Menu>
+          </Box>
           <AccordionDetails height="100%">
             {/* All Content/Development of SentimentMeter BODY goes here */}
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-              malesuada lacus ex, sit amet blandit leo lobortis eget.
-            </Typography>
+            <Stack direction="row" spacing={10} sx={{ justifyContent: "center" }}>
+              <Button value={1} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'black' }}>
+                {sentiment === 1 ? <SentimentVerySatisfiedTwoToneIcon id='SentimentVerySatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentVerySatisfiedOutlinedIcon id='SentimentVerySatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
+              </Button>
+              <Button value={2} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'black' }}>
+
+                {sentiment === 2 ? <SentimentSatisfiedTwoToneIcon sx={{ fontSize: 45 }} id='SentimentSatisfiedTwoToneIcon' /> : <SentimentSatisfiedOutlinedIcon id='SentimentSatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
+              </Button>
+              <Button value={3} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'black' }}>
+                {sentiment === 3 ? <SentimentDissatisfiedTwoToneIcon id='SentimentDissatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentDissatisfiedOutlinedIcon id='SentimentDissatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
+              </Button>
+              <Button value={4} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'black' }}>
+                {sentiment === 4 ? <SentimentVeryDissatisfiedTwoToneIcon id='SentimentVeryDissatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentVeryDissatisfiedOutlinedIcon id='SentimentVeryDissatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
+              </Button>
+            </Stack>
           </AccordionDetails>
         </Accordion>
       </Grid>
@@ -40,7 +138,6 @@ export default function Sentiment() {
             <Accordion expanded={false} onChange={handleExpandSentiment} sx={{
               height: gridHeightState.sentiment.expanded ? "100%" : "none",
               padding: "6px",
-
             }}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
