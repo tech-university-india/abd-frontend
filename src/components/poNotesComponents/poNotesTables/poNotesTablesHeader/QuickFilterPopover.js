@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 import { AccessAlarm, PendingActions } from "@mui/icons-material";
@@ -12,7 +12,7 @@ import dateGetter from "../../../utilityFunctions/DateGetter";
 const mainBoxPadding = "16px";
 
 export default function QuickFilterPopover({ onChange }) {
-  const [filters, setFilters] = React.useState({});
+  const [filters, setFilters] = useState({});
 
   useEffect(() => {
     onChange(filters);

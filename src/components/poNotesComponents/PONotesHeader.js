@@ -8,17 +8,17 @@ import { quickFilterSanitizerPONotes } from '../utilityFunctions/filters';
 
 export default function PONotesHeader() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [positioningReferenceElement, setPositioningReferenceElement] = useState(null);
 
-  const handQuickFilterClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleQuickFilterClick = (event) => {
+    setPositioningReferenceElement(event.currentTarget);
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setPositioningReferenceElement(null);
   };
 
-  const open = Boolean(anchorEl);
+  const open = Boolean(positioningReferenceElement);
   const id = open ? 'simple-popover' : undefined;
   return (
     <AppBar position="static" sx={{ background: 'transparent', boxShadow: 'none' }}>
@@ -50,13 +50,13 @@ export default function PONotesHeader() {
                 labelId="quick-filter-popover"
                 aria-describedby={id}
                 label="Quick Filters Icon"
-                onClick={handQuickFilterClick}
+                onClick={handleQuickFilterClick}
                 disabled
               />
               <Popover
                 id='quick-filter-popover'
                 open={open}
-                anchorEl={anchorEl}
+                anchorEl={positioningReferenceElement}
                 onClose={handleClose}
                 anchorOrigin={{
                   vertical: 'bottom',
@@ -64,9 +64,18 @@ export default function PONotesHeader() {
                 }}
               >
                 <QuickFilterPopover onChange={(filters) => {
+                  // eslint-disable-next-line no-unused-vars
                   const sanitizedFilters = quickFilterSanitizerPONotes(filters);
                   // TODO: update the filters as per requirement and integrate with backend
-                  console.log(sanitizedFilters);
+
+                  // sanitizedFilters is an object with the following structure
+                  // {
+                  //   status: ['PENDING', 'COMPLETED', 'DRAFT'] | undefined,
+                  //   date: Date | undefined,
+                  //   startDate: Date | undefined,
+                  //   endDate: Date | undefined,
+                  // }
+
                 }} />
               </Popover>
             </FormControl>
