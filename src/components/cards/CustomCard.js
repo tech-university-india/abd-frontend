@@ -86,10 +86,10 @@ export default function CustomCard({ checkBox, data, type }) {
         <Typography variant="overline" display="inline-flex" gutterBottom pr={1}>
           Needed By
         </Typography>
-        {dateGetter(data.dueDate, "dueDate")}
+        {dateGetter(data.dueDate, false)}
       </Typography >
     }
-    return <Typography color="primary" fontWeight={500} mt={2} pl={1} sx={{ visibility: 'hidden ' }}> Needed By {dateGetter(data.dueDate, "dueDate")} </Typography>
+    return <Typography color="primary" fontWeight={500} mt={2} pl={1} sx={{ visibility: 'hidden ' }}> Needed By {dateGetter(data.dueDate, false)} </Typography>
   }
   const renderLink = () => {
     if (isActionItem()) {
@@ -119,7 +119,7 @@ export default function CustomCard({ checkBox, data, type }) {
                 (<Status colour={statusCompleted} status={STATUS.published} />)
               }
               <Typography variant="caption" display="block" gutterBottom>
-                {dateGetter(data.createdAt, "createdAt")}
+                {dateGetter(data.createdAt, true)}
               </Typography>
             </CardHeader>
             <Box>
