@@ -41,7 +41,7 @@ export default function GenericInputModal({
           textAlign: "right",
         }}
       >
-        <IconButton onClick={onCloseButtonClick}>
+        <IconButton onClick={() => onCloseButtonClick(content)}>
           <CloseIcon />
         </IconButton>
       </Box>
