@@ -1,15 +1,13 @@
-const dateGetter = (timeStamp, dateHolder) => {
+const dateGetter = (timeStamp, timeHolder) => {
     const noDueDate = "[DD Mon, YYYY]";
     if (timeStamp === null) return noDueDate;
-    const DUE_DATE = "dueDate";
     const date = new Date(timeStamp);
     const month = date.toLocaleString('default', { month: 'short' });
     const day = date.getDate();
     const year = date.getFullYear();
     const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-    if (dateHolder === DUE_DATE)
-        return `${day} ${month}, ${year}`;
-    return `${day} ${month}, ${year} ${time}`;
-
+    if (timeHolder)
+        return `${day} ${month}, ${year} ${time}`;
+    return `${day} ${month}, ${year}`;
 }
 export default dateGetter;

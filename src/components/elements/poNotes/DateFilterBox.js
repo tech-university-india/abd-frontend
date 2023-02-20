@@ -3,7 +3,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { DateRange } from "@mui/icons-material";
 import ReactDatePicker from "react-datepicker";
 import PropTypes from "prop-types";
-import { getOnlyDateString } from "../../utilityFunctions/Date";
+import dateGetter from "../../utilityFunctions/DateGetter";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -28,13 +28,13 @@ export default function DateFilterBox({ label, onChange, disabled = false }) {
             alignItems: "center",
           }}
         >
-          <Typography>{date ? getOnlyDateString(date) : label}</Typography>
+          <Typography>{date ? dateGetter(date) : label}</Typography>
 
           <IconButton
             sx={{
               marginRight: "8px",
             }}
-            onClick={() => {}}
+            onClick={() => { }}
           >
             <DateRange
               sx={{

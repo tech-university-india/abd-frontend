@@ -37,7 +37,7 @@ export default function PONotesHeader() {
             <Box sx={{ flexGrow: 0.5 }}>
               <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </Box>
-            <FormControl id="demo-select-small" sx={{ minWidth: 200}} size="small">
+            <FormControl id="demo-select-small" sx={{ minWidth: 200 }} size="small">
               <InputLabel id="demo-select-small">
                 <Box display='flex' align-items='center'>
                   Quick Filters
@@ -51,8 +51,8 @@ export default function PONotesHeader() {
                 label="Quick Filters Icon"
                 onClick={handQuickFilterClick}
                 disabled
-               />
-               <Popover
+              />
+              <Popover
                 id='quick-filter-popover'
                 open={open}
                 anchorEl={anchorEl}
