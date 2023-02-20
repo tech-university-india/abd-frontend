@@ -106,9 +106,12 @@ export default function PONotesDialog({ updateItem, data, open, handleClose }) {
       setError(val => val + err);
     }
     finally {
-      setLock(val => !val);
+      if (updateItem) setLock(true);
+      else {
+        setLock(val => !val);
+        setStatement(() => '');
+      }
       handleClose();
-      if (!updateItem) setStatement(()=>'');
     }
   };
 
@@ -148,7 +151,7 @@ export default function PONotesDialog({ updateItem, data, open, handleClose }) {
       setError(val => val + err);
     }
     finally {
-      setDeleteAlert(()=>false);
+      setDeleteAlert(() => false);
       handleClose();
     }
   }
