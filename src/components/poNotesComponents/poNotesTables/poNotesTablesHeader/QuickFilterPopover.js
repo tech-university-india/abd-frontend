@@ -8,8 +8,10 @@ import IconCheckbox from "../../../elements/poNotes/IconCheckbox";
 import DateFilterBox from "../../../elements/poNotes/DateFilterBox";
 import { capitalize } from "../../../utilityFunctions/String";
 import dateGetter from "../../../utilityFunctions/DateGetter";
+import { poNotesStatus } from "../../../constants/PONotes";
 
 const mainBoxPadding = "16px";
+const allowedDateFilters = ["today", "yesterday", "week"];
 
 export default function QuickFilterPopover({ onChange }) {
   const [filters, setFilters] = useState({});
@@ -39,7 +41,7 @@ export default function QuickFilterPopover({ onChange }) {
           Date Filters
         </Typography>
 
-        {["today", "yesterday", "week"].map((date) => (
+        {allowedDateFilters.map((date) => (
           <IconCheckbox
             Icon={AccessAlarm}
             label={capitalize(date)}
@@ -66,7 +68,7 @@ export default function QuickFilterPopover({ onChange }) {
           Status Filters
         </Typography>
 
-        {["PENDING", "COMPLETED", "DRAFT"].map((status) => (
+        {poNotesStatus.map((status) => (
           <IconCheckbox
             Icon={PendingActions}
             label={capitalize(status)}
