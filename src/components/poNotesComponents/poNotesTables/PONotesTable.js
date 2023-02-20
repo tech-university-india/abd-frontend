@@ -30,7 +30,8 @@ export default function PONotesTable(props) {
 
     const { data, error, isError, isLoading } = useQuery(HEADINGS[heading], async () => {
         const res = await fetch(apiUrl);
-        return res.json();
+        if (res.ok) return res.json();
+        return new Error(res.data.message)
     },
         {
             refetchInterval: 1000,
@@ -62,7 +63,7 @@ export default function PONotesTable(props) {
                     <TableBody >
                         <TableRow>
                             {/* Data from get Api call using query params is passed to cardlayout for displaying it in cards */}
-                            <CardLayout checkBox={checkBox} type={HEADINGS[heading]} data={data} /> </TableRow>
+                            <CardLayout checkBox={checkBox} type={HEADINGS[heading]} data={data ?? []} /> </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
