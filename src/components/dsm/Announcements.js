@@ -11,6 +11,7 @@ export default function Announcements() {
     dispatchGridHeight({ type: "ANNOUNCEMENT" })
   };
 
+
   const [openModal, setOpenAddModal] = useState(false);
   const handleAddButtonClick = () => {
     setOpenAddModal(!openModal);
@@ -48,7 +49,19 @@ export default function Announcements() {
           open={openModal}
           onClose={handleModalClose}
         >
-          <GenericInputModal title='Announcement' onCloseButtonClick={handleModalClose} primaryButtonText='Save' />
+          <GenericInputModal
+            title='Announcement Statement'
+            onCloseButtonClick={handleModalClose}
+            primaryButtonText='Post'
+            primaryButtonOnClick={(content) => {
+              // eslint-disable-next-line no-unused-vars
+              const announcement = {content};
+              // TODO: add Announcement to DB
+            }}
+
+            // TODO: add children component to check for addition on slack channel
+          />
+          
         </Dialog>
         <AccordionDetails>
           {/* All Content/Development of Announcements BODY goes here */}
