@@ -38,6 +38,7 @@ const CardHeader = styled(Box)(() => ({
 }));
 
 export default function CustomCard({ checkBox, data, type }) {
+  if (data.note === "k") console.log(data)
   const [checked, setChecked] = useState(data.status === STATUS.completed);
   const { setError, setSuccess } = React.useContext(ErrorContext);
   const [open, setOpen] = React.useState(false);
