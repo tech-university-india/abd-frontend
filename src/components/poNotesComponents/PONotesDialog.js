@@ -89,7 +89,6 @@ export default function PONotesDialog({ updateItem, data, open, handleClose }) {
 
 
       if (updateItem) {
-        console.log(body);
         await axios.patch(`${DOMAIN}/api/po-notes/${data.noteId}`, body);
         const response = 'Note UPDATED successfully';
         setSuccess(() => response);
@@ -104,9 +103,12 @@ export default function PONotesDialog({ updateItem, data, open, handleClose }) {
       setError(val => val + err);
     }
     finally {
-      setLock(true);
+      if (updateItem) setLock(true);
+      else {
+        setLock(val => !val);
+        setStatement(() => '');
+      }
       handleClose();
-      if (!updateItem) setStatement('')
     }
   };
 
@@ -146,7 +148,7 @@ export default function PONotesDialog({ updateItem, data, open, handleClose }) {
       setError(val => val + err);
     }
     finally {
-      setDeleteAlert(false);
+      setDeleteAlert(() => false);
       handleClose();
     }
   }
