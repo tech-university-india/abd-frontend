@@ -55,12 +55,12 @@ export default function Announcements() {
 
   const addAnnouncementToDB = async (content) => {
     try {
-      await axios.post(`${DOMAIN}/api/dsm/announcements`, {
+      const res = await axios.post(`${DOMAIN}/api/dsm/announcements`, {
         content, 
       });
       setSuccess(() => "Announcement created successfully");
 
-      return true;
+      return res.data;
     }
     catch(err) {
       console.error(err);
@@ -101,9 +101,13 @@ export default function Announcements() {
             title='Announcement Statement'
             onCloseButtonClick={handleModalClose}
             primaryButtonText='Post'
-            onPrimaryButtonClick={(content) => {
-              if (addAnnouncementToDB(content))
+            onPrimaryButtonClick={async (content) => {
+              const newAnnouncement = await addAnnouncementToDB(content);
+              if (newAnnouncement) {
+                setAnnouncements(() => [newAnnouncement, ...announcements])
                 handleModalClose();
+              }
+
             }}
 
             // TODO: add children component to check for addition on slack channel
