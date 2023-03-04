@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PropTypes } from 'prop-types';
 import {
   Box, Card, CardContent, Typography, Button,
@@ -37,8 +37,13 @@ const CardHeader = styled(Box)(() => ({
   justifyContent: 'space-between'
 }));
 
-export default function CustomCard({ checkBox, data, type }) {
-  const [checked, setChecked] = useState(data.status === STATUS.completed);
+export default function CustomCard({ data, type }) {
+  const [checked, setChecked] = useState(false);
+  useEffect(() => {
+    console.log('inside use effect', data.status);
+    setChecked(data.status === STATUS.completed);
+  }, [data])
+  console.log('checked', checked)
   const { setError, setSuccess } = React.useContext(ErrorContext);
   const [open, setOpen] = React.useState(false);
 
@@ -98,22 +103,25 @@ export default function CustomCard({ checkBox, data, type }) {
     return <Button variant="contained" sx={{ display: 'inline-flex', visibility: 'hidden' }} >JIRA LINK</Button>
   }
 
-  const renderCheckBox = () => {
-    if (checkBox === true) {
-      if (isDraft()) {
-        return <Checkbox color='primary' size="large" disabled />
-      }
-      return <Checkbox color='primary' size="large" checked={checked} onChange={() => handleToggle(checked)} />
-    }
-    return <Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />
-  };
+  // const renderCheckBox = () => {
+  //   if (checkBox === true) {
+  //     if (isDraft()) {
+  //       return <Checkbox color='primary' size="large" disabled />
+  //     }
+  //     return <Checkbox color='primary' size="large" checked={checked} onChange={() => handleToggle(checked)} />
+  //   }
+  //   return <Checkbox color='primary' size="large" sx={{ visibility: 'hidden' }} />
+  // };
   return (
     <Box m={3}>
       <PONotesDialog updateItem open={open} handleClose={handleClose} data={data} />
       <Cards>
         <CardActionArea onClick={handleClickOpen}>
           <CardContent >
-            <CardHeader>{renderCheckBox()}
+            <CardHeader>{
+              <Checkbox color='primary' size="large" checked={checked} onChange={() => handleToggle(checked)} />
+              // renderCheckBox()
+            }
               {isDraft() ?
                 (<Status colour={statusDraft} status={STATUS.draft} />) :
                 (<Status colour={statusCompleted} status={STATUS.published} />)

@@ -1,10 +1,10 @@
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, CircularProgress } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import { useQuery } from 'react-query';
 import PONotsTableHeader from './poNotesTablesHeader/PONotesTableHeader';
-import CardLayout from '../../cards/CardLayout';
+import CustomCard from '../../cards/CustomCard';
 import { DOMAIN } from '../../../config';
 import { HEADINGS } from "../../utilityFunctions/Enums"
 
@@ -27,11 +27,21 @@ export default function PONotesTable(props) {
     // need to add page & limit to the query
     const type = HEADINGS[heading].toUpperCase();
     const apiUrl = getApiUrl(type, query, 1, 100);
+<<<<<<< Updated upstream
+=======
+    const [data, setData] = useState([])
+    // console.log(apiUrl);
+>>>>>>> Stashed changes
 
-    const { data, error, isError, isLoading } = useQuery(HEADINGS[heading], async () => {
+    const { error, isError, isLoading } = useQuery(HEADINGS[heading], async () => {
         const res = await fetch(apiUrl);
+<<<<<<< Updated upstream
         if (res.ok) return res.json();
         return new Error(res.data.message)
+=======
+        if (res.ok) return setData(await res.json());
+        return new Error(res.message)
+>>>>>>> Stashed changes
     },
         {
             refetchInterval: 1000,
@@ -63,7 +73,15 @@ export default function PONotesTable(props) {
                     <TableBody >
                         <TableRow>
                             {/* Data from get Api call using query params is passed to cardlayout for displaying it in cards */}
-                            <CardLayout checkBox={checkBox} type={HEADINGS[heading]} data={data ?? []} /> </TableRow>
+                            <Box>
+                                {
+                                    data.map((item) =>
+                                        <CustomCard
+                                            checkBox={checkBox}
+                                            type={type}
+                                            data={item} />)
+                                }
+                            </Box></TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>

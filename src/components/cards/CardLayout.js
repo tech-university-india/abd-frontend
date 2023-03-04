@@ -3,17 +3,16 @@ import { Box } from '@mui/material';
 import { PropTypes } from 'prop-types';
 import CustomCard from './CustomCard';
 
-export default function CardLayout(props) {
-  const { checkBox, type, data } = props;
+export default function CardLayout({ checkBox, type, data }) {
+  console.log("data", data);
   return (
     <Box>
       {
-        data.map((item) => (
+        data.map((item) =>
           <CustomCard
             checkBox={checkBox}
             type={type}
-            data={item} />
-        ))
+            data={item} />)
       }
     </Box>
   );
