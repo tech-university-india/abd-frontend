@@ -41,7 +41,7 @@ export default function GenericInputModal({
       {/* Action Buttons */}
       {/* TODO: add editable buttons and actions as well */}
 
-      
+
       <Box
         sx={{
           textAlign: "right",
@@ -77,23 +77,27 @@ export default function GenericInputModal({
       {children}
 
       {/* Primary Button */}
-      <Button
-        sx={{
-          margin: "16px 0",
-          padding: "12px 0",
-          width: "100%",
-          borderRadius: "8px",
-          color: "customButton1.contrastText",
-          backgroundColor: "customButton1.main",
-          "&:hover": {
-            color: "customButton1.contrastText",
-            backgroundColor: "customButton1.main",
-          },
-        }}
-        onClick={() => onPrimaryButtonClick(content)}
-      >
-        {primaryButtonText}
-      </Button>
+      {
+        !isDisabled && (
+          <Button
+            sx={{
+              margin: "16px 0",
+              padding: "12px 0",
+              width: "100%",
+              borderRadius: "8px",
+              color: "customButton1.contrastText",
+              backgroundColor: "customButton1.main",
+              "&:hover": {
+                color: "customButton1.contrastText",
+                backgroundColor: "customButton1.main",
+              },
+            }}
+            onClick={() => onPrimaryButtonClick(content)}
+          >
+            {primaryButtonText}
+          </Button>
+        )
+      }
 
       {secondaryButtonText && (
         <Button
@@ -143,5 +147,5 @@ GenericInputModal.defaultProps = {
   placeholder: undefined,
   defaultValue: undefined,
   isDisabled: false,
-  setIsDisabled: ()=>{}
+  setIsDisabled: () => { }
 };

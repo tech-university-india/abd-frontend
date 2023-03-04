@@ -32,16 +32,24 @@ export default function Requests() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [editModalData, setEditModalData] = useState({});
   const [isDisabled,setIsDisabled] = useState(true);
+  const [requestType, setRequestType] = useState(DSM_REQUEST_DEFAULT_TYPE);
 
   const handleEditModalClose = () => {
     setOpenEditModal(false);
     setEditModalData({});
     setIsDisabled(true);
+    setRequestType(DSM_REQUEST_DEFAULT_TYPE);
   };
 
   const handleChatClick = (request) => {
+    if(getCurretUser() !== request.author){
+      setError("You can only edit your own request!");
+      return;
+    }
     setOpenEditModal(true);
     setEditModalData({...request});
+    setIsDisabled(true);
+    setRequestType(request.type);
   };
 
   const handleAddButtonClick = () => {
@@ -59,7 +67,6 @@ export default function Requests() {
       return res.data;
     }
     catch (err) {
-      console.error(err);
       setError(val => val + err);
       return [];
     }
@@ -71,7 +78,6 @@ export default function Requests() {
     })
   }, [])
 
-  const [requestType, setRequestType] = useState(DSM_REQUEST_DEFAULT_TYPE);
 
   const addRequestToDB = async (content) => {
     try {
@@ -84,11 +90,27 @@ export default function Requests() {
       return res.data;
     }
     catch (err) {
-      console.error(err);
       setError(val => val + err);
       return false;
     }
   }
+
+  const handleEditRequest = async (content) => {
+    try {
+      const res = await axios.put(`${DOMAIN}/api/dsm/team-requests/${editModalData.requestId}`, {
+        data: {
+          content,
+          type: requestType,
+        }
+      });
+      setSuccess(() => "Request Edited Successfully!");
+      return res.data;
+    }
+    catch (err) {
+      setError(val => val + err);
+      return false;
+    }
+  };
 
   return (
     <Grid item height={gridHeightState.request.height} sx={{ ...(gridHeightState.request.expanded && { paddingBottom: "15px" }) }}>
@@ -175,6 +197,7 @@ export default function Requests() {
                 onCloseButtonClick={handleEditModalClose}
                 // primaryButtonText='Mark as Discussed' right now just adding save
                 primaryButtonText='Save'
+                onPrimaryButtonClick={handleEditRequest}
                 defaultValue={editModalData.content}
                 isDisabled={isDisabled}
                 setIsDisabled={setIsDisabled}
@@ -187,8 +210,8 @@ export default function Requests() {
                   (!isDisabled)
                     ? (
                       <Stack spacing={1} direction="row">
-                        <Chip label="Meeting" onClick={() => setRequestType('MEETING')} color={editModalData.type === "MEETING" ? 'primary' : 'default'} />
-                        <Chip label="Resource" onClick={() => setRequestType('RESOURCE')} color={editModalData.type === "RESOURCE" ? 'primary' : 'default'} />
+                        <Chip label="Meeting" onClick={() => setRequestType('MEETING')} color={requestType === "MEETING" ? 'primary' : 'default'} />
+                        <Chip label="Resource" onClick={() => setRequestType('RESOURCE')} color={requestType === "RESOURCE" ? 'primary' : 'default'} />
                       </Stack>
                     )
                     :(
