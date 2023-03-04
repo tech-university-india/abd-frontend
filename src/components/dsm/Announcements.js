@@ -2,11 +2,17 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography, IconButton, Dialog } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddCircle as AddCircleIcon } from '@mui/icons-material';
+import axios from 'axios';
 import { DSMBodyLayoutContext } from "../contexts/DSMBodyLayoutContext"
 import GenericInputModal from '../elements/dsm/GenericInputModal';
 import ChatContainer from '../elements/dsm/ChatContainer';
+import { DOMAIN } from '../../config';
+import { ErrorContext } from '../contexts/ErrorContext';
 
 export default function Announcements() {
+
+  const { setError, setSuccess } = useContext(ErrorContext);
+
   const { gridHeightState, dispatchGridHeight } = useContext(DSMBodyLayoutContext)
   const handleExpandAnnouncements = () => {
     dispatchGridHeight({ type: "ANNOUNCEMENT" })
@@ -25,20 +31,17 @@ export default function Announcements() {
 
   // TODO: integrate with backend
   // OPTIMIZE: Is backend for announcements paginated ?
-  const getAnnouncements = async () => [
-      {
-        "announcementId": 0,
-        "author": "Ritik Rajdev",
-        "content": "This is a test announcement",
-        "createdAt": "2023-02-20T20:35:20.327Z"
-      },
-      {
-        "announcementId": 1,
-        "author": "Ritik Rajdev",
-        "content": "This is a test announcement",
-        "createdAt": "2023-02-20T20:35:20.327Z"
-      }
-    ]
+  const getAnnouncements = async () =>{
+    try {
+      const res = await axios.get(`${DOMAIN}/api/dsm/announcements`);
+      return res.data;
+    }
+    catch(err) {
+      console.error(err);
+      setError(val => val + err);
+      return [];
+    }
+  }
 
   useEffect(() => {
     getAnnouncements().then((_announcements) => {
@@ -50,10 +53,27 @@ export default function Announcements() {
     console.log(announcement);
   };
 
+  const addAnnouncementToDB = async (content) => {
+    try {
+      await axios.post(`${DOMAIN}/api/dsm/announcements`, {
+        content, 
+      });
+      setSuccess(() => "Announcement created successfully");
+
+      return true;
+    }
+    catch(err) {
+      console.error(err);
+      setError(val => val + err);
+      return false;
+    }
+  }
+
   return (
     <Grid item height={gridHeightState.announcement.height} >
       <Accordion expanded={gridHeightState.announcement.expanded} onChange={handleExpandAnnouncements} sx={{
         height: gridHeightState.announcement.expanded ? "100%" : "none",
+        overflow: "auto",
       }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -81,10 +101,9 @@ export default function Announcements() {
             title='Announcement Statement'
             onCloseButtonClick={handleModalClose}
             primaryButtonText='Post'
-            primaryButtonOnClick={(content) => {
-              // eslint-disable-next-line no-unused-vars
-              const announcement = {content};
-              // TODO: add Announcement to DB
+            onPrimaryButtonClick={(content) => {
+              if (addAnnouncementToDB(content))
+                handleModalClose();
             }}
 
             // TODO: add children component to check for addition on slack channel
