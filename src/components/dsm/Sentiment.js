@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import SentimentVerySatisfiedOutlinedIcon from '@mui/icons-material/SentimentVerySatisfiedOutlined';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
@@ -9,7 +8,6 @@ import SentimentSatisfiedTwoToneIcon from '@mui/icons-material/SentimentSatisfie
 import SentimentDissatisfiedTwoToneIcon from '@mui/icons-material/SentimentDissatisfiedTwoTone';
 import SentimentVeryDissatisfiedTwoToneIcon from '@mui/icons-material/SentimentVeryDissatisfiedTwoTone';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -17,7 +15,7 @@ import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Stack } from '@mui/system';
 import Box from '@mui/material/Box';
-import Tooltip from '@mui/material/Tooltip';
+import InformationModel from '../elements/InformationModel';
 import { DSMBodyLayoutContext } from "../contexts/DSMBodyLayoutContext"
 import SentimentMeterDialog from './SentimentMeterDialog';
 import preventParentClick from '../utilityFunctions/PreventParentClick';
@@ -69,24 +67,22 @@ export default function Sentiment() {
         <Accordion expanded={gridHeightState.sentiment.expanded} onChange={handleExpandSentiment} sx={{
           height: gridHeightState.sentiment.expanded ? "100%" : "auto",
         }}>
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <SentimentMeterDialog open={open} setOpen={setOpen} />
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
               sx={{
-                textAlign: "center",
                 flexGrow: 1,
               }}
             >
               {/* All Content/Development of SentimentMeter HEADER goes here */}
-              <Typography variant="dsmMain" width="100%" >How are you feeling today?
-                <Tooltip title='This is an Anonymous entry. It is an team metric and we won’t identify you personally.
-                    Your voice matters for running a data driven and effective retrospective meetings. Please feel free to share your feeling.'
-                >
-                  <InfoOutlinedIcon onClick={preventParentClick(() => { })} />
-                </Tooltip>
+              <Typography onClick={preventParentClick(() => { })} variant="dsmMain" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }} width="100%" >How are you feeling today?
+                <InformationModel heading="Sentiment Meter"
+                  definition="This is an Anonymous entry. It is an team metric and we won’t identify you personally.
+ Your voice matters for running a data driven and effective retrospective meetings. Please feel free to share your feeling."
+                  accessibiltyInformation="" />
               </Typography>
             </AccordionSummary>
             <IconButton
@@ -112,22 +108,22 @@ export default function Sentiment() {
               <MenuItem onClick={handleClose}>Export Results</MenuItem>
             </Menu>
           </Box>
-          <AccordionDetails height="100%">
+          <AccordionDetails sx={{ padding: '0px' }}>
             {/* All Content/Development of SentimentMeter BODY goes here */}
             <Stack direction="row" spacing={10} sx={{ justifyContent: "center" }}>
-              <Button value={1} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'black' }}>
+              <IconButton value={1} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'green' }}>
                 {sentiment === 1 ? <SentimentVerySatisfiedTwoToneIcon id='SentimentVerySatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentVerySatisfiedOutlinedIcon id='SentimentVerySatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
-              </Button>
-              <Button value={2} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'black' }}>
+              </IconButton>
+              <IconButton value={2} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'green' }}>
 
                 {sentiment === 2 ? <SentimentSatisfiedTwoToneIcon sx={{ fontSize: 45 }} id='SentimentSatisfiedTwoToneIcon' /> : <SentimentSatisfiedOutlinedIcon id='SentimentSatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
-              </Button>
-              <Button value={3} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'black' }}>
+              </IconButton>
+              <IconButton value={3} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'red' }}>
                 {sentiment === 3 ? <SentimentDissatisfiedTwoToneIcon id='SentimentDissatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentDissatisfiedOutlinedIcon id='SentimentDissatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
-              </Button>
-              <Button value={4} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'black' }}>
+              </IconButton>
+              <IconButton value={4} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'red' }}>
                 {sentiment === 4 ? <SentimentVeryDissatisfiedTwoToneIcon id='SentimentVeryDissatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentVeryDissatisfiedOutlinedIcon id='SentimentVeryDissatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
-              </Button>
+              </IconButton>
             </Stack>
           </AccordionDetails>
         </Accordion>
@@ -171,6 +167,8 @@ export default function Sentiment() {
     </Grid >
   );
 };
+
+// 
 
 // Sentiment.propTypes = {
 //   gridHeightState: Proptypes.shape({

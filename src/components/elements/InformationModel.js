@@ -33,9 +33,9 @@ export default function NestedModal(props) {
         setOpen(false);
     };
     return (
-        <Box sx={{paddingLeft:'0.5%'}}>
+        <Box sx={{ paddingLeft: '0.5%' }}>
             {/* Icon to open the modal */}
-            <InfoOutlinedIcon sx={{fontSize:'22px'}} onClick={handleOpen} />
+            <InfoOutlinedIcon sx={{ fontSize: '22px' }} onClick={handleOpen} />
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -46,17 +46,17 @@ export default function NestedModal(props) {
                 <Box sx={{ ...style }}  >
 
                     {/** Heading of the PO notes type (Action item or Key decision or Agenda item) */}
-                    <h2 id="parent-modal-title">
+                    {heading && <h2 id="parent-modal-title">
                         <b>{heading} </b>
-                    </h2>
+                    </h2>}
                     {/** Definition of the PO notes type (Action item or Key decision or Agenda item) */}
-                    <p id="parent-modal-description">
+                    {heading && definition && <p id="parent-modal-description">
                         <b>{heading}</b>{definition}
-                    </p>
+                    </p>}
                     {/** Accessibility information of the (Action item or Key decision or Agenda item) */}
-                    <p id="parent-modal-description">
+                    {accessibiltyInformation && <p id="parent-modal-description">
                         {accessibiltyInformation}
-                    </p>
+                    </p>}
                     <Box sx={{
                         display: 'flex',
                         flexDirection: 'row-reverse'
@@ -73,5 +73,8 @@ export default function NestedModal(props) {
 NestedModal.propTypes = {
     heading: PropTypes.string.isRequired,
     definition: PropTypes.string.isRequired,
-    accessibiltyInformation: PropTypes.string.isRequired
+    accessibiltyInformation: PropTypes.string
+}
+NestedModal.defaultProps = {
+    accessibiltyInformation: ''
 }
