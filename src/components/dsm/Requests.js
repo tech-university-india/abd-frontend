@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DSMBodyLayoutContext } from '../contexts/DSMBodyLayoutContext';
 
@@ -14,7 +14,10 @@ export default function Requests() {
         height: gridHeightState.request.expanded ? "100%" : "none"
       }}>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={
+            <IconButton>
+              <ExpandMoreIcon />
+            </IconButton>}
           aria-controls="panel3a-content"
           id="panel3a-header"
         >
