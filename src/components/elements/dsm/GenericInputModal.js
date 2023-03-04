@@ -1,4 +1,5 @@
 import { Close as CloseIcon } from "@mui/icons-material";
+import EditIcon from '@mui/icons-material/Edit';
 import { Button, IconButton, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
@@ -20,6 +21,8 @@ export default function GenericInputModal({
   onSecondaryButtonClick,
 
   placeholder,
+  isDisabled,
+  setIsDisabled,
 }) {
   const [content, setContent] = useState(defaultValue ?? "");
 
@@ -37,11 +40,17 @@ export default function GenericInputModal({
     >
       {/* Action Buttons */}
       {/* TODO: add editable buttons and actions as well */}
+
+      
       <Box
         sx={{
           textAlign: "right",
         }}
       >
+        <IconButton onClick={() => setIsDisabled(false)}>
+          <EditIcon />
+        </IconButton>
+
         <IconButton onClick={() => onCloseButtonClick(content)}>
           <CloseIcon />
         </IconButton>
@@ -62,6 +71,7 @@ export default function GenericInputModal({
         rows={4}
         placeholder={placeholder}
         onChange={(e) => setContent(e.target.value)}
+        disabled={isDisabled}
       />
 
       {children}
@@ -117,6 +127,8 @@ GenericInputModal.propTypes = {
   defaultValue: PropTypes.string,
   secondaryButtonText: PropTypes.string,
   onSecondaryButtonClick: PropTypes.func,
+  isDisabled: PropTypes.bool,
+  setIsDisabled: PropTypes.func,
 };
 
 GenericInputModal.defaultProps = {
@@ -130,4 +142,6 @@ GenericInputModal.defaultProps = {
   children: undefined,
   placeholder: undefined,
   defaultValue: undefined,
+  isDisabled: false,
+  setIsDisabled: ()=>{}
 };

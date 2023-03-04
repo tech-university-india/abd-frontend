@@ -12,6 +12,12 @@ import ChatContainer from '../elements/dsm/ChatContainer';
 import { getCurretUser } from '../utilityFunctions/User';
 import { DSM_REQUEST_DEFAULT_TYPE, DSM_REQUEST_INPUT_PLACEHOLDER } from '../constants/dsm/Requests';
 
+/*
+ISSUES: 
+        1. someplace key is missing console is showing error
+        2. User must be able to tag user in request so we can use ReactTextAreaAutocomplete
+*/
+
 export default function Requests() {
 
   const { setError, setSuccess } = useContext(ErrorContext);
@@ -23,6 +29,21 @@ export default function Requests() {
 
   const [requests, setRequests] = useState([]);
   const [openModal, setOpenAddModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [editModalData, setEditModalData] = useState({});
+  const [isDisabled,setIsDisabled] = useState(true);
+
+  const handleEditModalClose = () => {
+    setOpenEditModal(false);
+    setEditModalData({});
+    setIsDisabled(true);
+  };
+
+  const handleChatClick = (request) => {
+    setOpenEditModal(true);
+    setEditModalData({...request});
+  };
+
   const handleAddButtonClick = () => {
     setOpenAddModal(!openModal);
     dispatchGridHeight({ type: "REQUEST" });
@@ -32,12 +53,12 @@ export default function Requests() {
     setOpenAddModal(false);
   }
 
-  const getRequests = async () =>{
+  const getRequests = async () => {
     try {
       const res = await axios.get(`${DOMAIN}/api/dsm/team-requests`);
       return res.data;
     }
-    catch(err) {
+    catch (err) {
       console.error(err);
       setError(val => val + err);
       return [];
@@ -49,11 +70,6 @@ export default function Requests() {
       setRequests(_requests);
     })
   }, [])
-
-  const handleChatClick = (request) => {
-    console.log(request);
-    // open a modal with the request
-  };
 
   const [requestType, setRequestType] = useState(DSM_REQUEST_DEFAULT_TYPE);
 
@@ -67,7 +83,7 @@ export default function Requests() {
       setSuccess(() => "Request Created Successfully!");
       return res.data;
     }
-    catch(err) {
+    catch (err) {
       console.error(err);
       setError(val => val + err);
       return false;
@@ -125,11 +141,11 @@ export default function Requests() {
             </Typography>
             <br />
             <Stack spacing={1} direction="row">
-              <Chip label="Meeting" onClick={() => setRequestType('MEETING')}  color={requestType === "MEETING" ? 'primary' : 'default'} />
+              <Chip label="Meeting" onClick={() => setRequestType('MEETING')} color={requestType === "MEETING" ? 'primary' : 'default'} />
               <Chip label="Resource" onClick={() => setRequestType('RESOURCE')} color={requestType === "RESOURCE" ? 'primary' : 'default'} />
             </Stack>
           </GenericInputModal>
-          </Dialog>
+        </Dialog>
 
         <AccordionDetails sx={{
           display: "flex",
@@ -147,6 +163,46 @@ export default function Requests() {
             />
           ))}
         </AccordionDetails>
+
+        {
+          (openEditModal) && (
+            <Dialog
+              open={openEditModal}
+              onClose={handleEditModalClose}
+            >
+              <GenericInputModal
+                title='Request Statement'
+                onCloseButtonClick={handleEditModalClose}
+                // primaryButtonText='Mark as Discussed' right now just adding save
+                primaryButtonText='Save'
+                defaultValue={editModalData.content}
+                isDisabled={isDisabled}
+                setIsDisabled={setIsDisabled}
+              >
+                <Typography>
+                  Tags
+                </Typography>
+                <br />
+                {
+                  (!isDisabled)
+                    ? (
+                      <Stack spacing={1} direction="row">
+                        <Chip label="Meeting" onClick={() => setRequestType('MEETING')} color={editModalData.type === "MEETING" ? 'primary' : 'default'} />
+                        <Chip label="Resource" onClick={() => setRequestType('RESOURCE')} color={editModalData.type === "RESOURCE" ? 'primary' : 'default'} />
+                      </Stack>
+                    )
+                    :(
+                      <Stack spacing={1} direction="row">
+                        <Chip label="Meeting"  color={editModalData.type === "MEETING" ? 'primary' : 'default'} />
+                        <Chip label="Resource" color={editModalData.type === "RESOURCE" ? 'primary' : 'default'} />
+                      </Stack>
+                    )
+                }
+              </GenericInputModal>
+            </Dialog>
+          )
+        }
+
       </Accordion>
     </Grid>
   );
