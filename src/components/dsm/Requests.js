@@ -10,6 +10,7 @@ import { ErrorContext } from '../contexts/ErrorContext';
 import { DOMAIN } from '../../config';
 import ChatContainer from '../elements/dsm/ChatContainer';
 import { getCurretUser } from '../utilityFunctions/User';
+import { DSM_REQUEST_DEFAULT_TYPE, DSM_REQUEST_INPUT_PLACEHOLDER } from '../constants/dsm/Requests';
 
 export default function Requests() {
 
@@ -54,7 +55,7 @@ export default function Requests() {
     // open a modal with the request
   };
 
-  const [requestType, setRequestType] = useState('MEETING');
+  const [requestType, setRequestType] = useState(DSM_REQUEST_DEFAULT_TYPE);
 
   const addRequestToDB = async (content) => {
     try {
@@ -117,6 +118,7 @@ export default function Requests() {
                 handleModalClose();
               }
             }}
+            placeholder={DSM_REQUEST_INPUT_PLACEHOLDER}
           >
             <Typography>
               Tags
