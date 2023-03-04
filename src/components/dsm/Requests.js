@@ -98,12 +98,21 @@ export default function Requests() {
   const handleEditRequest = async (content) => {
     try {
       const res = await axios.put(`${DOMAIN}/api/dsm/team-requests/${editModalData.requestId}`, {
-        data: {
-          content,
-          type: requestType,
-        }
+        content,
+        type: requestType,
       });
       setSuccess(() => "Request Edited Successfully!");
+      setRequests(requests.map((request) => {
+        if (request.requestId === editModalData.requestId) {
+          return {
+            ...request,
+            content,
+            type: requestType,
+          }
+        }
+        return request;
+      }));
+      handleEditModalClose();
       return res.data;
     }
     catch (err) {
