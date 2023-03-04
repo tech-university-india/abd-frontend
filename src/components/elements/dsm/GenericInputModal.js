@@ -1,5 +1,6 @@
 import { Close as CloseIcon } from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Button, IconButton, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
@@ -23,6 +24,7 @@ export default function GenericInputModal({
   placeholder,
   isDisabled,
   setIsDisabled,
+  deleteRequest
 }) {
   const [content, setContent] = useState(defaultValue ?? "");
 
@@ -42,19 +44,38 @@ export default function GenericInputModal({
       {/* TODO: add editable buttons and actions as well */}
 
 
-      <Box
-        sx={{
-          textAlign: "right",
-        }}
-      >
-        <IconButton onClick={() => setIsDisabled(false)}>
-          <EditIcon />
-        </IconButton>
+      {
+        (isDisabled!== undefined) 
+          ?(
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <IconButton onClick={deleteRequest} sx={{padding: 0}}>
+                <DeleteForeverIcon />
+              </IconButton>
+              <Box>
+                <IconButton onClick={() => setIsDisabled(false)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={() => onCloseButtonClick(content)} sx={{padding: 0}}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+            </Box>
+          )
+          :(
+            <Box sx={{textAlign: 'right'}}>
+              <IconButton onClick={() => onCloseButtonClick(content)} sx={{padding: 0}}>
+                    <CloseIcon />
+              </IconButton>
+            </Box>
+          )
+      }
 
-        <IconButton onClick={() => onCloseButtonClick(content)}>
-          <CloseIcon />
-        </IconButton>
-      </Box>
+      
 
       {/* Title */}
       <Typography variant="h5">{title}</Typography>
@@ -133,6 +154,7 @@ GenericInputModal.propTypes = {
   onSecondaryButtonClick: PropTypes.func,
   isDisabled: PropTypes.bool,
   setIsDisabled: PropTypes.func,
+  deleteRequest: PropTypes.func
 };
 
 GenericInputModal.defaultProps = {
@@ -146,6 +168,7 @@ GenericInputModal.defaultProps = {
   children: undefined,
   placeholder: undefined,
   defaultValue: undefined,
-  isDisabled: false,
-  setIsDisabled: () => { }
+  isDisabled: undefined,
+  setIsDisabled: () => { },
+  deleteRequest: ()=>{}
 };

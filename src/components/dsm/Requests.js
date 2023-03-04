@@ -121,6 +121,21 @@ export default function Requests() {
     }
   };
 
+  const handleDeleteRequest = async () => {
+    try {
+      const res = await axios.delete(`${DOMAIN}/api/dsm/team-requests/${editModalData.requestId}`);
+      setSuccess(() => "Request Deleted Successfully!");
+      const requestData = requests.filter((request) => request.requestId !== editModalData.requestId);
+      setRequests([...requestData]);
+      handleEditModalClose();
+      return res.data;
+    }
+    catch (err) {
+      setError(val => val + err);
+      return false;
+    }
+  };
+
   return (
     <Grid item height={gridHeightState.request.height} sx={{ ...(gridHeightState.request.expanded && { paddingBottom: "15px" }) }}>
       <Accordion expanded={gridHeightState.request.expanded} onChange={handleExpandRequests} sx={{
@@ -210,6 +225,7 @@ export default function Requests() {
                 defaultValue={editModalData.content}
                 isDisabled={isDisabled}
                 setIsDisabled={setIsDisabled}
+                deleteRequest={handleDeleteRequest}
               >
                 <Typography>
                   Tags
