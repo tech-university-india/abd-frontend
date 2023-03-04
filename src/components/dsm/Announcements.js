@@ -29,7 +29,6 @@ export default function Announcements() {
     setOpenAddModal(false);
   }
 
-  // TODO: integrate with backend
   // OPTIMIZE: Is backend for announcements paginated ?
   const getAnnouncements = async () =>{
     try {
