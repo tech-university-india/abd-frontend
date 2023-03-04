@@ -10,7 +10,7 @@ import { ErrorContext } from '../contexts/ErrorContext';
 import { DOMAIN } from '../../config';
 import ChatContainer from '../elements/dsm/ChatContainer';
 import { getCurretUser } from '../utilityFunctions/User';
-import { DSM_REQUEST_DEFAULT_TYPE, DSM_REQUEST_INPUT_PLACEHOLDER } from '../constants/dsm/Requests';
+import { DSM_REQUEST_DEFAULT_TYPE, DSM_REQUEST_INPUT_PLACEHOLDER, DSM_REQUEST_TYPES, ERROR_MESSAGE, SUCCESS_MESSAGE, TITLE, PRIMARY_BUTTON_TEXT } from '../constants/dsm/Requests';
 
 /*
 ISSUES: 
@@ -43,7 +43,7 @@ export default function Requests() {
 
   const handleChatClick = (request) => {
     if(getCurretUser() !== request.author){
-      setError("You can only edit your own request!");
+      setError(ERROR_MESSAGE.UNAUTHORIZED);
       return;
     }
     setOpenEditModal(true);
@@ -86,7 +86,7 @@ export default function Requests() {
         content,
         type: requestType,
       });
-      setSuccess(() => "Request Created Successfully!");
+      setSuccess(() => SUCCESS_MESSAGE.REQUEST_CREATED);
       return res.data;
     }
     catch (err) {
@@ -101,7 +101,7 @@ export default function Requests() {
         content,
         type: requestType,
       });
-      setSuccess(() => "Request Edited Successfully!");
+      setSuccess(() => SUCCESS_MESSAGE.REQUEST_UPDATED);
       setRequests(requests.map((request) => {
         if (request.requestId === editModalData.requestId) {
           return {
@@ -124,7 +124,7 @@ export default function Requests() {
   const handleDeleteRequest = async () => {
     try {
       const res = await axios.delete(`${DOMAIN}/api/dsm/team-requests/${editModalData.requestId}`);
-      setSuccess(() => "Request Deleted Successfully!");
+      setSuccess(() => SUCCESS_MESSAGE.REQUEST_DELETED);
       const requestData = requests.filter((request) => request.requestId !== editModalData.requestId);
       setRequests([...requestData]);
       handleEditModalClose();
@@ -168,9 +168,9 @@ export default function Requests() {
           onClose={handleModalClose}
         >
           <GenericInputModal
-            title='Request Statement'
+            title={TITLE}
             onCloseButtonClick={handleModalClose}
-            primaryButtonText='Post'
+            primaryButtonText={PRIMARY_BUTTON_TEXT.POST}
             onPrimaryButtonClick={async (content) => {
               const isRequestSuccesfullyDone = await addRequestToDB(content);
               if (isRequestSuccesfullyDone) {
@@ -187,8 +187,8 @@ export default function Requests() {
             </Typography>
             <br />
             <Stack spacing={1} direction="row">
-              <Chip label="Meeting" onClick={() => setRequestType('MEETING')} color={requestType === "MEETING" ? 'primary' : 'default'} />
-              <Chip label="Resource" onClick={() => setRequestType('RESOURCE')} color={requestType === "RESOURCE" ? 'primary' : 'default'} />
+              <Chip label="Meeting" onClick={() => setRequestType(DSM_REQUEST_TYPES[0])} color={requestType === DSM_REQUEST_TYPES[0] ? 'primary' : 'default'} />
+              <Chip label="Resource" onClick={() => setRequestType(DSM_REQUEST_TYPES[1])} color={requestType === DSM_REQUEST_TYPES[1] ? 'primary' : 'default'} />
             </Stack>
           </GenericInputModal>
         </Dialog>
@@ -217,10 +217,10 @@ export default function Requests() {
               onClose={handleEditModalClose}
             >
               <GenericInputModal
-                title='Request Statement'
+                title={TITLE}
                 onCloseButtonClick={handleEditModalClose}
                 // primaryButtonText='Mark as Discussed' right now just adding save
-                primaryButtonText='Save'
+                primaryButtonText={PRIMARY_BUTTON_TEXT.SAVE}
                 onPrimaryButtonClick={handleEditRequest}
                 defaultValue={editModalData.content}
                 isDisabled={isDisabled}
@@ -235,14 +235,14 @@ export default function Requests() {
                   (!isDisabled)
                     ? (
                       <Stack spacing={1} direction="row">
-                        <Chip label="Meeting" onClick={() => setRequestType('MEETING')} color={requestType === "MEETING" ? 'primary' : 'default'} />
-                        <Chip label="Resource" onClick={() => setRequestType('RESOURCE')} color={requestType === "RESOURCE" ? 'primary' : 'default'} />
+                        <Chip label="Meeting" onClick={() => setRequestType(DSM_REQUEST_TYPES[0])} color={requestType === DSM_REQUEST_TYPES[0] ? 'primary' : 'default'} />
+                        <Chip label="Resource" onClick={() => setRequestType(DSM_REQUEST_TYPES[1])} color={requestType === DSM_REQUEST_TYPES[1] ? 'primary' : 'default'} />
                       </Stack>
                     )
                     :(
                       <Stack spacing={1} direction="row">
-                        <Chip label="Meeting"  color={editModalData.type === "MEETING" ? 'primary' : 'default'} />
-                        <Chip label="Resource" color={editModalData.type === "RESOURCE" ? 'primary' : 'default'} />
+                        <Chip label="Meeting"  color={editModalData.type === DSM_REQUEST_TYPES[0] ? 'primary' : 'default'} />
+                        <Chip label="Resource" color={editModalData.type === DSM_REQUEST_TYPES[1] ? 'primary' : 'default'} />
                       </Stack>
                     )
                 }

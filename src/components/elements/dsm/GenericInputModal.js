@@ -8,19 +8,13 @@ import PropTypes from "prop-types";
 
 export default function GenericInputModal({
   onCloseButtonClick,
-
   title,
-
   defaultValue,
-
   children,
-
   primaryButtonText,
   onPrimaryButtonClick,
-
   secondaryButtonText,
   onSecondaryButtonClick,
-
   placeholder,
   isDisabled,
   setIsDisabled,
@@ -41,41 +35,38 @@ export default function GenericInputModal({
       }}
     >
       {/* Action Buttons */}
-      {/* TODO: add editable buttons and actions as well */}
-
-
       {
-        (isDisabled!== undefined) 
-          ?(
+        (isDisabled !== undefined)
+          ? (
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
               }}
             >
-              <IconButton onClick={deleteRequest} sx={{padding: 0}}>
+              <IconButton onClick={deleteRequest} sx={{ padding: 0 }}>
                 <DeleteForeverIcon />
               </IconButton>
               <Box>
                 <IconButton onClick={() => setIsDisabled(false)}>
                   <EditIcon />
                 </IconButton>
-                <IconButton onClick={() => onCloseButtonClick(content)} sx={{padding: 0}}>
+                <IconButton onClick={() => onCloseButtonClick(content)} sx={{ padding: 0 }}>
                   <CloseIcon />
                 </IconButton>
               </Box>
             </Box>
           )
-          :(
-            <Box sx={{textAlign: 'right'}}>
-              <IconButton onClick={() => onCloseButtonClick(content)} sx={{padding: 0}}>
-                    <CloseIcon />
+          : (
+            <Box sx={{ textAlign: 'right' }}>
+              <IconButton onClick={() => onCloseButtonClick(content)} sx={{ padding: 0 }}>
+                <CloseIcon />
               </IconButton>
             </Box>
           )
       }
 
-      
+
 
       {/* Title */}
       <Typography variant="h5">{title}</Typography>
@@ -158,17 +149,13 @@ GenericInputModal.propTypes = {
 };
 
 GenericInputModal.defaultProps = {
-  onPrimaryButtonClick: (content) => {
-    console.log(content);
-  },
-  onSecondaryButtonClick: (content) => {
-    console.log(content);
-  },
+  onPrimaryButtonClick: () => { },
+  onSecondaryButtonClick: () => { },
   secondaryButtonText: undefined,
   children: undefined,
   placeholder: undefined,
   defaultValue: undefined,
   isDisabled: undefined,
   setIsDisabled: () => { },
-  deleteRequest: ()=>{}
+  deleteRequest: () => { }
 };
