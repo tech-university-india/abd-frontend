@@ -1,8 +1,9 @@
 import { Close as CloseIcon } from "@mui/icons-material";
-import { Button, IconButton, TextField, Typography } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import RichTextArea from "../../dsm/RichTextArea";
 
 export default function GenericInputModal({
   onCloseButtonClick,
@@ -51,18 +52,16 @@ export default function GenericInputModal({
       <Typography variant="h5">{title}</Typography>
 
       {/* TextField */}
-      <TextField
+
+      <RichTextArea
         sx={{
-          width: "100%",
-          margin: "16px 0",
+          width: "85%",
+          margin: "5px 0",
           boxShadow: "0px 5px 15px rgba(119, 132, 238, 0.3)",
         }}
         value={content}
-        multiline
-        rows={4}
         placeholder={placeholder}
-        onChange={(e) => setContent(e.target.value)}
-      />
+        setContent={setContent} />
 
       {children}
 
