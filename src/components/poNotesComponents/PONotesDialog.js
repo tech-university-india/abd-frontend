@@ -12,7 +12,7 @@ import { DOMAIN } from "../../config";
 import { PLACEHOLDER } from '../utilityFunctions/Enums';
 import { ErrorContext } from '../contexts/ErrorContext';
 import DeleteDialog from './DeletePONote';
-import RichTextArea from '../dsm/RichTextArea';
+import RichTextArea from '../elements/RichTextArea';
 
 const getNextDate = (days) => {
   const date = new Date();

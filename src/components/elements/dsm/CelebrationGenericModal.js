@@ -3,11 +3,11 @@ import { Button, Checkbox, FormControlLabel, Grid, IconButton, Typography } from
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import CustomDropDown from "../../dsm/CustomDropDown";
+import CustomDropDown from "./CustomDropDown";
 import CelebrationCard from '../../dsm/CelebrationCard';
 import { celebrationTypes, celebrationPlaceholder, instructions } from '../../constants/DSM';
-import InstructionBox from '../../dsm/InstructionBox';
-import RichTextArea from '../../dsm/RichTextArea';
+import InstructionBox from './InstructionBox';
+import RichTextArea from '../RichTextArea';
 
 export default function CelebrationGenericModal({
   onCloseButtonClick,

@@ -3,7 +3,7 @@ import { Button, IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import RichTextArea from "../../dsm/RichTextArea";
+import RichTextArea from "../RichTextArea";
 
 export default function GenericInputModal({
   onCloseButtonClick,
