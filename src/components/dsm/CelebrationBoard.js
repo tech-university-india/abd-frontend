@@ -1,31 +1,40 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useContext, useEffect, useState } from 'react';
-import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography, IconButton, Dialog } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography, IconButton, CircularProgress } from '@mui/material';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import Masonry from '@mui/lab/Masonry';
 import axios from 'axios';
 import { AddCircle as AddCircleIcon } from '@mui/icons-material';
+import { useQuery } from 'react-query';
 import CelebrationCard from './CelebrationCard';
 import { DSMBodyLayoutContext } from "../contexts/DSMBodyLayoutContext"
 import { DOMAIN } from '../../config';
 import { ErrorContext } from '../contexts/ErrorContext';
-
-// const Item = styled(Paper)(({ theme }) => ({
-//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//   ...theme.typography.body2,
-//   padding: theme.spacing(0.5),
-//   textAlign: 'center',
-//   color: theme.palette.text.secondary,
-// }));
-// const heights = [150, 30, 90, 70, 90, 100, 150, 30, 50, 80, 150, 30, 90, 70, 90, 100, 150, 30, 50, 80, 150, 30, 90, 70, 90, 100, 150, 30, 50, 80];
+import AddCelebrationModal from './AddCelebrationModal';
+import { celebrationTypes } from '../constants/DSM';
 
 
 export default function CelebrationBoard() {
   const { setError } = useContext(ErrorContext);
   const [celebrations, setCelebrations] = useState([]);
   const { gridHeightState, dispatchGridHeight } = useContext(DSMBodyLayoutContext)
-  const [openModal, setOpenAddModal] = useState(false);
+  const [openAddModal, setOpenAddModal] = useState(false);
+
+  // handle states for add new celebrations
+  const [newCelebration, setNewCelebration] = useState({
+    type: celebrationTypes[0],
+    content: "",
+    anonymous: false
+  });
+
+  const resetModal = () => {
+    setNewCelebration({
+      type: celebrationTypes[0],
+      content: "",
+      anonymous: false
+    })
+  }
 
   const handleExpandCelebration = () => {
     dispatchGridHeight({ type: "CELEBRATION" })
@@ -37,9 +46,6 @@ export default function CelebrationBoard() {
     setOpenAddModal(true);
   }
 
-  const handleModalClose = () => {
-    setOpenAddModal(false);
-  }
 
   const getCelebrations = async () => {
     try {
@@ -53,11 +59,29 @@ export default function CelebrationBoard() {
     }
   }
 
-  useEffect(() => {
-    getCelebrations().then(celebrationsData =>
-      setCelebrations(celebrationsData)
-    )
-  }, [])
+  const { error, isError, isLoading } = useQuery(celebrations, async () => {
+    const res = await getCelebrations();
+    setCelebrations(res);
+    return res
+  },
+    {
+      refetchInterval: 5000,
+    }
+  );
+  if (isLoading) {
+    return <CircularProgress />
+  }
+  if (isError) {
+    return <div>Error! {error.message}</div>
+  }
+
+
+  // useEffect(() => {
+  //   // setInterval(getCelebrations().then(celebrationsData =>
+  //   //   setCelebrations(celebrationsData)
+  //   // ), 5000)
+  //   resetModal()
+  // }, [])
 
   return (
     <Grid item
@@ -102,12 +126,7 @@ export default function CelebrationBoard() {
           {/* All Content/Development of Celebration Board BODY goes here */}
         </AccordionDetails>
       </Accordion>
-      <Dialog
-        open={openModal}
-        onClose={handleModalClose}
-      >
-        Hello
-      </Dialog>
+      <AddCelebrationModal resetModal={resetModal} openModal={openAddModal} setOpenModal={setOpenAddModal} newCelebration={newCelebration} setNewCelebration={setNewCelebration} />
     </Grid >
   );
 };

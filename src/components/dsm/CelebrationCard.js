@@ -1,14 +1,15 @@
-/* eslint-disable react/prop-types */
-
 import { Avatar, Card, CardActions, CardContent, Grid, IconButton, Typography } from '@mui/material';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlusOneRoundedIcon from '@mui/icons-material/PlusOneRounded';
 import PropTypes from 'prop-types';
 import PersonOutlineRoundedIcon from '@mui/icons-material/PersonOutlineRounded';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-// import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import axios from 'axios';
 import { celebrationType } from '../constants/DSM';
 import dateGetter from '../utilityFunctions/DateGetter';
+import { DOMAIN } from '../../config';
+import { ErrorContext } from '../contexts/ErrorContext';
 
 function stringToColor(string) {
   let hash = 0;
@@ -45,7 +46,38 @@ function stringAvatar(name) {
   };
 }
 
-export default function CelebrationCard({ celebration }) {
+export default function CelebrationCard({ celebration, isPreview }) {
+
+  const { setError, setSuccess } = useContext(ErrorContext)
+  const [reacted, setReacted] = useState(false);
+
+  useEffect(() => {
+    if (isPreview)
+      axios.get(`${DOMAIN}/api/dsm/celebrations/${celebration.celebrationId}/react`).then(reaction => {
+        if (reaction.data.length !== 0) setReacted(reaction.data)
+      })
+        .catch(err => {
+          console.error(err);
+          setError(val => val + err);
+        })
+  }, [])
+
+  const updateReaction = async () => {
+    try {
+      if (isPreview) return setReacted(!reacted);
+      const res = await axios.patch(`${DOMAIN}/api/dsm/celebrations/${celebration.celebrationId}/react`, {
+        isReacted: !reacted
+      });
+      setSuccess(() => "Reaction updated Successfully!");
+      setReacted(!reacted);
+      return res.data;
+    }
+    catch (err) {
+      console.error(err);
+      setError(val => val + err);
+      return false;
+    }
+  }
   return <Card
     sx={{
       minWidth: "300px",
@@ -57,7 +89,7 @@ export default function CelebrationCard({ celebration }) {
     }}
   >
     <CardContent sx={{ paddingBottom: "0px" }}>
-      <Grid container sx={{ "max-height": "150px", "min-height": "50px" }}>
+      <Grid container sx={{ "max-height": "160px", "min-height": "50px" }}>
         <Grid item xs={2} sx={{ "max-height": "inherit", display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}>
           {celebration.isAnonymous ?
             <Avatar><PersonOutlineRoundedIcon /></Avatar> :
@@ -66,8 +98,9 @@ export default function CelebrationCard({ celebration }) {
         </Grid>
         <Grid item xs={10} sx={{ "max-height": "inherit", overflow: "auto" }}>
           <Typography
+            variant='contentMain'
             sx={{ fontSize: 14 }}
-            color="text.secondary"
+            color="background: #121212;"
           // gutterBottom
           >
             {celebration.content}
@@ -86,17 +119,34 @@ export default function CelebrationCard({ celebration }) {
         padding: "0px 20px 10px 20px"
       }}
     >
-      <Typography variant="caption" display="block" color="grey" marginTop="20px" fontSize="10px">
+      <Typography variant='contentMain' display="block" color="grey" marginTop="20px" fontSize="10px">
         {dateGetter(celebration.createdAt, true)}
       </Typography>
       {celebration.type === celebrationType.CELEBRATION ?
-        <IconButton><ThumbUpOffAltIcon color="disabled" /></IconButton> :
-        <IconButton><PlusOneRoundedIcon color="disabled" /></IconButton>
+        <IconButton onClick={updateReaction}>
+          {reacted ?
+            <ThumbUpAltIcon /> :
+            <ThumbUpOffAltIcon color="disabled" />
+          }
+        </IconButton> :
+        <IconButton onClick={updateReaction}><PlusOneRoundedIcon color={!reacted ? "disabled" : ""} /></IconButton>
       }
     </CardActions>
   </Card >
 }
 
 CelebrationCard.propTypes = {
-  type: PropTypes.string.isRequired
+  celebration: PropTypes.shape({
+    celebrationId: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    isAnonymous: PropTypes.bool.isRequired,
+  }).isRequired,
+  isPreview: PropTypes.bool
 };
+
+CelebrationCard.defaultProps = {
+  isPreview: false
+}

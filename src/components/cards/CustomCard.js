@@ -72,7 +72,6 @@ export default function CustomCard({ checkBox, data, type }) {
 
   const handleLinkButton = () => {
     handleClose();
-    console.log("JIRA LINK")
   }
 
   const isDraft = () => {
