@@ -42,7 +42,6 @@ function stringAvatar(name) {
         `${name.split(" ")[0][0]}${name.split(" ")[1][0]}` :
         `${name.split(" ")[0][0]}${name.split(" ")[0][1]}`
       ).toUpperCase()
-
   };
 }
 
@@ -52,7 +51,7 @@ export default function CelebrationCard({ celebration, isPreview }) {
   const [reacted, setReacted] = useState(false);
 
   useEffect(() => {
-    if (isPreview)
+    if (!isPreview)
       axios.get(`${DOMAIN}/api/dsm/celebrations/${celebration.celebrationId}/react`).then(reaction => {
         if (reaction.data.length !== 0) setReacted(reaction.data)
       })
