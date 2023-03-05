@@ -40,7 +40,7 @@ export default function GenericInputModal({
   setIsDisabled,
   deleteRequest
 }) {
-  const matches = useMediaQuery('(min-width:400px)');
+  const matchesLargeSize = useMediaQuery('(min-width:400px)');
   const [content, setContent] = useState(defaultValue ?? "");
   const [users,setUsers] = useState([]);
 
@@ -55,7 +55,7 @@ export default function GenericInputModal({
 
   return (
     <Box
-      sx={matches?{
+      sx={matchesLargeSize?{
         width: "max(25vw, 340px)",
         boxSizing: "border-box",
         backgroundColor: "#FFFFFF",
@@ -118,9 +118,19 @@ export default function GenericInputModal({
         <ReactTextareaAutocomplete
           className="autocomplete-textarea"
           loadingComponent={Loading}
-          style={{
-            width: "97%",
-            padding: '3%',
+          style={(matchesLargeSize)?{
+            width: "88%",
+            padding: '20px',
+            boxShadow: "0px 5px 15px rgba(119, 132, 238, 0.3)",
+            multiline: true,
+            rows: 4,
+            fontSize: "16px",
+            lineHeight: "20px",
+            height: '130px',
+            fontFamily: 'Roboto, sans-serif',
+          }:{
+            width: "80%",
+            padding: '20px',
             boxShadow: "0px 5px 15px rgba(119, 132, 238, 0.3)",
             multiline: true,
             rows: 4,
