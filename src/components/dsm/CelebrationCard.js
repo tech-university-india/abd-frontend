@@ -1,4 +1,5 @@
-import { Avatar, Card, CardActions, CardContent, Grid, IconButton, Typography } from '@mui/material';
+/* eslint-disable import/no-cycle */
+import { Avatar, Card, CardActions, CardContent, CircularProgress, Grid, IconButton, Typography } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import PlusOneRoundedIcon from '@mui/icons-material/PlusOneRounded';
 import PropTypes from 'prop-types';
@@ -10,6 +11,7 @@ import { celebrationType } from '../constants/DSM';
 import dateGetter from '../utilityFunctions/DateGetter';
 import { DOMAIN } from '../../config';
 import { ErrorContext } from '../contexts/ErrorContext';
+import UpdateCelebrationModal from './UpdateCelebrationModal';
 
 function stringToColor(string) {
   let hash = 0;
@@ -50,7 +52,19 @@ export default function CelebrationCard({ celebration, isPreview }) {
   const { setError, setSuccess } = useContext(ErrorContext)
   const [reacted, setReacted] = useState(false);
 
+  const [reactCount, setReactCount] = useState(0)
+  const [newCelebration, setNewCelebration] = useState({})
+  const [updateCelebration, setUpdateCelebration] = useState({})
+
+  const updateCelebrationOnSubmit = () => {
+    setNewCelebration(updateCelebration)
+  }
+
+  const [openUpdateModal, setOpenUpdateModal] = useState(false)
+
   useEffect(() => {
+    setNewCelebration(celebration)
+    setUpdateCelebration(celebration)
     if (!isPreview)
       axios.get(`${DOMAIN}/api/dsm/celebrations/${celebration.celebrationId}/react`).then(reaction => {
         if (reaction.data.length !== 0) setReacted(reaction.data)
@@ -61,12 +75,18 @@ export default function CelebrationCard({ celebration, isPreview }) {
         })
   }, [])
 
-  const updateReaction = async () => {
+  const updateReaction = async (e) => {
     try {
+      e.stopPropagation();
+      e.preventDefault();
       if (isPreview) return setReacted(!reacted);
-      const res = await axios.patch(`${DOMAIN}/api/dsm/celebrations/${celebration.celebrationId}/react`, {
+      const res = await axios.patch(`${DOMAIN}/api/dsm/celebrations/${newCelebration.celebrationId}/react`, {
         isReacted: !reacted
       });
+
+      if (!reacted) setReactCount(reactCount + 1)
+      else setReactCount(reactCount - 1)
+
       setSuccess(() => "Reaction updated Successfully!");
       setReacted(!reacted);
       return res.data;
@@ -77,61 +97,78 @@ export default function CelebrationCard({ celebration, isPreview }) {
       return false;
     }
   }
-  return <Card
-    sx={{
-      minWidth: "300px",
-      "border-radius": "8px",
-      // border: "2px solid #FF6E00",
-      border: "2px solid",
-      borderColor: celebration.type === celebrationType.CELEBRATION ? "#044ED7" : "#FF6E00",
-      boxShadow: "0px 5px 15px rgba(119, 132, 238, 0.3)"
-    }}
-  >
-    <CardContent sx={{ paddingBottom: "0px" }}>
-      <Grid container sx={{ "max-height": "160px", "min-height": "50px" }}>
-        <Grid item xs={2} sx={{ "max-height": "inherit", display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}>
-          {celebration.isAnonymous ?
-            <Avatar><PersonOutlineRoundedIcon /></Avatar> :
-            <Avatar {...stringAvatar(celebration.author)} />
-          }
-        </Grid>
-        <Grid item xs={10} sx={{ "max-height": "inherit", overflow: "auto" }}>
-          <Typography
-            variant='contentMain'
-            sx={{ fontSize: 14 }}
-            color="background: #121212;"
-          // gutterBottom
-          >
-            {celebration.content}
-            {/* Word of the Day Word of the Day
-            Word of the Day Word of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the Day
-            Word of the Day Word of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the Day */}
-          </Typography>
-        </Grid>
-      </Grid>
-    </CardContent>
-    <CardActions
+
+  return newCelebration ?
+    <Card
       sx={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        padding: "0px 20px 10px 20px"
+        minWidth: "300px",
+        cursor: !isPreview ? "pointer" : "",
+        "border-radius": "8px",
+        border: "2px solid",
+        borderColor: newCelebration.type === celebrationType.CELEBRATION ? "#044ED7" : "#FF6E00",
+        boxShadow: "0px 5px 15px rgba(119, 132, 238, 0.3)"
+      }}
+      onClick={() => {
+        setOpenUpdateModal(!isPreview)
       }}
     >
-      <Typography variant='contentMain' display="block" color="grey" marginTop="20px" fontSize="10px">
-        {dateGetter(celebration.createdAt, true)}
-      </Typography>
-      {celebration.type === celebrationType.CELEBRATION ?
-        <IconButton onClick={updateReaction}>
-          {reacted ?
-            <ThumbUpAltIcon /> :
-            <ThumbUpOffAltIcon color="disabled" />
-          }
-        </IconButton> :
-        <IconButton onClick={updateReaction}><PlusOneRoundedIcon color={!reacted ? "disabled" : ""} /></IconButton>
-      }
-    </CardActions>
-  </Card >
+      <CardContent sx={{ paddingBottom: "0px" }}>
+        <Grid container sx={{ "max-height": "160px", "min-height": "50px" }}>
+          <Grid item xs={2} sx={{ "max-height": "inherit", display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}>
+            {newCelebration.isAnonymous ?
+              <Avatar><PersonOutlineRoundedIcon /></Avatar> :
+              <Avatar {...stringAvatar(newCelebration.author ?? "")} />
+            }
+          </Grid>
+          <Grid item xs={10} sx={{ "max-height": "inherit", overflow: "auto" }}>
+            <Typography
+              variant='contentMain'
+              sx={{ fontSize: 14 }}
+              color="background: #121212;"
+            // gutterBottom
+            >
+              {newCelebration.content}
+              {/* Word of the Day Word of the Day
+            Word of the Day Word of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the Day
+            Word of the Day Word of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the DayWord of the Day */}
+            </Typography>
+          </Grid>
+        </Grid>
+      </CardContent>
+      <CardActions
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          padding: "0px 20px 10px 20px"
+        }}
+      >
+        <Typography variant='contentMain' display="block" color="grey" marginTop="20px" fontSize="10px">
+          {dateGetter(newCelebration.createdAt, true)}
+        </Typography>
+        {newCelebration.type === celebrationType.CELEBRATION ?
+          <IconButton onClick={updateReaction}>
+            {reacted ?
+              <ThumbUpAltIcon /> :
+              <ThumbUpOffAltIcon color="disabled" />
+            }
+            {celebration?._count && <Typography fontSize="10px" paddingTop="15px">{reactCount}</Typography>}
+          </IconButton> :
+          <IconButton onClick={updateReaction}>
+            <PlusOneRoundedIcon color={!reacted ? "disabled" : ""} />
+            {celebration?._count && <Typography fontSize="10px" paddingTop="15px">{reactCount}</Typography>}
+          </IconButton>
+        }
+      </CardActions>
+      <UpdateCelebrationModal
+        openModal={openUpdateModal}
+        setOpenModal={setOpenUpdateModal}
+        newCelebration={updateCelebration}
+        setNewCelebration={setUpdateCelebration}
+        updateCelebrationOnSubmit={updateCelebrationOnSubmit}
+      />
+    </Card > :
+    <CircularProgress />
 }
 
 CelebrationCard.propTypes = {
@@ -142,6 +179,9 @@ CelebrationCard.propTypes = {
     author: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
     isAnonymous: PropTypes.bool.isRequired,
+    _count: PropTypes.shape({
+      reaction: PropTypes.number
+    })
   }).isRequired,
   isPreview: PropTypes.bool
 };

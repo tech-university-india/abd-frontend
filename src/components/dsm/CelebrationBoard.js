@@ -126,7 +126,13 @@ export default function CelebrationBoard() {
           {/* All Content/Development of Celebration Board BODY goes here */}
         </AccordionDetails>
       </Accordion>
-      <AddCelebrationModal resetModal={resetModal} openModal={openAddModal} setOpenModal={setOpenAddModal} newCelebration={newCelebration} setNewCelebration={setNewCelebration} />
+      <AddCelebrationModal
+        resetModal={resetModal}
+        openModal={openAddModal}
+        setOpenModal={setOpenAddModal}
+        newCelebration={newCelebration}
+        setNewCelebration={setNewCelebration}
+      />
     </Grid >
   );
 };

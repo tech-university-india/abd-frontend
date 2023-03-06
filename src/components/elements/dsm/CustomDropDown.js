@@ -1,10 +1,10 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { Box } from '@mui/system';
 import { Grid, IconButton, Typography } from '@mui/material';
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded';
 import SegmentRoundedIcon from '@mui/icons-material/SegmentRounded';
+import { PropTypes } from 'prop-types';
 
 export default function CustomDropDown({ isMenu, value, openDropDown, setOpenDropDown, handleChange }) {
 
@@ -46,4 +46,20 @@ export default function CustomDropDown({ isMenu, value, openDropDown, setOpenDro
     </Grid>
   </Box >
   )
+}
+
+CustomDropDown.propTypes = {
+  isMenu: PropTypes.bool,
+  value: PropTypes.string,
+  openDropDown: PropTypes.bool,
+  setOpenDropDown: PropTypes.func,
+  handleChange: PropTypes.func,
+}
+
+CustomDropDown.defaultProps = {
+  isMenu: false,
+  value: "",
+  openDropDown: false,
+  setOpenDropDown: () => { },
+  handleChange: () => { },
 }
