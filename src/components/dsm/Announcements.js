@@ -8,6 +8,7 @@ import GenericInputModal from '../elements/dsm/GenericInputModal';
 import ChatContainer from '../elements/dsm/ChatContainer';
 import { DOMAIN } from '../../config';
 import { ErrorContext } from '../contexts/ErrorContext';
+import { DSM_ANNOUNCEMENT_INPUT_PLACEHOLDER } from '../constants/dsm/Announcements';
 
 export default function Announcements() {
 
@@ -106,8 +107,9 @@ export default function Announcements() {
                 setAnnouncements(() => [newAnnouncement, ...announcements])
                 handleModalClose();
               }
-
             }}
+
+            placeholder={DSM_ANNOUNCEMENT_INPUT_PLACEHOLDER}
 
             // TODO: add children component to check for addition on slack channel
           />
