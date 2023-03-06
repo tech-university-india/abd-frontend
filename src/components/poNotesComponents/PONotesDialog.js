@@ -11,7 +11,7 @@ import Timeline from "../utilityFunctions/Timeline";
 import { DOMAIN } from "../../config";
 import { PLACEHOLDER } from '../utilityFunctions/Enums';
 import { ErrorContext } from '../contexts/ErrorContext';
-import DeleteDialog from './DeletePONote';
+import DeleteDialog from '../elements/DeleteDialog';
 import RichTextArea from '../elements/RichTextArea';
 
 const getNextDate = (days) => {
@@ -135,9 +135,7 @@ export default function PONotesDialog({ updateItem, data, open, handleClose }) {
 
   return (
     <Box>
-      <DeleteDialog open={deleteAlert} setOpen={setDeleteAlert} handleDelete={handleDelete}>
-        hello
-      </DeleteDialog>
+      <DeleteDialog open={deleteAlert} setOpen={setDeleteAlert} handleDelete={handleDelete} description="Are you sure to delete this PO Note?" />
       <Dialog
         disabled
         maxWidth

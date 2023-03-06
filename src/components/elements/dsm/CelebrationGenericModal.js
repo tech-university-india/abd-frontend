@@ -11,6 +11,7 @@ import CelebrationCard from '../../dsm/CelebrationCard';
 import { celebrationTypes, celebrationPlaceholder, instructions } from '../../constants/DSM';
 import InstructionBox from './InstructionBox';
 import RichTextArea from '../RichTextArea';
+import DeleteDialog from '../DeleteDialog';
 
 export default function CelebrationGenericModal({
   onCloseButtonClick,
@@ -27,6 +28,7 @@ export default function CelebrationGenericModal({
   update,
   lock,
   setLock,
+  handleDelete
 }) {
 
   const reStructureCardDetails = () => ({
@@ -53,12 +55,14 @@ export default function CelebrationGenericModal({
 
   const [openDropDown, setOpenDropDown] = useState(false);
 
+  const [deleteAlert, setDeleteAlert] = useState(false);
+
   const updateCelebration = (celebration) => {
     setNewCelebration(celebration);
   }
 
   const onDeleteButtonClick = () => {
-    console.log("delete");
+    setDeleteAlert(true);
   }
 
   const onEditButtonClick = () => {
@@ -101,7 +105,7 @@ export default function CelebrationGenericModal({
       >
         {update &&
           <IconButton onClick={() => onDeleteButtonClick()}>
-            <DeleteForeverRoundedIcon />
+            <DeleteForeverRoundedIcon color={!deleteAlert ? 'secondary' : "primary"} />
           </IconButton>
         }
         <Box sx={{
@@ -228,8 +232,8 @@ export default function CelebrationGenericModal({
           </Grid>
         </Grid>
       }
+      <DeleteDialog open={deleteAlert} setOpen={setDeleteAlert} handleDelete={handleDelete} description="Are you sure want to delete celebration" />
     </Box >
-    // </Box>
   );
 }
 
@@ -251,7 +255,8 @@ CelebrationGenericModal.propTypes = {
   }).isRequired,
   update: PropTypes.bool,
   lock: PropTypes.bool,
-  setLock: PropTypes.func
+  setLock: PropTypes.func,
+  handleDelete: PropTypes.func,
 };
 
 CelebrationGenericModal.defaultProps = {
@@ -264,5 +269,6 @@ CelebrationGenericModal.defaultProps = {
   isPreview: false,
   update: false,
   lock: false,
-  setLock: () => { }
+  setLock: () => { },
+  handleDelete: () => { }
 };

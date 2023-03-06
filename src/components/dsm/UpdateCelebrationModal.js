@@ -37,6 +37,23 @@ export default function UpdateCelebrationModal({ openModal, setOpenModal, newCel
     }
   }
 
+  const deleteCelebrationToDB = async () => {
+    try {
+      const res = await axios.delete(`${DOMAIN}/api/dsm/celebrations/${newCelebration.celebrationId}`);
+      setSuccess(() => "Celebration Deleted Successfully!");
+      return res.data;
+    }
+    catch (err) {
+      console.error(err);
+      setError(val => val + err);
+      return false;
+    }
+  }
+
+  const handleDelete = async () => {
+    await deleteCelebrationToDB()
+  }
+
   const handleSubmit = async () => {
     await updateCelebrationToDB()
     updateCelebrationOnSubmit()
@@ -64,6 +81,7 @@ export default function UpdateCelebrationModal({ openModal, setOpenModal, newCel
           lock={lock}
           setLock={setLock}
           update
+          handleDelete={handleDelete}
         />
       </Dialog>
     </Box>

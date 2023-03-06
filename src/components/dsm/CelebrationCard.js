@@ -124,7 +124,7 @@ export default function CelebrationCard({ celebration, isPreview }) {
             <Typography
               variant='contentMain'
               sx={{ fontSize: 14 }}
-              color="background: #121212;"
+              color="#121212"
             // gutterBottom
             >
               {newCelebration.content}
@@ -143,7 +143,7 @@ export default function CelebrationCard({ celebration, isPreview }) {
           padding: "0px 20px 10px 20px"
         }}
       >
-        <Typography variant='contentMain' display="block" color="grey" marginTop="20px" fontSize="10px">
+        <Typography variant='contentMain' display="block" marginTop="20px" fontSize="10px">
           {dateGetter(newCelebration.createdAt, true)}
         </Typography>
         {newCelebration.type === celebrationType.CELEBRATION ?
