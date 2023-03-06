@@ -61,7 +61,9 @@ export default function GenericInputModal({
         }}
         value={content}
         placeholder={placeholder}
-        setContent={setContent} />
+        setContent={setContent}
+        enableTag
+      />
 
       {children}
 

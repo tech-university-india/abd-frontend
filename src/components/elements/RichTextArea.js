@@ -1,14 +1,16 @@
 /* eslint-disable react/forbid-prop-types */
 import { List, ListItem, ListItemButton, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import emoji from "@jukben/emoji-search";
 import { Box } from '@mui/system';
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 import Proptypes from 'prop-types';
+import { getAllUsers } from '../utilityFunctions/User';
 
 function Loading() {
   return <Box>Loading...</Box>;
 }
+
 
 function Item({ entity: { name, char } }) {
   return (
@@ -23,7 +25,19 @@ function Item({ entity: { name, char } }) {
   )
 }
 
-export default function RichTextArea({ value, placeholder, setContent, sx, disabled }) {
+export default function RichTextArea({ value, placeholder, setContent, sx, disabled, enableTag }) {
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    setUsers(getAllUsers());
+  }, []);
+
+  const getSimilarUsers = (text) => {
+    const similarUsers = users.filter((user) => user.toLowerCase().includes(text.toLowerCase()));
+    return similarUsers.map((user) => ({ name: user, char: '@' }));
+  }
+
   return (
     <ReactTextareaAutocomplete
       className="autocomplete-textarea"
@@ -58,7 +72,15 @@ export default function RichTextArea({ value, placeholder, setContent, sx, disab
             .map(({ name, char }) => ({ name, char })),
           component: Item,
           output: (item) => item.char
-        }
+        },
+        "@": enableTag ? {
+          dataProvider: token => getSimilarUsers(token)
+            .slice(0, 3)
+            .map(({ name, char }) => ({ name, char })),
+          component: Item,
+          output: (item) => item.char + item.name,
+        } : {}
+
         // For adding users we can use @ as trigger
       }}
     />)
@@ -76,9 +98,12 @@ RichTextArea.propTypes = {
   placeholder: Proptypes.string.isRequired,
   setContent: Proptypes.func.isRequired,
   sx: Proptypes.object.isRequired,
-  disabled: Proptypes.bool
+  disabled: Proptypes.bool,
+  enableTag: Proptypes.bool,
 };
 
 RichTextArea.defaultProps = {
-  disabled: false
+  disabled: false,
+  enableTag: false
+
 };
