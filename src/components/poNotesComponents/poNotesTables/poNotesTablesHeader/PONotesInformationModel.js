@@ -33,9 +33,9 @@ export default function NestedModal(props) {
         setOpen(false);
     };
     return (
-        <Box sx={{paddingLeft:'0.5%'}}>
+        <Box sx={{ paddingLeft: '0.5%' }}>
             {/* Icon to open the modal */}
-            <InfoOutlinedIcon sx={{fontSize:'22px'}} onClick={handleOpen} />
+            <InfoOutlinedIcon sx={{ fontSize: '22px' }} onClick={handleOpen} />
             <Modal
                 open={open}
                 onClose={handleClose}

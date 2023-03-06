@@ -35,6 +35,10 @@ const theme = createTheme({
     },
     backgroundColor: {
       main: '#e6eef2',
+    },
+    secondaryButton: {
+      main: '#EEF2F5',
+      contrastText: '#000',
     }
   },
   components: {
@@ -99,5 +103,17 @@ theme.typography.dsmSubMain = {
   fontSize: "17px",
   fontWeight: "400"
 }
+
+
+theme.typography.contentMain = {
+  ...theme.typography.subtitle1,
+  fontFamily: 'Poppins',
+  fontStyle: "normal",
+  fontSize: "15px",
+  lineHeight: "23px",
+  letterSpacing: "0.3px",
+  color: "#657278"
+}
+
 
 export default theme;
