@@ -1,4 +1,6 @@
 import { Close as CloseIcon } from "@mui/icons-material";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Button, IconButton, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
@@ -6,20 +8,17 @@ import PropTypes from "prop-types";
 
 export default function GenericInputModal({
   onCloseButtonClick,
-
   title,
-
   defaultValue,
-
   children,
-
   primaryButtonText,
   onPrimaryButtonClick,
-
   secondaryButtonText,
   onSecondaryButtonClick,
-
   placeholder,
+  isDisabled,
+  setIsDisabled,
+  deleteRequest
 }) {
   const [content, setContent] = useState(defaultValue ?? "");
 
@@ -36,16 +35,38 @@ export default function GenericInputModal({
       }}
     >
       {/* Action Buttons */}
-      {/* TODO: add editable buttons and actions as well */}
-      <Box
-        sx={{
-          textAlign: "right",
-        }}
-      >
-        <IconButton onClick={() => onCloseButtonClick(content)}>
-          <CloseIcon />
-        </IconButton>
-      </Box>
+      {
+        (isDisabled !== undefined)
+          ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <IconButton onClick={deleteRequest} sx={{ padding: 0 }}>
+                <DeleteForeverIcon />
+              </IconButton>
+              <Box>
+                <IconButton onClick={() => setIsDisabled(false)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={() => onCloseButtonClick(content)} sx={{ padding: 0 }}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+            </Box>
+          )
+          : (
+            <Box sx={{ textAlign: 'right' }}>
+              <IconButton onClick={() => onCloseButtonClick(content)} sx={{ padding: 0 }}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+          )
+      }
+
+
 
       {/* Title */}
       <Typography variant="h5">{title}</Typography>
@@ -62,28 +83,33 @@ export default function GenericInputModal({
         rows={4}
         placeholder={placeholder}
         onChange={(e) => setContent(e.target.value)}
+        disabled={isDisabled}
       />
 
       {children}
 
       {/* Primary Button */}
-      <Button
-        sx={{
-          margin: "16px 0",
-          padding: "12px 0",
-          width: "100%",
-          borderRadius: "8px",
-          color: "customButton1.contrastText",
-          backgroundColor: "customButton1.main",
-          "&:hover": {
-            color: "customButton1.contrastText",
-            backgroundColor: "customButton1.main",
-          },
-        }}
-        onClick={() => onPrimaryButtonClick(content)}
-      >
-        {primaryButtonText}
-      </Button>
+      {
+        !isDisabled && (
+          <Button
+            sx={{
+              margin: "16px 0",
+              padding: "12px 0",
+              width: "100%",
+              borderRadius: "8px",
+              color: "customButton1.contrastText",
+              backgroundColor: "customButton1.main",
+              "&:hover": {
+                color: "customButton1.contrastText",
+                backgroundColor: "customButton1.main",
+              },
+            }}
+            onClick={() => onPrimaryButtonClick(content)}
+          >
+            {primaryButtonText}
+          </Button>
+        )
+      }
 
       {secondaryButtonText && (
         <Button
@@ -117,17 +143,19 @@ GenericInputModal.propTypes = {
   defaultValue: PropTypes.string,
   secondaryButtonText: PropTypes.string,
   onSecondaryButtonClick: PropTypes.func,
+  isDisabled: PropTypes.bool,
+  setIsDisabled: PropTypes.func,
+  deleteRequest: PropTypes.func
 };
 
 GenericInputModal.defaultProps = {
-  onPrimaryButtonClick: (content) => {
-    console.log(content);
-  },
-  onSecondaryButtonClick: (content) => {
-    console.log(content);
-  },
+  onPrimaryButtonClick: () => { },
+  onSecondaryButtonClick: () => { },
   secondaryButtonText: undefined,
   children: undefined,
   placeholder: undefined,
   defaultValue: undefined,
+  isDisabled: undefined,
+  setIsDisabled: () => { },
+  deleteRequest: () => { }
 };

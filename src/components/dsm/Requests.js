@@ -10,7 +10,13 @@ import { ErrorContext } from '../contexts/ErrorContext';
 import { DOMAIN } from '../../config';
 import ChatContainer from '../elements/dsm/ChatContainer';
 import { getCurretUser } from '../utilityFunctions/User';
-import { DSM_REQUEST_DEFAULT_TYPE, DSM_REQUEST_INPUT_PLACEHOLDER } from '../constants/dsm/Requests';
+import { DSM_REQUEST_DEFAULT_TYPE, DSM_REQUEST_INPUT_PLACEHOLDER, DSM_REQUEST_TYPES, ERROR_MESSAGE, SUCCESS_MESSAGE, TITLE, PRIMARY_BUTTON_TEXT } from '../constants/dsm/Requests';
+
+/*
+ISSUES: 
+        1. someplace key is missing console is showing error
+        2. User must be able to tag user in request so we can use ReactTextAreaAutocomplete
+*/
 
 export default function Requests() {
 
@@ -23,6 +29,29 @@ export default function Requests() {
 
   const [requests, setRequests] = useState([]);
   const [openModal, setOpenAddModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [editModalData, setEditModalData] = useState({});
+  const [isDisabled,setIsDisabled] = useState(true);
+  const [requestType, setRequestType] = useState(DSM_REQUEST_DEFAULT_TYPE);
+
+  const handleEditModalClose = () => {
+    setOpenEditModal(false);
+    setEditModalData({});
+    setIsDisabled(true);
+    setRequestType(DSM_REQUEST_DEFAULT_TYPE);
+  };
+
+  const handleChatClick = (request) => {
+    if(getCurretUser() !== request.author){
+      setError(ERROR_MESSAGE.UNAUTHORIZED);
+      return;
+    }
+    setOpenEditModal(true);
+    setEditModalData({...request});
+    setIsDisabled(true);
+    setRequestType(request.type);
+  };
+
   const handleAddButtonClick = () => {
     setOpenAddModal(!openModal);
     dispatchGridHeight({ type: "REQUEST" });
@@ -32,13 +61,12 @@ export default function Requests() {
     setOpenAddModal(false);
   }
 
-  const getRequests = async () =>{
+  const getRequests = async () => {
     try {
       const res = await axios.get(`${DOMAIN}/api/dsm/team-requests`);
       return res.data;
     }
-    catch(err) {
-      console.error(err);
+    catch (err) {
       setError(val => val + err);
       return [];
     }
@@ -50,12 +78,6 @@ export default function Requests() {
     })
   }, [])
 
-  const handleChatClick = (request) => {
-    console.log(request);
-    // open a modal with the request
-  };
-
-  const [requestType, setRequestType] = useState(DSM_REQUEST_DEFAULT_TYPE);
 
   const addRequestToDB = async (content) => {
     try {
@@ -64,15 +86,55 @@ export default function Requests() {
         content,
         type: requestType,
       });
-      setSuccess(() => "Request Created Successfully!");
+      setSuccess(() => SUCCESS_MESSAGE.REQUEST_CREATED);
       return res.data;
     }
-    catch(err) {
-      console.error(err);
+    catch (err) {
       setError(val => val + err);
       return false;
     }
   }
+
+  const handleEditRequest = async (content) => {
+    try {
+      const res = await axios.put(`${DOMAIN}/api/dsm/team-requests/${editModalData.requestId}`, {
+        content,
+        type: requestType,
+      });
+      setSuccess(() => SUCCESS_MESSAGE.REQUEST_UPDATED);
+      setRequests(requests.map((request) => {
+        if (request.requestId === editModalData.requestId) {
+          return {
+            ...request,
+            content,
+            type: requestType,
+          }
+        }
+        return request;
+      }));
+      handleEditModalClose();
+      return res.data;
+    }
+    catch (err) {
+      setError(val => val + err);
+      return false;
+    }
+  };
+
+  const handleDeleteRequest = async () => {
+    try {
+      const res = await axios.delete(`${DOMAIN}/api/dsm/team-requests/${editModalData.requestId}`);
+      setSuccess(() => SUCCESS_MESSAGE.REQUEST_DELETED);
+      const requestData = requests.filter((request) => request.requestId !== editModalData.requestId);
+      setRequests([...requestData]);
+      handleEditModalClose();
+      return res.data;
+    }
+    catch (err) {
+      setError(val => val + err);
+      return false;
+    }
+  };
 
   return (
     <Grid item height={gridHeightState.request.height} sx={{ ...(gridHeightState.request.expanded && { paddingBottom: "15px" }) }}>
@@ -106,9 +168,9 @@ export default function Requests() {
           onClose={handleModalClose}
         >
           <GenericInputModal
-            title='Request Statement'
+            title={TITLE}
             onCloseButtonClick={handleModalClose}
-            primaryButtonText='Post'
+            primaryButtonText={PRIMARY_BUTTON_TEXT.POST}
             onPrimaryButtonClick={async (content) => {
               const isRequestSuccesfullyDone = await addRequestToDB(content);
               if (isRequestSuccesfullyDone) {
@@ -125,11 +187,11 @@ export default function Requests() {
             </Typography>
             <br />
             <Stack spacing={1} direction="row">
-              <Chip label="Meeting" onClick={() => setRequestType('MEETING')}  color={requestType === "MEETING" ? 'primary' : 'default'} />
-              <Chip label="Resource" onClick={() => setRequestType('RESOURCE')} color={requestType === "RESOURCE" ? 'primary' : 'default'} />
+              <Chip label="Meeting" onClick={() => setRequestType(DSM_REQUEST_TYPES[0])} color={requestType === DSM_REQUEST_TYPES[0] ? 'primary' : 'default'} />
+              <Chip label="Resource" onClick={() => setRequestType(DSM_REQUEST_TYPES[1])} color={requestType === DSM_REQUEST_TYPES[1] ? 'primary' : 'default'} />
             </Stack>
           </GenericInputModal>
-          </Dialog>
+        </Dialog>
 
         <AccordionDetails sx={{
           display: "flex",
@@ -147,30 +209,49 @@ export default function Requests() {
             />
           ))}
         </AccordionDetails>
+
+        {
+          (openEditModal) && (
+            <Dialog
+              open={openEditModal}
+              onClose={handleEditModalClose}
+            >
+              <GenericInputModal
+                title={TITLE}
+                onCloseButtonClick={handleEditModalClose}
+                // primaryButtonText='Mark as Discussed' right now just adding save
+                primaryButtonText={PRIMARY_BUTTON_TEXT.SAVE}
+                onPrimaryButtonClick={handleEditRequest}
+                defaultValue={editModalData.content}
+                isDisabled={isDisabled}
+                setIsDisabled={setIsDisabled}
+                deleteRequest={handleDeleteRequest}
+              >
+                <Typography>
+                  Tags
+                </Typography>
+                <br />
+                {
+                  (!isDisabled)
+                    ? (
+                      <Stack spacing={1} direction="row">
+                        <Chip label="Meeting" onClick={() => setRequestType(DSM_REQUEST_TYPES[0])} color={requestType === DSM_REQUEST_TYPES[0] ? 'primary' : 'default'} />
+                        <Chip label="Resource" onClick={() => setRequestType(DSM_REQUEST_TYPES[1])} color={requestType === DSM_REQUEST_TYPES[1] ? 'primary' : 'default'} />
+                      </Stack>
+                    )
+                    :(
+                      <Stack spacing={1} direction="row">
+                        <Chip label="Meeting"  color={editModalData.type === DSM_REQUEST_TYPES[0] ? 'primary' : 'default'} />
+                        <Chip label="Resource" color={editModalData.type === DSM_REQUEST_TYPES[1] ? 'primary' : 'default'} />
+                      </Stack>
+                    )
+                }
+              </GenericInputModal>
+            </Dialog>
+          )
+        }
+
       </Accordion>
     </Grid>
   );
 };
-
-// Requests.propTypes = {
-//   gridHeightState: PropTypes.shape({
-//     sentiment: PropTypes.shape({
-//       expanded: PropTypes.bool.isRequired,
-//       height: PropTypes.number.isRequired,
-//     }).isRequired,
-//     celebration: PropTypes.shape({
-//       expanded: PropTypes.bool.isRequired,
-//       fullExpanded: PropTypes.bool.isRequired,
-//       height: PropTypes.number.isRequired,
-//     }).isRequired,
-//     request: PropTypes.shape({
-//       expanded: PropTypes.bool.isRequired,
-//       height: PropTypes.number.isRequired,
-//     }).isRequired,
-//     announcement: PropTypes.shape({
-//       expanded: PropTypes.bool.isRequired,
-//       height: PropTypes.number.isRequired,
-//     }).isRequired,
-//   }).isRequired,
-//   dispatchGridHeight: PropTypes.func.isRequired,
-// }
