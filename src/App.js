@@ -13,7 +13,7 @@ import RefMaterialsContainer from './components/routes/RefMaterials';
 import TimelineContainer from './components/routes/Timelines';
 import Navbar from './components/elements/NavBar';
 import Login from './components/login';
-import SecureRoute from './SecureRoute';
+import SecureRoute from './components/secureRoute/SecureRoute';
 
 const oktaAuth = new OktaAuth({
   issuer: `https://${process.env.REACT_APP_OCTA_DOMAIN}/oauth2/default`,
