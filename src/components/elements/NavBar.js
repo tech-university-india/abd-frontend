@@ -24,7 +24,6 @@ export default function Navbar() {
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-    console.log('Yo')
   };
   const location = useLocation();
   return (

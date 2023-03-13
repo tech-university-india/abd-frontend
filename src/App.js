@@ -12,7 +12,7 @@ import PONotesContainer from './components/routes/PONotes';
 import RefMaterialsContainer from './components/routes/RefMaterials';
 import TimelineContainer from './components/routes/Timelines';
 import Navbar from './components/elements/NavBar';
-import Login from './Login';
+import Login from './components/login';
 import SecureRoute from './SecureRoute';
 
 const oktaAuth = new OktaAuth({
@@ -33,17 +33,17 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <Box><Navbar/></Box>
         <Box>
-            <Routes>
-              <Route path='/' exact element={<Login />} />
-              <Route path='/home' exact element={<SecureRoute><HomeContainer/></SecureRoute>} />
-              <Route path='/announcements' exact element={<SecureRoute><AnnouncementContainer /></SecureRoute>} />
-              <Route path='/information-radiators' exact element={<SecureRoute><InformationRadiatorContainer /></SecureRoute>} />
-              <Route path='/our-teams' exact element={<SecureRoute><OurTeamsContainer /></SecureRoute>} />
-              <Route path='/po-notes' exact element={<SecureRoute><PONotesContainer /></SecureRoute>} />
-              <Route path='/reference-material' exact element={<SecureRoute><RefMaterialsContainer /></SecureRoute>} />
-              <Route path='/timelines-roadmaps' exact element={<SecureRoute><TimelineContainer /></SecureRoute>} />
-              <Route path='/login/callback' element={<LoginCallback />} />
-            </Routes>
+          <Routes>
+            <Route path='/' exact element={<Login />} />
+            <Route path='/home' exact element={<SecureRoute><HomeContainer/></SecureRoute>} />
+            <Route path='/announcements' exact element={<SecureRoute><AnnouncementContainer /></SecureRoute>} />
+            <Route path='/information-radiators' exact element={<SecureRoute><InformationRadiatorContainer /></SecureRoute>} />
+            <Route path='/our-teams' exact element={<SecureRoute><OurTeamsContainer /></SecureRoute>} />
+            <Route path='/po-notes' exact element={<SecureRoute><PONotesContainer /></SecureRoute>} />
+            <Route path='/reference-material' exact element={<SecureRoute><RefMaterialsContainer /></SecureRoute>} />
+            <Route path='/timelines-roadmaps' exact element={<SecureRoute><TimelineContainer /></SecureRoute>} />
+            <Route path='/login/callback' element={<LoginCallback />} />
+          </Routes>
         </Box>
       </QueryClientProvider>
     </Security>

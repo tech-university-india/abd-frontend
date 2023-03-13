@@ -1,15 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useOktaAuth } from '@okta/okta-react';
-
-function NotLoggedin({login}){
-  return (
-    <div>
-      <p>Not logged in!</p>
-      <button type='button' onClick={login}>Login</button>
-    </div>
-  );
-}
 
 function Loggedin(){
   return (
@@ -18,10 +8,6 @@ function Loggedin(){
     </div>
   );
 }
-
-NotLoggedin.propTypes = {
-  login: PropTypes.func.isRequired,
-};
 
 
 function Login() {
@@ -34,7 +20,7 @@ function Login() {
   }
 
   if(!authState.isAuthenticated) {
-    return <NotLoggedin login={login}/>
+    login();
   }
 
   return <Loggedin/>;
