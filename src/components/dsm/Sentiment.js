@@ -7,19 +7,16 @@ import SentimentVerySatisfiedTwoToneIcon from '@mui/icons-material/SentimentVery
 import SentimentSatisfiedTwoToneIcon from '@mui/icons-material/SentimentSatisfiedTwoTone';
 import SentimentDissatisfiedTwoToneIcon from '@mui/icons-material/SentimentDissatisfiedTwoTone';
 import SentimentVeryDissatisfiedTwoToneIcon from '@mui/icons-material/SentimentVeryDissatisfiedTwoTone';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import { IconButton, Box, Menu, MenuItem, Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Stack } from '@mui/system';
-import Box from '@mui/material/Box';
 import axios from 'axios';
 import InformationModel from '../elements/InformationModel';
 import { DSMBodyLayoutContext } from "../contexts/DSMBodyLayoutContext"
 import SentimentMeterDialog from './SentimentMeterDialog';
 import preventParentClick from '../utilityFunctions/PreventParentClick';
+import { SentimentMeterInfo } from '../constants/SentimentMeter';
 import { DOMAIN } from '../../config';
 
 export default function Sentiment() {
@@ -42,13 +39,12 @@ export default function Sentiment() {
   };
 
   const [currentFeeling, setCurrentFeeling] = React.useState('');
+  const [sentimentId, setSentimentId] = React.useState(0);
 
   const [feelingHappy, setFeelingHappy] = React.useState(false);
   const [feelingGood, setFeelingGood] = React.useState(false);
   const [feelingOk, setFeelingOk] = React.useState(false);
   const [feelingBad, setFeelingBad] = React.useState(false);
-
-  const [sentimentId, setSentimentId] = React.useState(0);
 
   const handleSentimentHappy = async () => {
     setFeelingHappy(!feelingHappy);
@@ -142,30 +138,6 @@ export default function Sentiment() {
     setFeelingOk(false);
   }
 
-  // MAKE POST CALL TO SEND SENTIMENT
-  //   if (sentiment > 0 && sentiment < 5 && feeling !== '') {
-  //     const res = await axios.post(`${DOMAIN}/api/dsm/sentiment-meter`, {
-  //       sentiment: feeling,
-  //       author: "Anonymous"
-  //     })
-  //       .then((response) => {
-  //         console.log(response);
-  //       }, (error) => {
-  //         console.log(error);
-  //       })
-  //   }
-  //   else {
-  //     const res = await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/:sentimentId`)
-  //       .then((response) => {
-  //         console.log(response);
-  //       }
-  //         , (error) => {
-  //           console.log(error);
-  //         }
-  //       )
-  //   }
-  // };
-
   return (
     <Grid item sx={{ marginBottom: "10px", paddingBottom: "10px", ...(gridHeightState.sentiment.expanded && { paddingBottom: "15px" }), display: "flex", flexDirection: "row", justifyContent: "space-between" }} height={gridHeightState.sentiment.height}>
       <Grid item xs={gridHeightState.celebration.fullExpanded ? 8 : 12}>
@@ -182,12 +154,10 @@ export default function Sentiment() {
                 flexGrow: 1,
               }}
             >
-              {/* All Content/Development of SentimentMeter HEADER goes here */}
               <Typography onClick={preventParentClick(() => { })} variant="dsmMain" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }} width="100%" >How are you feeling today?
-                <InformationModel heading="Sentiment Meter"
-                  definition="This is an Anonymous entry. It is an team metric and we won’t identify you personally.
-                              Your voice matters for running a data driven and effective retrospective meetings. Please feel free to share your feeling."
-                  accessibiltyInformation="" />
+                <InformationModel heading={SentimentMeterInfo.heading}
+                  definition={SentimentMeterInfo.definition}
+                  accessibiltyInformation={SentimentMeterInfo.accessibilityInformation} />
               </Typography>
             </AccordionSummary>
             <IconButton
@@ -214,19 +184,20 @@ export default function Sentiment() {
             </Menu>
           </Box>
           <AccordionDetails sx={{ padding: '0px' }}>
-            {/* All Content/Development of SentimentMeter BODY goes here */}
             <Stack direction="row" spacing={10} sx={{ justifyContent: "center" }}>
-              <IconButton onClick={handleSentimentHappy} sx={{ borderRadius: 100, padding: "0px", color: 'green' }}>
-                {feelingHappy ? <SentimentVerySatisfiedTwoToneIcon id='SentimentVerySatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentVerySatisfiedOutlinedIcon id='SentimentVerySatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
+              <Box>
+                <IconButton onClick={handleSentimentHappy} sx={{ borderRadius: 100, padding: "0px", color: 'emoji.happy' }}>
+                  {feelingHappy ? <SentimentVerySatisfiedTwoToneIcon sx={{ fontSize: 40 }} /> : <SentimentVerySatisfiedOutlinedIcon sx={{ fontSize: 40 }} />}
+                </IconButton>
+              </Box>
+              <IconButton onClick={handleSentimentGood} sx={{ borderRadius: 100, padding: "0px", color: 'emoji.good' }}>
+                {feelingGood ? <SentimentSatisfiedTwoToneIcon sx={{ fontSize: 40 }} /> : <SentimentSatisfiedOutlinedIcon sx={{ fontSize: 40 }} />}
               </IconButton>
-              <IconButton onClick={handleSentimentGood} sx={{ borderRadius: 100, padding: "0px", color: 'green' }}>
-                {feelingGood ? <SentimentSatisfiedTwoToneIcon sx={{ fontSize: 45 }} id='SentimentSatisfiedTwoToneIcon' /> : <SentimentSatisfiedOutlinedIcon id='SentimentSatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
+              <IconButton onClick={handleSentimentOk} sx={{ borderRadius: 100, padding: "0px", color: 'emoji.ok' }}>
+                {feelingOk ? <SentimentDissatisfiedTwoToneIcon sx={{ fontSize: 40 }} /> : <SentimentDissatisfiedOutlinedIcon sx={{ fontSize: 40 }} />}
               </IconButton>
-              <IconButton onClick={handleSentimentOk} sx={{ borderRadius: 100, padding: "0px", color: 'red' }}>
-                {feelingOk ? <SentimentDissatisfiedTwoToneIcon id='SentimentDissatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentDissatisfiedOutlinedIcon id='SentimentDissatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
-              </IconButton>
-              <IconButton onClick={handleSentimentBad} sx={{ borderRadius: 100, padding: "0px", color: 'red' }}>
-                {feelingBad ? <SentimentVeryDissatisfiedTwoToneIcon id='SentimentVeryDissatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentVeryDissatisfiedOutlinedIcon id='SentimentVeryDissatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
+              <IconButton onClick={handleSentimentBad} sx={{ borderRadius: 100, padding: "0px", color: 'emoji.bad' }}>
+                {feelingBad ? <SentimentVeryDissatisfiedTwoToneIcon sx={{ fontSize: 40 }} /> : <SentimentVeryDissatisfiedOutlinedIcon sx={{ fontSize: 40 }} />}
               </IconButton>
             </Stack>
           </AccordionDetails>
@@ -271,28 +242,3 @@ export default function Sentiment() {
     </Grid >
   );
 };
-
-// 
-
-// Sentiment.propTypes = {
-//   gridHeightState: Proptypes.shape({
-//     sentiment: Proptypes.shape({
-//       expanded: Proptypes.bool.isRequired,
-//       height: Proptypes.number.isRequired,
-//     }).isRequired,
-//     celebration: Proptypes.shape({
-//       expanded: Proptypes.bool.isRequired,
-//       fullExpanded: Proptypes.bool.isRequired,
-//       height: Proptypes.number.isRequired,
-//     }).isRequired,
-//     request: Proptypes.shape({
-//       expanded: Proptypes.bool.isRequired,
-//       height: Proptypes.number.isRequired,
-//     }).isRequired,
-//     announcement: Proptypes.shape({
-//       expanded: Proptypes.bool.isRequired,
-//       height: Proptypes.number.isRequired,
-//     }).isRequired,
-//   }).isRequired,
-//   dispatchGridHeight: Proptypes.func.isRequired,
-// }

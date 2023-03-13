@@ -26,6 +26,12 @@ const theme = createTheme({
       main: '#FFFFFF',
       contrastText: '#044ED7',
     },
+    emoji: {
+      happy: '#2e7d32',
+      good: '#43a047',
+      ok: '#f9a825',
+      bad: '#f44336',
+    },
     backgroundColor: {
       main: '#e6eef2',
     }
