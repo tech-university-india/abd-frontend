@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useOktaAuth } from '@okta/okta-react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   AppBar, Box, Toolbar, IconButton,
@@ -10,11 +11,13 @@ import Logo from '../../assets/images/agileLogo.png';
 
 const pages = ['Home', 'PO Notes', 'Our Teams', 'Timelines & Roadmaps',
   'Announcements', 'Information Radiators', 'Reference Material'];
-const routes = ['/', '/po-notes', '/our-teams', '/timelines-roadmaps',
+const routes = ['/home', '/po-notes', '/our-teams', '/timelines-roadmaps',
   '/announcements', '/information-radiators', '/reference-material'];
-const settings = ['Profile', 'Account Settings'];
+const settings = ['Profile', 'Account Settings', 'Logout'];
 
 export default function Navbar() {
+  const { oktaAuth } = useOktaAuth();
+  const logout = async () => oktaAuth.signOut('/');
   const [anchorElUser, setAnchorElUser] = useState(null);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -59,7 +62,7 @@ export default function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Samim" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="PO" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -69,7 +72,13 @@ export default function Navbar() {
               open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
+                (setting !== 'Logout')
+                  ?
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+                :
+                <MenuItem key={setting} onClick={logout}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

@@ -1,6 +1,8 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Route, Routes } from 'react-router-dom';
+import { Security, LoginCallback } from '@okta/okta-react';
+import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
+import { Route,Routes, useNavigate } from 'react-router-dom';
 import { Box } from "@mui/material";
 import HomeContainer from './components/routes/Home';
 import AnnouncementContainer from './components/routes/Announcements';
@@ -10,25 +12,40 @@ import PONotesContainer from './components/routes/PONotes';
 import RefMaterialsContainer from './components/routes/RefMaterials';
 import TimelineContainer from './components/routes/Timelines';
 import Navbar from './components/elements/NavBar';
+import Login from './components/login';
+import SecureRoute from './components/secureRoute/SecureRoute';
 
+const oktaAuth = new OktaAuth({
+  issuer: `https://${process.env.REACT_APP_OCTA_DOMAIN}/oauth2/default`,
+  clientId: process.env.REACT_APP_OKTA_CLIENT_ID,
+  redirectUri: `${window.location.origin}/login/callback`
+});
 const queryClient = new QueryClient();
+
 export default function App() {
+  const history = useNavigate();
+  const restoreOriginalUri = async (_oktaAuth, originalUri) => {
+    history.replace(toRelativeUrl(originalUri || '/', window.location.origin));
+  };
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <Box>
+    <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri} >
+      <QueryClientProvider client={queryClient}>
+        <Box><Navbar/></Box>
         <Box>
-          <Navbar />
+          <Routes>
+            <Route path='/' exact element={<Login />} />
+            <Route path='/home' exact element={<SecureRoute><HomeContainer/></SecureRoute>} />
+            <Route path='/announcements' exact element={<SecureRoute><AnnouncementContainer /></SecureRoute>} />
+            <Route path='/information-radiators' exact element={<SecureRoute><InformationRadiatorContainer /></SecureRoute>} />
+            <Route path='/our-teams' exact element={<SecureRoute><OurTeamsContainer /></SecureRoute>} />
+            <Route path='/po-notes' exact element={<SecureRoute><PONotesContainer /></SecureRoute>} />
+            <Route path='/reference-material' exact element={<SecureRoute><RefMaterialsContainer /></SecureRoute>} />
+            <Route path='/timelines-roadmaps' exact element={<SecureRoute><TimelineContainer /></SecureRoute>} />
+            <Route path='/login/callback' element={<LoginCallback />} />
+          </Routes>
         </Box>
-        <Routes>
-          <Route exact path='/' element={<HomeContainer />} />
-          <Route exact path='/announcements' element={<AnnouncementContainer />} />
-          <Route exact path='/information-radiators' element={<InformationRadiatorContainer />} />
-          <Route exact path='/our-teams' element={<OurTeamsContainer />} />
-          <Route exact path='/po-notes' element={<PONotesContainer />} />
-          <Route exact path='/reference-material' element={<RefMaterialsContainer />} />
-          <Route exact path='/timelines-roadmaps' element={<TimelineContainer />} />
-        </Routes>
-      </Box>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </Security>
   );
-}
+};
