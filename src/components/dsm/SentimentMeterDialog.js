@@ -8,6 +8,7 @@ import Select from '@mui/material/Select';
 import PropTypes from 'prop-types';
 import { Box } from '@mui/system';
 import Paper from '@mui/material/Paper';
+// eslint-disable-next-line import/no-unresolved
 import { Chart, PieSeries } from '@devexpress/dx-react-chart-material-ui'
 
 const data = [

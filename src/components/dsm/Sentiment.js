@@ -15,10 +15,12 @@ import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Stack } from '@mui/system';
 import Box from '@mui/material/Box';
+import axios from 'axios';
 import InformationModel from '../elements/InformationModel';
 import { DSMBodyLayoutContext } from "../contexts/DSMBodyLayoutContext"
 import SentimentMeterDialog from './SentimentMeterDialog';
 import preventParentClick from '../utilityFunctions/PreventParentClick';
+import { DOMAIN } from '../../config';
 
 export default function Sentiment() {
   const { gridHeightState, dispatchGridHeight } = useContext(DSMBodyLayoutContext)
@@ -38,29 +40,132 @@ export default function Sentiment() {
     setOpen(true);
     setAnchorEl(null);
   };
-  const [sentiment, setSentiment] = React.useState(0);
-  const handleSentiment = (event) => {
-    if (sentiment > 0 && sentiment < 9) { setSentiment(0) }
-    else { setSentiment(event.target.id) }
 
-    if (event.target.id === "SentimentVerySatisfiedOutlinedIcon") {
-      setSentiment(1)
-    } else if (event.target.id === "SentimentSatisfiedOutlinedIcon") {
-      setSentiment(2)
-    } else if (event.target.id === "SentimentDissatisfiedOutlinedIcon") {
-      setSentiment(3)
-    } else if (event.target.id === "SentimentVeryDissatisfiedOutlinedIcon") {
-      setSentiment(4)
-    } else if (event.target.id === "SentimentVerySatisfiedTwoToneIcon") {
-      setSentiment(5)
-    } else if (event.target.id === "SentimentSatisfiedTwoToneIcon") {
-      setSentiment(6)
-    } else if (event.target.id === "SentimentDissatisfiedTwoToneIcon") {
-      setSentiment(7)
-    } else if (event.target.id === "SentimentVeryDissatisfiedTwoToneIcon") {
-      setSentiment(8)
+  const [currentFeeling, setCurrentFeeling] = React.useState('');
+
+  const [feelingHappy, setFeelingHappy] = React.useState(false);
+  const [feelingGood, setFeelingGood] = React.useState(false);
+  const [feelingOk, setFeelingOk] = React.useState(false);
+  const [feelingBad, setFeelingBad] = React.useState(false);
+
+  const [sentimentId, setSentimentId] = React.useState(0);
+
+  const handleSentimentHappy = async () => {
+    setFeelingHappy(!feelingHappy);
+    if (currentFeeling !== "HAPPY" && currentFeeling !== '') {
+      await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
     }
+    if (!feelingHappy) {
+      const response = await axios.post(`${DOMAIN}/api/dsm/sentiment-meter`, {
+        sentiment: "HAPPY",
+        author: "Anonymus"
+      })
+      setCurrentFeeling("HAPPY");
+      setSentimentId(response.data.sentimentId);
+    }
+    else {
+      await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
+      setSentimentId(0);
+      setCurrentFeeling('');
+    }
+    setFeelingGood(false);
+    setFeelingOk(false);
+    setFeelingBad(false);
   }
+
+  const handleSentimentGood = async () => {
+    setFeelingGood(!feelingGood);
+    if (currentFeeling !== "GOOD" && currentFeeling !== '') {
+      await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
+    }
+    if (!feelingGood) {
+      const response = await axios.post(`${DOMAIN}/api/dsm/sentiment-meter`, {
+        sentiment: "GOOD",
+        author: "Anonymus"
+      })
+      setCurrentFeeling("GOOD");
+      setSentimentId(response.data.sentimentId);
+    }
+    else {
+      await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
+      setSentimentId(0);
+      setCurrentFeeling('');
+    }
+    setFeelingHappy(false);
+    setFeelingOk(false);
+    setFeelingBad(false);
+  }
+
+  const handleSentimentOk = async () => {
+    setFeelingOk(!feelingOk);
+    if (currentFeeling !== "OK" && currentFeeling !== '') {
+      await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
+    }
+    if (!feelingOk) {
+      const response = await axios.post(`${DOMAIN}/api/dsm/sentiment-meter`, {
+        sentiment: "OK",
+        author: "Anonymus"
+      })
+      setCurrentFeeling("OK");
+      setSentimentId(response.data.sentimentId);
+    }
+    else {
+      await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
+      setSentimentId(0);
+      setCurrentFeeling('');
+    }
+    setFeelingHappy(false);
+    setFeelingGood(false);
+    setFeelingBad(false);
+  }
+
+  const handleSentimentBad = async () => {
+    setFeelingBad(!feelingBad);
+    if (currentFeeling !== "BAD" && currentFeeling !== '') {
+      await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
+    }
+    if (!feelingBad) {
+      const response = await axios.post(`${DOMAIN}/api/dsm/sentiment-meter`, {
+        sentiment: "BAD",
+        author: "Anonymus"
+      })
+      setCurrentFeeling("BAD");
+      setSentimentId(response.data.sentimentId);
+    }
+    else {
+      await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
+      setSentimentId(0);
+      setCurrentFeeling('');
+    }
+    setFeelingHappy(false);
+    setFeelingGood(false);
+    setFeelingOk(false);
+  }
+
+  // MAKE POST CALL TO SEND SENTIMENT
+  //   if (sentiment > 0 && sentiment < 5 && feeling !== '') {
+  //     const res = await axios.post(`${DOMAIN}/api/dsm/sentiment-meter`, {
+  //       sentiment: feeling,
+  //       author: "Anonymous"
+  //     })
+  //       .then((response) => {
+  //         console.log(response);
+  //       }, (error) => {
+  //         console.log(error);
+  //       })
+  //   }
+  //   else {
+  //     const res = await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/:sentimentId`)
+  //       .then((response) => {
+  //         console.log(response);
+  //       }
+  //         , (error) => {
+  //           console.log(error);
+  //         }
+  //       )
+  //   }
+  // };
+
   return (
     <Grid item sx={{ marginBottom: "10px", paddingBottom: "10px", ...(gridHeightState.sentiment.expanded && { paddingBottom: "15px" }), display: "flex", flexDirection: "row", justifyContent: "space-between" }} height={gridHeightState.sentiment.height}>
       <Grid item xs={gridHeightState.celebration.fullExpanded ? 8 : 12}>
@@ -81,7 +186,7 @@ export default function Sentiment() {
               <Typography onClick={preventParentClick(() => { })} variant="dsmMain" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }} width="100%" >How are you feeling today?
                 <InformationModel heading="Sentiment Meter"
                   definition="This is an Anonymous entry. It is an team metric and we won’t identify you personally.
- Your voice matters for running a data driven and effective retrospective meetings. Please feel free to share your feeling."
+                              Your voice matters for running a data driven and effective retrospective meetings. Please feel free to share your feeling."
                   accessibiltyInformation="" />
               </Typography>
             </AccordionSummary>
@@ -111,18 +216,17 @@ export default function Sentiment() {
           <AccordionDetails sx={{ padding: '0px' }}>
             {/* All Content/Development of SentimentMeter BODY goes here */}
             <Stack direction="row" spacing={10} sx={{ justifyContent: "center" }}>
-              <IconButton value={1} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'green' }}>
-                {sentiment === 1 ? <SentimentVerySatisfiedTwoToneIcon id='SentimentVerySatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentVerySatisfiedOutlinedIcon id='SentimentVerySatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
+              <IconButton onClick={handleSentimentHappy} sx={{ borderRadius: 100, padding: "0px", color: 'green' }}>
+                {feelingHappy ? <SentimentVerySatisfiedTwoToneIcon id='SentimentVerySatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentVerySatisfiedOutlinedIcon id='SentimentVerySatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
               </IconButton>
-              <IconButton value={2} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'green' }}>
-
-                {sentiment === 2 ? <SentimentSatisfiedTwoToneIcon sx={{ fontSize: 45 }} id='SentimentSatisfiedTwoToneIcon' /> : <SentimentSatisfiedOutlinedIcon id='SentimentSatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
+              <IconButton onClick={handleSentimentGood} sx={{ borderRadius: 100, padding: "0px", color: 'green' }}>
+                {feelingGood ? <SentimentSatisfiedTwoToneIcon sx={{ fontSize: 45 }} id='SentimentSatisfiedTwoToneIcon' /> : <SentimentSatisfiedOutlinedIcon id='SentimentSatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
               </IconButton>
-              <IconButton value={3} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'red' }}>
-                {sentiment === 3 ? <SentimentDissatisfiedTwoToneIcon id='SentimentDissatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentDissatisfiedOutlinedIcon id='SentimentDissatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
+              <IconButton onClick={handleSentimentOk} sx={{ borderRadius: 100, padding: "0px", color: 'red' }}>
+                {feelingOk ? <SentimentDissatisfiedTwoToneIcon id='SentimentDissatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentDissatisfiedOutlinedIcon id='SentimentDissatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
               </IconButton>
-              <IconButton value={4} onClick={handleSentiment} sx={{ borderRadius: 100, padding: "0px", color: 'red' }}>
-                {sentiment === 4 ? <SentimentVeryDissatisfiedTwoToneIcon id='SentimentVeryDissatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentVeryDissatisfiedOutlinedIcon id='SentimentVeryDissatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
+              <IconButton onClick={handleSentimentBad} sx={{ borderRadius: 100, padding: "0px", color: 'red' }}>
+                {feelingBad ? <SentimentVeryDissatisfiedTwoToneIcon id='SentimentVeryDissatisfiedTwoToneIcon' sx={{ fontSize: 45 }} /> : <SentimentVeryDissatisfiedOutlinedIcon id='SentimentVeryDissatisfiedOutlinedIcon' sx={{ fontSize: 45 }} />}
               </IconButton>
             </Stack>
           </AccordionDetails>
