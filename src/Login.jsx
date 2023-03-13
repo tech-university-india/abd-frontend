@@ -11,11 +11,10 @@ function NotLoggedin({login}){
   );
 }
 
-function Loggedin({logout}){
+function Loggedin(){
   return (
     <div>
       <p>Logged in!</p>
-      <button type='button' onClick={logout}>Logout</button>
     </div>
   );
 }
@@ -25,15 +24,10 @@ NotLoggedin.propTypes = {
 };
 
 
-Loggedin.propTypes = {
-  logout: PropTypes.func.isRequired,
-};
-
 function Login() {
   const { oktaAuth, authState } = useOktaAuth();
 
   const login = async () => oktaAuth.signInWithRedirect();
-  const logout = async () => oktaAuth.signOut('/');
 
   if(!authState) {
     return <div>Loading...</div>;
@@ -43,7 +37,7 @@ function Login() {
     return <NotLoggedin login={login}/>
   }
 
-  return <Loggedin logout={logout}/>;
+  return <Loggedin/>;
 }
 
 export default Login;

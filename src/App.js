@@ -29,12 +29,10 @@ export default function App() {
   };
 
   return (
+    <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri} >
       <QueryClientProvider client={queryClient}>
+        <Box><Navbar/></Box>
         <Box>
-          <Box>
-            <Navbar />
-          </Box>
-          <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri} >
             <Routes>
               <Route path='/' exact element={<Login />} />
               <Route path='/home' exact element={<SecureRoute><HomeContainer/></SecureRoute>} />
@@ -44,10 +42,10 @@ export default function App() {
               <Route path='/po-notes' exact element={<SecureRoute><PONotesContainer /></SecureRoute>} />
               <Route path='/reference-material' exact element={<SecureRoute><RefMaterialsContainer /></SecureRoute>} />
               <Route path='/timelines-roadmaps' exact element={<SecureRoute><TimelineContainer /></SecureRoute>} />
-              <Route path='/login/callback' element={<SecureRoute><LoginCallback /></SecureRoute>} />
+              <Route path='/login/callback' element={<LoginCallback />} />
             </Routes>
-          </Security>
         </Box>
       </QueryClientProvider>
+    </Security>
   );
 };
