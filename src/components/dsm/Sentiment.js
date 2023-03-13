@@ -46,17 +46,25 @@ export default function Sentiment() {
   const [feelingOk, setFeelingOk] = React.useState(false);
   const [feelingBad, setFeelingBad] = React.useState(false);
 
+  const anonymusAuthor = "Anonymus";
+  const feeling = {
+    feeling_1: "HAPPY",
+    feeling_2: "GOOD",
+    feeling_3: "OK",
+    feeling_4: "BAD"
+  }
+
   const handleSentimentHappy = async () => {
     setFeelingHappy(!feelingHappy);
-    if (currentFeeling !== "HAPPY" && currentFeeling !== '') {
+    if (currentFeeling !== feeling.feeling_1 && currentFeeling !== '') {
       await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
     }
     if (!feelingHappy) {
       const response = await axios.post(`${DOMAIN}/api/dsm/sentiment-meter`, {
-        sentiment: "HAPPY",
-        author: "Anonymus"
+        sentiment: feeling.feeling_1,
+        author: anonymusAuthor
       })
-      setCurrentFeeling("HAPPY");
+      setCurrentFeeling(feeling.feeling_1);
       setSentimentId(response.data.sentimentId);
     }
     else {
@@ -71,15 +79,15 @@ export default function Sentiment() {
 
   const handleSentimentGood = async () => {
     setFeelingGood(!feelingGood);
-    if (currentFeeling !== "GOOD" && currentFeeling !== '') {
+    if (currentFeeling !== feeling.feeling_2 && currentFeeling !== '') {
       await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
     }
     if (!feelingGood) {
       const response = await axios.post(`${DOMAIN}/api/dsm/sentiment-meter`, {
-        sentiment: "GOOD",
-        author: "Anonymus"
+        sentiment: feeling.feeling_2,
+        author: anonymusAuthor
       })
-      setCurrentFeeling("GOOD");
+      setCurrentFeeling(feeling.feeling_2);
       setSentimentId(response.data.sentimentId);
     }
     else {
@@ -94,15 +102,15 @@ export default function Sentiment() {
 
   const handleSentimentOk = async () => {
     setFeelingOk(!feelingOk);
-    if (currentFeeling !== "OK" && currentFeeling !== '') {
+    if (currentFeeling !== feeling.feeling_3 && currentFeeling !== '') {
       await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
     }
     if (!feelingOk) {
       const response = await axios.post(`${DOMAIN}/api/dsm/sentiment-meter`, {
-        sentiment: "OK",
-        author: "Anonymus"
+        sentiment: feeling.feeling_3,
+        author: anonymusAuthor
       })
-      setCurrentFeeling("OK");
+      setCurrentFeeling(feeling.feeling_3);
       setSentimentId(response.data.sentimentId);
     }
     else {
@@ -117,15 +125,15 @@ export default function Sentiment() {
 
   const handleSentimentBad = async () => {
     setFeelingBad(!feelingBad);
-    if (currentFeeling !== "BAD" && currentFeeling !== '') {
+    if (currentFeeling !== feeling.feeling_4 && currentFeeling !== '') {
       await axios.delete(`${DOMAIN}/api/dsm/sentiment-meter/${sentimentId}`)
     }
     if (!feelingBad) {
       const response = await axios.post(`${DOMAIN}/api/dsm/sentiment-meter`, {
-        sentiment: "BAD",
-        author: "Anonymus"
+        sentiment: feeling.feeling_4,
+        author: anonymusAuthor
       })
-      setCurrentFeeling("BAD");
+      setCurrentFeeling(feeling.feeling_4);
       setSentimentId(response.data.sentimentId);
     }
     else {
