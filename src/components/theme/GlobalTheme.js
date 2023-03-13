@@ -35,6 +35,10 @@ const theme = createTheme({
     },
     backgroundColor: {
       main: '#e6eef2',
+    },
+    secondaryButton: {
+      main: '#EEF2F5',
+      contrastText: '#000',
     }
   },
   components: {

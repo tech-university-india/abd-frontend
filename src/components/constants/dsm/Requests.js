@@ -1,0 +1,2 @@
+export const DSM_REQUEST_INPUT_PLACEHOLDER = "Ask your PO for help!\nExample: I would want to have a PS call with design team to understand the payment flow better by today.";
+export const DSM_REQUEST_DEFAULT_TYPE = "MEETING";
