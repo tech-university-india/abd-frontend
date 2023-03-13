@@ -255,26 +255,3 @@ export default function Requests() {
     </Grid>
   );
 };
-
-// Requests.propTypes = {
-//   gridHeightState: Proptypes.shape({
-//     sentiment: Proptypes.shape({
-//       expanded: Proptypes.bool.isRequired,
-//       height: Proptypes.number.isRequired,
-//     }).isRequired,
-//     celebration: Proptypes.shape({
-//       expanded: Proptypes.bool.isRequired,
-//       fullExpanded: Proptypes.bool.isRequired,
-//       height: Proptypes.number.isRequired,
-//     }).isRequired,
-//     request: Proptypes.shape({
-//       expanded: Proptypes.bool.isRequired,
-//       height: Proptypes.number.isRequired,
-//     }).isRequired,
-//     announcement: Proptypes.shape({
-//       expanded: Proptypes.bool.isRequired,
-//       height: Proptypes.number.isRequired,
-//     }).isRequired,
-//   }).isRequired,
-//   dispatchGridHeight: Proptypes.func.isRequired,
-// }
